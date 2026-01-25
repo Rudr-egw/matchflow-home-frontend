@@ -3,98 +3,286 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>MatchFlow — Get Matched</title>
+  <title>MatchFlow — Chat</title>
   <style>
-    body {
-      margin: 0;
-      background: #0b0b0f;
-      color: #f2f2f7;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto;
-      display: grid;
-      place-items: center;
-      min-height: 100vh;
+    :root{
+      --bg:#0b0b0f;
+      --panel:#12121a;
+      --line:#232334;
+      --text:#f2f2f7;
+      --muted:#9a9aaa;
+      --assist:#141426;
+      --user:#1a1a2a;
+      --accent:#6ea8ff;
     }
-    .box {
-      width: min(700px, 90vw);
-      background: #12121a;
-      border: 1px solid #232334;
-      border-radius: 16px;
-      padding: 24px;
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      height:100vh;
+      display:flex;
+      flex-direction:column;
     }
-    h1 { margin-top: 0; }
-    p { color: #9a9aaa; }
-    input, select {
-      width: 100%;
-      padding: 12px;
-      margin-top: 10px;
-      background: #0b0b0f;
-      border: 1px solid #232334;
-      border-radius: 10px;
-      color: #fff;
-      font-size: 16px;
+    .topbar{
+      border-bottom:1px solid var(--line);
+      background:rgba(18,18,26,.8);
+      backdrop-filter: blur(10px);
+      padding:14px 16px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
     }
-    button {
-      margin-top: 16px;
-      padding: 12px;
-      width: 100%;
-      border-radius: 12px;
-      border: 1px solid #2f2f4a;
-      background: #1a1a2a;
-      color: #fff;
-      font-weight: 600;
-      cursor: pointer;
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      font-weight:700;
     }
-    button:hover { background: #232334; }
+    .dot{width:10px;height:10px;border-radius:999px;background:var(--accent);box-shadow:0 0 16px rgba(110,168,255,.8)}
+    .sub{color:var(--muted); font-weight:500; font-size:12px}
+    .wrap{
+      width:min(860px, 96vw);
+      margin:0 auto;
+      flex:1;
+      display:flex;
+      flex-direction:column;
+      padding:14px 0;
+    }
+    .chat{
+      flex:1;
+      overflow:auto;
+      padding:8px 14px 14px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .row{display:flex; gap:10px}
+    .row.user{justify-content:flex-end}
+    .bubble{
+      max-width:min(680px, 88%);
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:12px 14px;
+      line-height:1.45;
+      white-space:pre-wrap;
+    }
+    .bubble.assistant{background:rgba(20,20,38,.9)}
+    .bubble.user{background:rgba(26,26,42,.9)}
+    .meta{
+      margin-top:6px;
+      font-size:12px;
+      color:var(--muted);
+    }
+    .composer{
+      border-top:1px solid var(--line);
+      background:rgba(18,18,26,.85);
+      backdrop-filter: blur(10px);
+      padding:12px 14px;
+    }
+    .composerInner{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      width:min(860px, 96vw);
+      margin:0 auto;
+    }
+    input{
+      flex:1;
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background:rgba(0,0,0,.25);
+      color:var(--text);
+      font-size:16px;
+      outline:none;
+    }
+    button{
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px solid rgba(110,168,255,.35);
+      background:linear-gradient(180deg, rgba(110,168,255,.22), rgba(110,168,255,.08));
+      color:var(--text);
+      font-weight:700;
+      cursor:pointer;
+      white-space:nowrap;
+    }
+    button:hover{filter:brightness(1.05)}
+    .hint{color:var(--muted); font-size:12px; margin-top:8px; text-align:center}
+
+    /* typing dots */
+    .typing{
+      display:inline-flex;
+      gap:6px;
+      align-items:center;
+      padding:2px 0;
+    }
+    .typing span{
+      width:7px;height:7px;border-radius:999px;
+      background:var(--muted);
+      opacity:.45;
+      animation:bounce 1s infinite;
+    }
+    .typing span:nth-child(2){animation-delay:.15s}
+    .typing span:nth-child(3){animation-delay:.3s}
+    @keyframes bounce{
+      0%,100%{transform:translateY(0); opacity:.35}
+      50%{transform:translateY(-4px); opacity:.9}
+    }
+
+    .card{
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:14px;
+      background:rgba(0,0,0,.18);
+      margin-top:6px;
+    }
+    .card strong{display:block; font-size:16px; margin-bottom:4px}
+    .card small{color:var(--muted)}
+    .linkBtn{
+      margin-top:10px;
+      display:inline-block;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background:transparent;
+      color:var(--text);
+      text-decoration:none;
+      font-weight:700;
+    }
+    .linkBtn:hover{border-color:#2f2f4a}
   </style>
 </head>
+
 <body>
-  <div class="box">
-    <h1 id="question">What service do you need?</h1>
-    <p id="subtitle">Example: plumbing, electrician, HVAC</p>
+  <div class="topbar">
+    <div>
+      <div class="brand"><span class="dot"></span> MatchFlow Chat</div>
+      <div class="sub">Answer a few questions. We’ll match you fast.</div>
+    </div>
+    <a class="sub" href="index.html" style="text-decoration:none;color:var(--muted)">Back</a>
+  </div>
 
-    <input id="answer" placeholder="Type here..." />
+  <div class="wrap">
+    <div id="chat" class="chat"></div>
+  </div>
 
-    <button onclick="next()">Next</button>
+  <div class="composer">
+    <div class="composerInner">
+      <input id="input" placeholder="Type your answer…" autocomplete="off" />
+      <button id="send">Send</button>
+    </div>
+    <div class="hint">Press Enter to send</div>
   </div>
 
   <script>
+    // Questions we collect (simple MVP)
     const questions = [
-      { key: "service", text: "What service do you need?", placeholder: "Plumber, electrician, HVAC..." },
-      { key: "zip", text: "What is your ZIP code?", placeholder: "e.g. 30024" },
-      { key: "urgency", text: "How urgent is this?", placeholder: "ASAP / This week / Flexible" },
-      { key: "budget", text: "What is your budget range?", placeholder: "$100–200, $200–500..." }
+      { key: "service", text: "What service do you need? (plumber, electrician, HVAC, etc.)" },
+      { key: "zip", text: "What’s your ZIP code?" },
+      { key: "urgency", text: "How urgent is it? (ASAP / This week / Flexible)" },
+      { key: "budget", text: "What’s your budget range? (example: $100–200, $200–500)" },
+      { key: "details", text: "Quickly describe the job in 1 sentence." }
     ];
 
-    let step = 0;
-    const answers = {};
+    const state = { step: 0, answers: {} };
 
-    function next() {
-      const input = document.getElementById("answer");
-      const value = input.value.trim();
+    const chatEl = document.getElementById("chat");
+    const inputEl = document.getElementById("input");
+    const sendBtn = document.getElementById("send");
+
+    function scrollToBottom(){
+      chatEl.scrollTop = chatEl.scrollHeight;
+    }
+
+    function addBubble(role, contentHtml){
+      const row = document.createElement("div");
+      row.className = "row " + role;
+
+      const bubble = document.createElement("div");
+      bubble.className = "bubble " + role;
+      bubble.innerHTML = contentHtml;
+
+      row.appendChild(bubble);
+      chatEl.appendChild(row);
+      scrollToBottom();
+      return bubble;
+    }
+
+    function typingDots(){
+      return `<span class="typing" aria-label="typing">
+        <span></span><span></span><span></span>
+      </span>`;
+    }
+
+    async function askAssistant(text){
+      // show typing bubble first
+      const bubble = addBubble("assistant", typingDots());
+
+      // little delay for realism
+      await new Promise(r => setTimeout(r, 650));
+
+      bubble.innerHTML = text;
+      scrollToBottom();
+    }
+
+    function currentQuestion(){
+      return questions[state.step];
+    }
+
+    async function start(){
+      await askAssistant("Hi — I’m MatchFlow. I’ll ask a few quick questions to match you with the right provider.");
+      await askAssistant(currentQuestion().text);
+      inputEl.focus();
+    }
+
+    async function handleSend(){
+      const value = inputEl.value.trim();
       if (!value) return;
 
-      answers[questions[step].key] = value;
-      step++;
+      // show user message
+      addBubble("user", value);
+      inputEl.value = "";
 
-      if (step >= questions.length) {
-        document.querySelector(".box").innerHTML = `
-          <h1>Matching you now…</h1>
-          <p>Finding the best provider for your request.</p>
-          <button onclick="window.location.href='processing.html'">
-            Continue
-          </button>
+      // save answer
+      const q = currentQuestion();
+      state.answers[q.key] = value;
+      state.step++;
+
+      // if done, run matching animation + show result
+      if (state.step >= questions.length){
+        await askAssistant("Got it. Matching providers now…");
+        const bubble = addBubble("assistant", typingDots());
+        await new Promise(r => setTimeout(r, 1100));
+        bubble.innerHTML = `
+          <div class="card">
+            <strong>Best match: Apex Home Services</strong>
+            <small>
+              Category: ${state.answers.service || "N/A"} •
+              ZIP: ${state.answers.zip || "N/A"} •
+              Budget: ${state.answers.budget || "N/A"} •
+              ETA: Today / This week
+            </small>
+            <div style="margin-top:10px;color:var(--muted)">
+              Next: you’ll fill a request form and sign. (We’ll wire the real form + database next.)
+            </div>
+            <a class="linkBtn" href="processing.html">Continue to Request Form</a>
+          </div>
         `;
-        console.log("Collected answers:", answers);
+        scrollToBottom();
+        console.log("Collected answers:", state.answers);
         return;
       }
 
-      document.getElementById("question").textContent = questions[step].text;
-      document.getElementById("subtitle").textContent = "";
-      input.placeholder = questions[step].placeholder;
-      input.value = "";
+      // otherwise ask next question
+      await askAssistant(currentQuestion().text);
     }
-    
 
+    sendBtn.addEventListener("click", handleSend);
+    inputEl.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") handleSend();
+    });
+
+    start();
   </script>
 </body>
 </html>
