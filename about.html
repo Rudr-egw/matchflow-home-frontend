@@ -1,13 +1,13 @@
-doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>MatchFlow — About</title>
+  <title>About — MatchFlow Home</title>
+
   <style>
     :root{
       --bg:#0b0b0f;
-      --card:#12121a;
+      --panel:#12121a;
       --text:#f2f2f7;
       --muted:#9a9aaa;
       --line:#232334;
@@ -16,101 +16,280 @@ doctype html>
     *{box-sizing:border-box}
     body{
       margin:0;
-      min-height:100vh;
-      display:grid;
-      place-items:center;
-      background: radial-gradient(1200px 600px at 50% 20%, #1a1a2a 0%, var(--bg) 55%);
       color:var(--text);
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      line-height:1.75;
+      background:
+        radial-gradient(1200px 600px at 50% 0%, #141423, var(--bg) 60%),
+        var(--bg);
     }
-    .wrap{width:min(920px, 92vw); padding:24px;}
-    .card{
-      background:rgba(18,18,26,0.9);
-      border:1px solid var(--line);
-      border-radius:18px;
-      padding:28px;
-      box-shadow: 0 20px 60px rgba(0,0,0,.45);
+
+    /* Top bar */
+    header{
+      position:sticky;
+      top:0;
+      z-index:50;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:14px 18px;
+      border-bottom:1px solid var(--line);
+      background:rgba(18,18,26,.72);
+      backdrop-filter: blur(12px);
     }
     .brand{
       display:flex; align-items:center; gap:10px;
-      color:var(--muted); font-size:14px; letter-spacing:.12em;
-      text-transform:uppercase;
+      font-weight:900; letter-spacing:.01em;
     }
     .dot{
       width:10px; height:10px; border-radius:999px;
       background:var(--accent);
-      box-shadow:0 0 18px rgba(110,168,255,.8);
+      box-shadow:0 0 18px rgba(110,168,255,.85);
     }
-    h1{margin:14px 0 10px; font-size:38px; line-height:1.1;}
-    p{margin:10px 0; color:var(--muted); line-height:1.7; font-size:16px;}
-    .grid{
+    header a{
+      color:var(--text);
+      text-decoration:none;
+      border:1px solid var(--line);
+      padding:8px 12px;
+      border-radius:999px;
+      font-weight:800;
+    }
+    header a:hover{border-color:#2f2f4a}
+
+    /* Layout */
+    .wrap{max-width:1020px; margin:0 auto; padding:28px 18px 88px;}
+    .hero{
+      padding:44px 0 20px;
       display:grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap:12px;
+      grid-template-columns: 1.2fr .8fr;
+      gap:26px;
+      align-items:center;
+    }
+    .kicker{
+      color:var(--muted);
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      font-size:12px;
+      margin:0 0 10px;
+    }
+    h1{
+      margin:0 0 14px;
+      font-size: clamp(34px, 4.8vw, 56px);
+      line-height:1.06;
+      letter-spacing:-.02em;
+    }
+    .lead{
+      margin:0;
+      color:var(--muted);
+      font-size:18px;
+      max-width:70ch;
+    }
+
+    /* Images */
+    .photo{
+      border-radius:18px;
+      border:1px solid var(--line);
+      overflow:hidden;
+      background:rgba(0,0,0,.25);
+      box-shadow: 0 18px 60px rgba(0,0,0,.45);
+    }
+    .photo img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+      filter:saturate(1.05) contrast(1.05);
+    }
+    .caption{
+      padding:10px 12px;
+      font-size:13px;
+      color:var(--muted);
+      border-top:1px solid var(--line);
+      background:rgba(18,18,26,.75);
+    }
+
+    /* Sections */
+    section{padding:34px 0; border-top:1px solid var(--line);}
+    h2{
+      margin:0 0 10px;
+      font-size:26px;
+      letter-spacing:-.01em;
+    }
+    p{margin:12px 0; color:var(--muted); font-size:17px; max-width:78ch;}
+
+    .split{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:22px;
+      align-items:start;
       margin-top:18px;
     }
-    .box{
-      border:1px solid var(--line);
-      background:rgba(0,0,0,.18);
-      border-radius:16px;
-      padding:14px;
+
+    /* Simple “how it works” lines (no cards) */
+    .steps{
+      margin-top:16px;
+      border-left:2px solid rgba(110,168,255,.35);
+      padding-left:14px;
     }
-    .box strong{display:block; margin-bottom:6px;}
-    .btnRow{margin-top:18px; display:flex; gap:10px; flex-wrap:wrap;}
-    a.btn{
+    .steps p{margin:10px 0}
+    .steps b{color:var(--text)}
+
+    /* CTA */
+    .cta{
+      margin-top:8px;
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+    .btn{
       display:inline-flex;
       align-items:center;
       justify-content:center;
-      padding:12px 14px;
+      padding:12px 16px;
       border-radius:14px;
       border:1px solid var(--line);
       text-decoration:none;
       color:var(--text);
-      font-weight:800;
+      font-weight:900;
       background:transparent;
     }
-    a.btn.primary{
+    .btn.primary{
       border-color: rgba(110,168,255,.35);
       background:linear-gradient(180deg, rgba(110,168,255,.22), rgba(110,168,255,.08));
     }
-    a.btn:hover{border-color:#2f2f4a}
-    @media (max-width:800px){
-      .grid{grid-template-columns:1fr}
+    .btn:hover{filter:brightness(1.06)}
+
+    /* Responsive */
+    @media (max-width: 880px){
+      .hero{grid-template-columns:1fr}
+      .split{grid-template-columns:1fr}
     }
   </style>
 </head>
+
 <body>
+  <header>
+    <div class="brand"><span class="dot"></span> MatchFlow Home</div>
+    <a href="index.html">Back Home</a>
+  </header>
+
   <div class="wrap">
-    <div class="card">
-      <div class="brand"><span class="dot"></span> MatchFlow Home</div>
-
-      <h1>About MatchFlow</h1>
-      <p>
-        MatchFlow helps homeowners quickly find the right local service provider based on
-        <b>service type</b>, <b>urgency</b>, and <b>budget</b>.
-        After you get matched, you submit a request form and we’ll use that info to coordinate next steps.
-      </p>
-
-      <div class="grid">
-        <div class="box">
-          <strong>How it works</strong>
-          <span style="color:var(--muted)">Answer a few questions → see the best match → submit a request form.</span>
-        </div>
-        <div class="box">
-          <strong>What we collect</strong>
-          <span style="color:var(--muted)">Service need, ZIP, urgency, budget, and a short description.</span>
-        </div>
-        <div class="box">
-          <strong>What happens next</strong>
-          <span style="color:var(--muted)">We share your request details with the matched provider after you submit.</span>
+    <!-- HERO -->
+    <div class="hero">
+      <div>
+        <p class="kicker">About MatchFlow Home</p>
+        <h1>Finding the right home service shouldn’t feel like a gamble.</h1>
+        <p class="lead">
+          MatchFlow Home is a homeowner-first matching experience that helps you quickly
+          find the right local provider based on your service need, urgency, and budget —
+          without scrolling endless listings or guessing who to trust.
+        </p>
+        <div class="cta">
+          <a class="btn primary" href="chat.html">Get Matched</a>
+          <a class="btn" href="#how">How it works</a>
         </div>
       </div>
 
-      <div class="btnRow">
-        <a class="btn primary" href="chat.html">Get Matched</a>
-        <a class="btn" href="index.html">Back Home</a>
+      <div class="photo" aria-label="Home cleaning photo">
+        <!-- Replace these image URLs later with your own if you want -->
+        <img
+          src="https://images.unsplash.com/photo-1581579186898-9e7d2f5b4b7f?auto=format&fit=crop&w=1200&q=70"
+          alt="Cleaner wiping a countertop"
+        />
+        <div class="caption">Fast help for cleaning, repairs, and more — matched with clarity.</div>
       </div>
     </div>
+
+    <!-- WHY -->
+    <section>
+      <h2>Why we built MatchFlow Home</h2>
+      <p>
+        Home projects pile up fast. A leaking sink, a breaker that keeps tripping, a room that
+        needs a deep clean — and suddenly you’re hunting for someone reliable. Most people end
+        up bouncing between review sites, calling multiple businesses, waiting for callbacks,
+        and hoping the price and availability line up.
+      </p>
+      <p>
+        We built MatchFlow Home because that process wastes time and creates stress. The right
+        provider exists — you just shouldn’t have to work so hard to find them.
+      </p>
+
+      <div class="split">
+        <div class="photo">
+          <img
+            src="https://images.unsplash.com/photo-1581092335397-9d6cce3a6f85?auto=format&fit=crop&w=1200&q=70"
+            alt="Plumber working under a sink"
+          />
+          <div class="caption">Plumbing help when you need it — matched by urgency and budget.</div>
+        </div>
+
+        <div class="photo">
+          <img
+            src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1200&q=70"
+            alt="Electrician working on wiring"
+          />
+          <div class="caption">Electrical issues are time-sensitive — we prioritize speed and fit.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section id="how">
+      <h2>How it works</h2>
+      <p>
+        MatchFlow Home uses a guided, chat-style intake that asks the questions that actually
+        matter: what you need, where you are, how urgent it is, and what price range you’re
+        comfortable with. Then we use that information to identify the best-fit provider options
+        from our database.
+      </p>
+
+      <div class="steps">
+        <p><b>1) Tell us what you need.</b> Choose a service type (cleaning, plumbing, electrical, HVAC, lawn, and more).</p>
+        <p><b>2) Set urgency + budget.</b> So we don’t match you with the wrong level of service or price.</p>
+        <p><b>3) Get your best match.</b> We show the top options with clear details (name, rating, price fit, availability).</p>
+        <p><b>4) Submit your request form.</b> Once you confirm, you fill out a request form so we can pass details to the provider.</p>
+      </div>
+    </section>
+
+    <!-- TRUST -->
+    <section>
+      <h2>Trust and transparency</h2>
+      <p>
+        MatchFlow Home is designed to be simple, clear, and honest. We don’t want homeowners
+        guessing what happens next — or feeling pressured. Our goal is to make it obvious
+        why a provider is recommended (service match, budget fit, availability, reliability).
+      </p>
+      <p>
+        Your information is only used to complete your request and share details with the matched
+        provider after you submit. We keep the process straightforward so you always know what’s happening.
+      </p>
+
+      <div class="photo" style="margin-top:18px;">
+        <img
+          src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=1400&q=70"
+          alt="Clean modern home interior"
+        />
+        <div class="caption">Less searching. Less stress. Better matches.</div>
+      </div>
+    </section>
+
+    <!-- VISION -->
+    <section>
+      <h2>Our long-term vision</h2>
+      <p>
+        We’re building MatchFlow Home to become the most reliable front-door for home services —
+        a place where homeowners can request help in seconds and get matched confidently.
+      </p>
+      <p>
+        Over time, the platform will support more service categories, better availability signals,
+        and smarter follow-ups — while keeping the same promise: fast, accurate matching without the chaos.
+      </p>
+
+      <div class="cta" style="margin-top:18px;">
+        <a class="btn primary" href="chat.html">Start Matching</a>
+        <a class="btn" href="index.html">Go Home</a>
+      </div>
+    </section>
   </div>
 </body>
 </html>

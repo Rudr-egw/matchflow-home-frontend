@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"name": "matchflow-home-frontend",
+			"path": "."
+		},
+		{
+			"name": "MatchFlowHome ",
+			"path": "MatchFlowHome "
+		},
+		{
+			"path": "../MatchFlow-home-backend"
+		}
+	],
+	"settings": {}
+}

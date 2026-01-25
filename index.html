@@ -3,159 +3,194 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>MatchFlow Home</title>
+  <title>MatchFlow — Home Services, Simplified</title>
+
   <style>
     :root{
       --bg:#0b0b0f;
-      --card:#12121a;
+      --panel:#12121a;
+      --line:#232334;
       --text:#f2f2f7;
       --muted:#9a9aaa;
-      --line:#232334;
       --accent:#6ea8ff;
     }
+
     *{box-sizing:border-box}
     body{
       margin:0;
       min-height:100vh;
-      display:grid;
-      place-items:center;
-      background: radial-gradient(1200px 600px at 50% 20%, #1a1a2a 0%, var(--bg) 55%);
+      background:
+        radial-gradient(1200px 600px at 50% 10%, #1a1a2a 0%, var(--bg) 55%),
+        var(--bg);
       color:var(--text);
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      display:flex;
+      flex-direction:column;
     }
-    .wrap{width:min(920px, 92vw); padding:24px;}
-    .card{
-      background:rgba(18,18,26,0.9);
-      border:1px solid var(--line);
-      border-radius:18px;
-      padding:28px;
-      box-shadow: 0 20px 60px rgba(0,0,0,.45);
+
+    /* NAV */
+    header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:16px 22px;
+      border-bottom:1px solid var(--line);
+      background:rgba(18,18,26,.75);
+      backdrop-filter: blur(12px);
     }
     .brand{
-      display:flex; align-items:center; gap:10px;
-      color:var(--muted); font-size:14px; letter-spacing:.12em;
-      text-transform:uppercase;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:900;
+      letter-spacing:.01em;
     }
     .dot{
-      width:10px; height:10px; border-radius:999px;
+      width:10px;
+      height:10px;
+      border-radius:999px;
       background:var(--accent);
       box-shadow:0 0 18px rgba(110,168,255,.8);
     }
-    h1{margin:14px 0 0; font-size:44px; line-height:1.05;}
-    p{margin:10px 0 0; color:var(--muted); font-size:16px; line-height:1.6; max-width:60ch;}
-    .typebox{
-      margin-top:22px;
-      padding:16px 18px;
-      border-radius:14px;
+    nav button{
+      background:transparent;
       border:1px solid var(--line);
-      background:rgba(0,0,0,.25);
-      display:flex; align-items:center; gap:10px;
-      font-size:18px;
+      color:var(--text);
+      padding:8px 14px;
+      border-radius:999px;
+      cursor:pointer;
+      font-weight:800;
     }
-    .cursor{
-      width:10px; height:22px; background:var(--accent);
-      animation: blink 1s steps(2, start) infinite;
-      border-radius:2px;
+    nav button:hover{border-color:#2f2f4a}
+
+    /* HERO */
+    .hero{
+      flex:1;
+      display:grid;
+      place-items:center;
+      padding:40px 20px;
     }
-    @keyframes blink { to { opacity: 0; } }
+    .heroBox{
+      max-width:760px;
+      text-align:center;
+    }
+    h1{
+      font-size:clamp(34px, 5vw, 56px);
+      margin:0 0 12px;
+      line-height:1.1;
+    }
+    .typing{
+      font-size:clamp(18px, 2.8vw, 24px);
+      color:var(--muted);
+      min-height:32px;
+    }
+
+    /* BUTTONS */
     .actions{
-      margin-top:22px;
-      display:flex; gap:12px; flex-wrap:wrap;
+      margin-top:26px;
+      display:flex;
+      justify-content:center;
+      gap:14px;
+      flex-wrap:wrap;
     }
     .btn{
-      padding:12px 16px;
+      padding:14px 18px;
       border-radius:14px;
+      font-weight:900;
+      cursor:pointer;
       border:1px solid var(--line);
       background:transparent;
       color:var(--text);
-      cursor:pointer;
-      font-weight:600;
-      transition:.15s transform, .15s background, .15s border;
     }
-    .btn:hover{transform: translateY(-1px); border-color:#2f2f4a;}
     .btn.primary{
-      background:linear-gradient(180deg, rgba(110,168,255,.22), rgba(110,168,255,.08));
       border-color: rgba(110,168,255,.35);
+      background:linear-gradient(180deg, rgba(110,168,255,.22), rgba(110,168,255,.08));
     }
-    .btn.primary:hover{background:linear-gradient(180deg, rgba(110,168,255,.28), rgba(110,168,255,.10));}
-    .btn.ghost{color:var(--muted)}
-    .footer{
-      margin-top:18px;
+    .btn:hover{filter:brightness(1.05)}
+
+    /* FOOTER */
+    footer{
+      border-top:1px solid var(--line);
+      padding:12px;
+      text-align:center;
+      font-size:12px;
       color:var(--muted);
-      font-size:13px;
-      display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap;
     }
-    a{color:var(--accent); text-decoration:none}
-    a:hover{text-decoration:underline}
   </style>
 </head>
+
 <body>
-  <div class="wrap">
-    <div class="card">
-      <div class="brand"><span class="dot"></span> MatchFlow Home</div>
+  <header>
+    <div class="brand">
+      <span class="dot"></span>
+      MatchFlow
+    </div>
+    <nav>
+      <button id="aboutBtn">About Us</button>
+    </nav>
+  </header>
 
-      <h1>Tell us what you need.</h1>
-      <p>We’ll match you with the right local service provider based on urgency, budget, and availability — then you’ll submit a request form.</p>
+  <main class="hero">
+    <div class="heroBox">
+      <h1>Find the right home service.<br>Without the hassle.</h1>
 
-      <div class="typebox" aria-label="typing demo">
-        <span id="typed"></span>
-        <span class="cursor" aria-hidden="true"></span>
-      </div>
+      <div class="typing" id="typingText"></div>
 
       <div class="actions">
-        <button class="btn primary" id="getMatched">Get Matched</button>
-        <button class="btn ghost" id="aboutBtn">About Us</button>
-      </div>
-
-      <div class="footer">
-        <span>Fast. Simple. No hassle.</span>
-        <span><a href="chat.html">Go to chat</a></span>
+        <button class="btn primary" id="startBtn">Get Matched</button>
+        <button class="btn" id="learnBtn">How it Works</button>
       </div>
     </div>
-  </div>
+  </main>
+
+  <footer>
+    © MatchFlow — Home services, matched intelligently
+  </footer>
 
   <script>
+    // ---------- Typing animation ----------
     const phrases = [
       "I need a plumber",
       "I need an electrician",
-      "I need HVAC help",
-      "I need roof repair",
-      "I need a handyman"
+      "I need lawn care",
+      "I need pest control",
+      "I need HVAC repair"
     ];
 
-    const typedEl = document.getElementById("typed");
-    let p = 0, i = 0;
-    let deleting = false;
+    const el = document.getElementById("typingText");
+    let p = 0, i = 0, deleting = false;
 
-    function tick(){
+    function typeLoop(){
       const text = phrases[p];
-
-      if (!deleting) {
-        i++;
-        typedEl.textContent = text.slice(0, i);
-        if (i >= text.length) {
-          deleting = true;
-          setTimeout(tick, 900);
-          return;
+      if (!deleting){
+        el.textContent = text.slice(0, i++);
+        if (i > text.length){
+          setTimeout(() => deleting = true, 900);
         }
       } else {
-        i--;
-        typedEl.textContent = text.slice(0, i);
-        if (i <= 0) {
+        el.textContent = text.slice(0, i--);
+        if (i < 0){
           deleting = false;
           p = (p + 1) % phrases.length;
+          i = 0;
         }
       }
-      setTimeout(tick, deleting ? 40 : 65);
+      setTimeout(typeLoop, deleting ? 60 : 90);
     }
-    tick();
+    typeLoop();
 
-    document.getElementById("getMatched").onclick = () => {
+    // ---------- Navigation ----------
+    document.getElementById("startBtn").onclick = () => {
       window.location.href = "chat.html";
     };
-document.getElementById("aboutBtn").onclick = () => {
-  window.location.href = "about.html";
-  };
+
+    document.getElementById("aboutBtn").onclick = () => {
+      window.location.href = "about.html";
+    };
+
+    document.getElementById("learnBtn").onclick = () => {
+      window.location.href = "about.html";
+    };
   </script>
 </body>
 </html>
