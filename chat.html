@@ -3,6 +3,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>MatchFlow — Chat</title>
+
   <style>
     :root{
       --bg:#0b0b0f;
@@ -10,8 +11,6 @@
       --line:#232334;
       --text:#f2f2f7;
       --muted:#9a9aaa;
-      --assist:#141426;
-      --user:#1a1a2a;
       --accent:#6ea8ff;
       --good:#44d19d;
       --warn:#ffcc66;
@@ -22,9 +21,9 @@
     body{
       margin:0;
       background:
-        radial-gradient(1200px 600px at 50% 0%, #1a1a2a 0%, var(--bg) 55%),
-        radial-gradient(900px 600px at 0% 100%, rgba(110,168,255,.08) 0%, transparent 60%),
-        radial-gradient(900px 600px at 100% 100%, rgba(68,209,157,.06) 0%, transparent 60%),
+        radial-gradient(1200px 650px at 50% 0%, #1a1a2a 0%, var(--bg) 55%),
+        radial-gradient(900px 600px at 0% 100%, rgba(110,168,255,.10) 0%, transparent 60%),
+        radial-gradient(900px 600px at 100% 100%, rgba(68,209,157,.08) 0%, transparent 60%),
         var(--bg);
       color:var(--text);
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
@@ -54,23 +53,9 @@
       background:var(--accent);
       box-shadow:0 0 18px rgba(110,168,255,.8);
     }
-    .sub{
-      color:var(--muted);
-      font-weight:600;
-      font-size:12px;
-      margin-top:2px;
-    }
-    .left{
-      display:flex; flex-direction:column;
-      gap:2px;
-      min-width:0;
-    }
-    .right{
-      display:flex; align-items:center; gap:10px;
-      color:var(--muted);
-      font-size:12px;
-      font-weight:800;
-    }
+    .sub{color:var(--muted); font-weight:700; font-size:12px; margin-top:2px;}
+    .left{display:flex; flex-direction:column; gap:2px; min-width:0;}
+    .right{display:flex; align-items:center; gap:10px; color:var(--muted); font-size:12px; font-weight:900;}
     .pill{
       padding:6px 10px;
       border:1px solid var(--line);
@@ -89,14 +74,14 @@
     }
     .link:hover{border-color:#2f2f4a}
 
-    /* Layout */
+    /* Main */
     .wrap{
       width:min(920px, 96vw);
       margin:0 auto;
       flex:1;
+      min-height:0;
       display:flex;
       flex-direction:column;
-      min-height:0;
     }
     .chat{
       flex:1;
@@ -118,9 +103,7 @@
       padding:12px 14px;
       line-height:1.45;
       white-space:pre-wrap;
-      position:relative;
       background:rgba(0,0,0,.12);
-      transform-origin: 20px 20px;
       animation: popIn .18s ease-out;
     }
     .bubble.assistant{background:rgba(20,20,38,.88)}
@@ -150,7 +133,31 @@
       50%{transform:translateY(-4px); opacity:.9}
     }
 
-    /* Shimmer card */
+    /* Chips */
+    .chips{display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;}
+    .chip{
+      border:1px solid var(--line);
+      background:rgba(0,0,0,.18);
+      color:var(--text);
+      padding:9px 11px;
+      border-radius:999px;
+      cursor:pointer;
+      font-weight:900;
+      font-size:13px;
+      transition:.15s transform, .15s border, .15s background;
+      user-select:none;
+    }
+    .chip:hover{
+      transform: translateY(-1px);
+      border-color:#2f2f4a;
+      background:rgba(110,168,255,.08);
+    }
+    .chip.primary{
+      border-color: rgba(110,168,255,.35);
+      background: linear-gradient(180deg, rgba(110,168,255,.18), rgba(110,168,255,.06));
+    }
+
+    /* Matching card */
     .card{
       margin-top:10px;
       border:1px solid var(--line);
@@ -177,54 +184,27 @@
     }
     .card strong{display:block; font-size:16px; margin-bottom:4px}
     .card small{color:var(--muted)}
-    .card .meta{margin-top:10px; color:var(--muted); font-size:13px}
+    .meta{margin-top:10px; color:var(--muted); font-size:13px; line-height:1.55}
 
-    /* Chips */
-    .chips{
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-      margin-top:10px;
-    }
-    .chip{
+    /* Results list */
+    .result{
       border:1px solid var(--line);
-      background:rgba(0,0,0,.18);
-      color:var(--text);
-      padding:9px 11px;
+      border-radius:14px;
+      padding:12px;
+      margin-top:10px;
+      background:rgba(0,0,0,.14);
+    }
+    .resultTop{display:flex; justify-content:space-between; gap:10px; align-items:flex-start;}
+    .resultName{font-weight:1000; color:var(--text)}
+    .resultBadge{
+      font-size:12px;
+      font-weight:1000;
+      padding:6px 10px;
       border-radius:999px;
-      cursor:pointer;
-      font-weight:900;
-      font-size:13px;
-      transition:.15s transform, .15s border, .15s background;
-      user-select:none;
-    }
-    .chip:hover{
-      transform: translateY(-1px);
-      border-color:#2f2f4a;
-      background:rgba(110,168,255,.08);
-    }
-    .chip.primary{
-      border-color: rgba(110,168,255,.35);
-      background: linear-gradient(180deg, rgba(110,168,255,.18), rgba(110,168,255,.06));
-    }
-
-    /* CTA button */
-    .linkBtn{
-      margin-top:12px;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:8px;
-      padding:10px 12px;
-      border-radius:12px;
       border:1px solid rgba(110,168,255,.35);
-      background:linear-gradient(180deg, rgba(110,168,255,.22), rgba(110,168,255,.08));
-      color:var(--text);
-      text-decoration:none;
-      font-weight:900;
+      background:linear-gradient(180deg, rgba(110,168,255,.16), rgba(110,168,255,.06));
+      white-space:nowrap;
     }
-    .linkBtn:hover{filter:brightness(1.05)}
-    .arrow{opacity:.9}
 
     /* Composer */
     .composer{
@@ -258,7 +238,7 @@
       border:1px solid rgba(110,168,255,.35);
       background:linear-gradient(180deg, rgba(110,168,255,.22), rgba(110,168,255,.08));
       color:var(--text);
-      font-weight:900;
+      font-weight:1000;
       cursor:pointer;
       white-space:nowrap;
     }
@@ -269,6 +249,9 @@
       margin-top:8px;
       text-align:center;
     }
+
+    /* disabled state */
+    .disabled{opacity:.55; pointer-events:none}
 
     /* invalid shake */
     .shake{animation: shake .25s ease-in-out}
@@ -288,7 +271,7 @@
   <div class="topbar">
     <div class="left">
       <div class="brand"><span class="dot"></span> MatchFlow Chat</div>
-      <div class="sub">Answer a few quick questions — we’ll match you fast.</div>
+      <div class="sub">Answer a few questions — we’ll match 3 options.</div>
     </div>
     <div class="right">
       <span class="pill" id="progressPill">Question 1 of 8</span>
@@ -305,160 +288,74 @@
       <input id="input" placeholder="Type your answer…" autocomplete="off" />
       <button id="send">Send</button>
     </div>
-    <div class="hint" id="hint">Tip: Tap chips for fast answers.</div>
+    <div class="hint" id="hint">Tip: use the chips for fast answers.</div>
   </div>
 
   <script>
-    // -------------------------
-    // BIG SERVICE LIST (canonical)
-    // -------------------------
-    const SERVICE_CANON = [
-      "plumbing","electrical","hvac","roofing","handyman",
-      "appliance repair","garage door","pest control","lawn care","landscaping",
-      "tree service","cleaning","junk removal","moving","painting",
-      "drywall","flooring","tile","carpentry","deck / patio",
-      "fence","windows","doors","gutter cleaning","pressure washing",
-      "pool service","sprinkler / irrigation","security / cameras","internet / wifi","locksmith",
-      "concrete","foundation","water damage","mold remediation",
-      "bathroom remodel","kitchen remodel","home inspection","chimney service",
-      "insulation","solar","smart home","paver / hardscape","septic","well service"
-    ];
+    // =========================
+    // CONFIG (SET THIS)
+    // =========================
+    const MATCH_API = "https://YOUR-VERCEL-PROJECT.vercel.app/api/match"; // <- change later
 
-    // Common typos / slang / variants -> canonical
-    const SERVICE_ALIASES = {
-      // plumbing
-      "plumber":"plumbing","pluming":"plumbing","plubming":"plumbing","pip":"plumbing","pipe":"plumbing","pipes":"plumbing",
-      "leak":"plumbing","leaky":"plumbing","drain":"plumbing","clog":"plumbing","toilet":"plumbing","sink":"plumbing","garbage disposal":"plumbing",
-
-      // electrical
-      "electric":"electrical","electrician":"electrical","electrian":"electrical","electrcian":"electrical","electical":"electrical",
-      "wiring":"electrical","outlet":"electrical","breaker":"electrical","panel":"electrical","light":"electrical","lights":"electrical",
-
-      // hvac
-      "ac":"hvac","a/c":"hvac","aircon":"hvac","air con":"hvac","air conditioning":"hvac",
-      "heat":"hvac","heater":"hvac","furnace":"hvac","vent":"hvac","thermostat":"hvac",
-
-      // roofing
-      "roof":"roofing","roofer":"roofing","rooffing":"roofing","shingles":"roofing","leaking roof":"roofing",
-
-      // handyman
-      "handy man":"handyman","handy":"handyman","general repair":"handyman","small repairs":"handyman","fix stuff":"handyman",
-
-      // appliance
-      "appliance":"appliance repair","fridge":"appliance repair","refrigerator":"appliance repair","washer":"appliance repair",
-      "dryer":"appliance repair","dishwasher":"appliance repair","oven":"appliance repair","stove":"appliance repair","microwave":"appliance repair",
-
-      // garage door
-      "garage":"garage door","garage door repair":"garage door","garage opener":"garage door",
-
-      // pest
-      "pests":"pest control","bug":"pest control","bugs":"pest control","ants":"pest control","roaches":"pest control",
-      "termite":"pest control","termites":"pest control","mosquito":"pest control",
-
-      // lawn/landscape/tree
-      "grass":"lawn care","mowing":"lawn care","lawn":"lawn care","yard":"lawn care",
-      "landscape":"landscaping","landscaper":"landscaping","mulch":"landscaping",
-      "trees":"tree service","tree":"tree service","tree removal":"tree service","stump":"tree service",
-
-      // cleaning/junk/moving
-      "house cleaning":"cleaning","deep clean":"cleaning","maid":"cleaning","cleaner":"cleaning",
-      "trash removal":"junk removal","haul away":"junk removal","junk":"junk removal",
-      "moving help":"moving","movers":"moving",
-
-      // paint/drywall/floor/tile/carpentry
-      "paint":"painting","painter":"painting",
-      "dry wall":"drywall","sheetrock":"drywall",
-      "floors":"flooring","floor":"flooring","carpet":"flooring",
-      "tiles":"tile","tiling":"tile",
-      "woodwork":"carpentry","carpenter":"carpentry",
-      "deck":"deck / patio","patio":"deck / patio","porch":"deck / patio",
-      "fencing":"fence",
-      "window":"windows","windows repair":"windows",
-      "door":"doors",
-
-      // gutters / washing
-      "gutters":"gutter cleaning",
-      "pressure wash":"pressure washing","power washing":"pressure washing",
-
-      // pool/irrigation/security/wifi/locks
-      "pool":"pool service","pool cleaning":"pool service",
-      "sprinklers":"sprinkler / irrigation","irrigation":"sprinkler / irrigation",
-      "camera":"security / cameras","cameras":"security / cameras","security":"security / cameras",
-      "wifi":"internet / wifi","internet":"internet / wifi","router":"internet / wifi",
-      "lock":"locksmith","locks":"locksmith",
-
-      // concrete/foundation/water/mold
-      "cement":"concrete","driveway":"concrete",
-      "foundation repair":"foundation",
-      "flood":"water damage","water leak damage":"water damage",
-      "mold":"mold remediation",
-
-      // remodel / other
-      "bath remodel":"bathroom remodel","bathroom renovation":"bathroom remodel",
-      "kitchen renovation":"kitchen remodel",
-      "inspection":"home inspection",
-      "smart home install":"smart home",
-      "pavers":"paver / hardscape",
-      "septic tank":"septic",
-      "well":"well service"
-    };
-
-    const URGENCY_CANON = ["ASAP","This week","Flexible"];
-    const URGENCY_ALIASES = {
-      "urgent":"ASAP","asap":"ASAP","right now":"ASAP","today":"ASAP","emergency":"ASAP",
-      "tomorrow":"This week","thisweek":"This week","this week":"This week","soon":"This week",
-      "not urgent":"Flexible","flex":"Flexible","flexible":"Flexible","whenever":"Flexible"
-    };
-
-    // Lots of budget ranges (canonical)
-    const BUDGET_CANON = [
-      "$0–50",
-      "$50–100",
-      "$100–150",
-      "$150–200",
-      "$200–300",
-      "$300–400",
-      "$400–500",
-      "$500–750",
-      "$750–1000",
-      "$1000–1500",
-      "$1500–2000",
-      "$2000–3000",
-      "$3000–5000",
-      "$5000+"
-    ];
-
-    // Questions (now includes name/email/phone)
+    // =========================
+    // QUESTION FLOW
+    // =========================
     const questions = [
-      { key:"service", type:"service", text:"What service do you need?", chips: ["plumbing","electrical","hvac","cleaning","lawn care","painting","pest control","junk removal","handyman","roofing"] },
-      { key:"zip", type:"zip", text:"What ZIP code is the service needed in? (5 digits)" },
-      { key:"urgency", type:"urgency", text:"How urgent is it?", chips: ["ASAP","This week","Flexible"] },
-      { key:"budget", type:"budget", text:"What’s your budget range?", chips: ["$50–100","$100–150","$150–200","$200–300","$300–400","$400–500","$500–750","$750–1000","$1000–1500","$1500–2000","$2000–3000","$3000–5000","$5000+"] },
-      { key:"details", type:"details", text:"Briefly describe what needs to be done (1 sentence)." },
-      { key:"name", type:"name", text:"What’s your full name?" },
-      { key:"email", type:"email", text:"What’s the best email to contact you?" },
-      { key:"phone", type:"phone", text:"What’s the best phone number?" }
+      {
+        key: "service",
+        type: "select",
+        text: "What service do you need?",
+        options: [
+          "Plumbing","Electrical","HVAC","House Cleaning","Handyman",
+          "Lawn Care","Landscaping","Pest Control","Junk Removal","Moving",
+          "Painting","Garage Door","Roofing","Appliance Repair","Pressure Washing",
+          "Gutter Cleaning","Flooring","Tile","Drywall","Fence",
+          "Windows","Doors","Pool Service","Irrigation","Locksmith"
+        ]
+      },
+      { key: "zip", type: "zip", text: "What ZIP code is the service needed in? (5 digits)" },
+      {
+        key: "urgency",
+        type: "select",
+        text: "How urgent is this?",
+        options: ["Emergency (today)","Urgent (1–2 days)","Soon (this week)","Flexible"]
+      },
+      {
+        key: "budget",
+        type: "select",
+        text: "What budget range are you comfortable with?",
+        options: [
+          "$0–$50", "$50–$100", "$100–$150", "$150–$200",
+          "$200–$300", "$300–$400", "$400–$500",
+          "$500–$750", "$750–$1000", "$1000–$1500",
+          "$1500–$2000", "$2000–$3000", "$3000–$5000", "$5000+"
+        ]
+      },
+      { key: "details", type: "text", text: "Briefly describe what needs to be done (1 sentence)." },
+      { key: "name", type: "name", text: "What’s your full name?" },
+      { key: "email", type: "email", text: "What’s the best email to contact you?" },
+      { key: "phone", type: "phone", text: "What’s the best phone number?" }
     ];
 
-    // -------------------------
-    // UI helpers
-    // -------------------------
+    // =========================
+    // UI HELPERS
+    // =========================
     const chatEl = document.getElementById("chat");
     const inputEl = document.getElementById("input");
     const sendBtn = document.getElementById("send");
     const progressPill = document.getElementById("progressPill");
     const hintEl = document.getElementById("hint");
 
-    const state = { step:0, answers:{} };
+    const state = { step: 0, answers: {} };
 
     function scrollToBottom(){ chatEl.scrollTop = chatEl.scrollHeight; }
-    function typingDots(){
-      return `<span class="typing" aria-label="typing"><span></span><span></span><span></span></span>`;
-    }
+    function typingDots(){ return `<span class="typing"><span></span><span></span><span></span></span>`; }
+
     function setProgress(){
       const n = Math.min(state.step + 1, questions.length);
       progressPill.textContent = `Question ${n} of ${questions.length}`;
     }
+
     function addBubble(role, html){
       const row = document.createElement("div");
       row.className = "row " + role;
@@ -471,192 +368,40 @@
       return bubble;
     }
 
-    function normalizeSpaces(s){ return s.toLowerCase().trim().replace(/\s+/g," "); }
-
-    function normalizeService(raw){
-      const v = normalizeSpaces(raw);
-      if (SERVICE_ALIASES[v]) return SERVICE_ALIASES[v];
-      if (SERVICE_CANON.includes(v)) return v;
-
-      const stripped = v.replace(/[^a-z0-9 ]/g, "");
-      if (SERVICE_ALIASES[stripped]) return SERVICE_ALIASES[stripped];
-      if (SERVICE_CANON.includes(stripped)) return stripped;
-
-      for (const key of Object.keys(SERVICE_ALIASES)) {
-        if (v.includes(key)) return SERVICE_ALIASES[key];
-      }
-      return null;
-    }
-
-    function normalizeUrgency(raw){
-      const v = normalizeSpaces(raw);
-      if (URGENCY_ALIASES[v]) return URGENCY_ALIASES[v];
-      const found = URGENCY_CANON.find(x => x.toLowerCase() === v);
-      return found || null;
-    }
-
-    function normalizeBudget(raw){
-      const v0 = raw.trim();
-      if (BUDGET_CANON.includes(v0)) return v0;
-
-      const cleaned = v0.replace(/\$/g,"").replace(/\s/g,"").replace(/–/g,"-").toLowerCase();
-
-      const plusMatch = cleaned.match(/^(\d+)\+$/);
-      if (plusMatch) {
-        const n = Number(plusMatch[1]);
-        if (Number.isFinite(n) && n >= 0) return `$${n}+`;
-        return null;
-      }
-
-      const single = cleaned.match(/^\d+$/);
-      if (single){
-        const n = Number(cleaned);
-        if (!Number.isFinite(n) || n < 0) return null;
-        const buckets = [
-          [0,50,"$0–50"],
-          [50,100,"$50–100"],
-          [100,150,"$100–150"],
-          [150,200,"$150–200"],
-          [200,300,"$200–300"],
-          [300,400,"$300–400"],
-          [400,500,"$400–500"],
-          [500,750,"$500–750"],
-          [750,1000,"$750–1000"],
-          [1000,1500,"$1000–1500"],
-          [1500,2000,"$1500–2000"],
-          [2000,3000,"$2000–3000"],
-          [3000,5000,"$3000–5000"]
-        ];
-        for (const [a,b,label] of buckets){
-          if (n >= a && n <= b) return label;
-        }
-        if (n > 5000) return "$5000+";
-        return "$0–50";
-      }
-
-      const range = cleaned.match(/^(\d+)-(\d+)$/);
-      if (range){
-        let a = Number(range[1]);
-        let b = Number(range[2]);
-        if (!Number.isFinite(a) || !Number.isFinite(b) || a < 0 || b < 0) return null;
-        if (a > b) [a,b] = [b,a];
-
-        const buckets = [
-          [0,50,"$0–50"],
-          [50,100,"$50–100"],
-          [100,150,"$100–150"],
-          [150,200,"$150–200"],
-          [200,300,"$200–300"],
-          [300,400,"$300–400"],
-          [400,500,"$400–500"],
-          [500,750,"$500–750"],
-          [750,1000,"$750–1000"],
-          [1000,1500,"$1000–1500"],
-          [1500,2000,"$1500–2000"],
-          [2000,3000,"$2000–3000"],
-          [3000,5000,"$3000–5000"]
-        ];
-
-        let best = null, bestOverlap = -1;
-        for (const [x,y,label] of buckets){
-          const overlap = Math.max(0, Math.min(b,y) - Math.max(a,x));
-          if (overlap > bestOverlap) { bestOverlap = overlap; best = label; }
-        }
-        if (b >= 5000) return "$5000+";
-        return best || "$200–300";
-      }
-
-      return null;
-    }
-
-    function validateEmail(v){
-      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
-    }
-    function validatePhone(v){
-      const digits = v.replace(/\D/g,"");
-      return digits.length >= 10 && digits.length <= 15;
-    }
-    function validateName(v){
-      const s = v.trim();
-      if (s.length < 2) return false;
-      // allow letters, spaces, hyphen, apostrophe
-      return /^[a-zA-Z][a-zA-Z\s\-']+$/.test(s);
-    }
-
-    function validateAnswer(q, raw){
-      const value = raw.trim();
-      if (!value) return { ok:false, msg:"Please type an answer." };
-
-      if (q.type === "service"){
-        const svc = normalizeService(value);
-        if (!svc) return { ok:false, msg:"Try: plumbing, electrical, hvac, cleaning, lawn care, painting, pest control, junk removal, handyman, roofing." };
-        return { ok:true, value: svc };
-      }
-
-      if (q.type === "zip"){
-        const v = value.replace(/\s+/g,"");
-        if (!/^\d{5}$/.test(v)) return { ok:false, msg:"Enter a valid 5-digit ZIP (example: 30024)." };
-        return { ok:true, value: v };
-      }
-
-      if (q.type === "urgency"){
-        const u = normalizeUrgency(value);
-        if (!u) return { ok:false, msg:"Type: ASAP, This week, or Flexible." };
-        return { ok:true, value: u };
-      }
-
-      if (q.type === "budget"){
-        const b = normalizeBudget(value);
-        if (!b) return { ok:false, msg:"Choose a chip or type: 250, 200-300, or 1000+." };
-        return { ok:true, value: b };
-      }
-
-      if (q.type === "details"){
-        if (value.length < 10) return { ok:false, msg:"Add a bit more detail (at least ~10 characters)." };
-        return { ok:true, value };
-      }
-
-      if (q.type === "name"){
-        if (!validateName(value)) return { ok:false, msg:"Please enter your full name (letters/spaces only)." };
-        return { ok:true, value };
-      }
-
-      if (q.type === "email"){
-        if (!validateEmail(value)) return { ok:false, msg:"Please enter a valid email (example: name@gmail.com)." };
-        return { ok:true, value: value.toLowerCase() };
-      }
-
-      if (q.type === "phone"){
-        if (!validatePhone(value)) return { ok:false, msg:"Please enter a valid phone number (10–15 digits)." };
-        // store digits only to keep clean
-        return { ok:true, value: value.replace(/\D/g,"") };
-      }
-
-      return { ok:true, value };
-    }
-
-    function renderChips(q){
-      if (!q.chips) return "";
-      const chips = q.chips.map((c,i) => {
-        const cls = (i < 4) ? "chip primary" : "chip";
-        return `<button class="${cls}" data-chip="${c}">${c}</button>`;
+    function renderChips(options){
+      const chips = options.map((opt, idx) => {
+        const cls = (idx < 4) ? "chip primary" : "chip";
+        return `<button class="${cls}" data-chip="${opt}">${opt}</button>`;
       }).join("");
-      return `<div class="chips" aria-label="quick options">${chips}</div>`;
+      return `<div class="chips">${chips}</div>`;
     }
 
-    async function askAssistant(text, q=null){
+    async function askAssistant(text, options=null){
       const bubble = addBubble("assistant", typingDots());
-      await new Promise(r => setTimeout(r, 600));
-      bubble.innerHTML = `<div>${text}</div>` + (q ? renderChips(q) : "");
+      await new Promise(r => setTimeout(r, 520));
+      bubble.innerHTML = `<div>${text}</div>` + (options ? renderChips(options) : "");
       scrollToBottom();
 
-      // chip clicks
       bubble.querySelectorAll("[data-chip]").forEach(btn => {
         btn.addEventListener("click", () => {
           inputEl.value = btn.getAttribute("data-chip");
           handleSend();
         });
       });
+    }
+
+    function lockComposer(locked){
+      if (locked){
+        inputEl.classList.add("disabled");
+        sendBtn.classList.add("disabled");
+        inputEl.disabled = true;
+        sendBtn.disabled = true;
+      } else {
+        inputEl.classList.remove("disabled");
+        sendBtn.classList.remove("disabled");
+        inputEl.disabled = false;
+        sendBtn.disabled = false;
+      }
     }
 
     function showInvalid(msg){
@@ -666,50 +411,171 @@
       addBubble("assistant", `<span class="warn">⚠️ ${msg}</span>`);
     }
 
-    function currentQuestion(){ return questions[state.step]; }
-
-    async function matchingSequence(){
-      await askAssistant("Thanks — matching the best provider now…");
-      const b1 = addBubble("assistant", `<div class="card shimmer"><strong>Matching…</strong><small>Checking service area, urgency, and budget fit.</small></div>`);
-      await new Promise(r => setTimeout(r, 1100));
-      b1.innerHTML = `<div class="card shimmer"><strong>Comparing providers…</strong><small>Ratings, response time, and pricing.</small></div>`;
-      await new Promise(r => setTimeout(r, 1100));
-
-      // Placeholder result (backend will replace this later)
-      const bestName = "Top Local Provider";
-      const bestRating = "4.8";
-      const bestPrice = "Fits your budget";
-
-      b1.innerHTML = `
-        <div class="card">
-          <strong>Best match found: ${bestName}</strong>
-          <small>Rating: ${bestRating} • ${bestPrice}</small>
-          <div class="meta">
-            <b>Service:</b> ${state.answers.service}<br>
-            <b>ZIP:</b> ${state.answers.zip}<br>
-            <b>Urgency:</b> ${state.answers.urgency}<br>
-            <b>Budget:</b> ${state.answers.budget}<br>
-            <b>Contact:</b> ${state.answers.name} • ${state.answers.email} • ${state.answers.phone}
-          </div>
-          <a class="linkBtn" href="processing.html"><span>Continue</span> <span class="arrow">→</span></a>
-        </div>
-      `;
-      scrollToBottom();
+    // =========================
+    // VALIDATION
+    // =========================
+    function validateEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()); }
+    function validatePhone(v){
+      const digits = v.replace(/\D/g,"");
+      return digits.length >= 10 && digits.length <= 15;
+    }
+    function validateName(v){
+      const s = v.trim();
+      if (s.length < 2) return false;
+      return /^[a-zA-Z][a-zA-Z\s\-']+$/.test(s);
     }
 
+    function validateAnswer(q, raw){
+      const value = (raw || "").trim();
+      if (!value) return { ok:false, msg:"Please enter an answer." };
+
+      if (q.type === "zip"){
+        const z = value.replace(/\s+/g,"");
+        if (!/^\d{5}$/.test(z)) return { ok:false, msg:"Enter a valid 5-digit ZIP (example: 30024)." };
+        return { ok:true, value: z };
+      }
+      if (q.type === "email"){
+        if (!validateEmail(value)) return { ok:false, msg:"Enter a valid email (example: name@gmail.com)." };
+        return { ok:true, value: value.toLowerCase() };
+      }
+      if (q.type === "phone"){
+        if (!validatePhone(value)) return { ok:false, msg:"Enter a valid phone number (10–15 digits)." };
+        return { ok:true, value: value.replace(/\D/g,"") };
+      }
+      if (q.type === "name"){
+        if (!validateName(value)) return { ok:false, msg:"Enter your full name (letters/spaces only)." };
+        return { ok:true, value };
+      }
+      if (q.type === "text"){
+        if (value.length < 10) return { ok:false, msg:"Add a bit more detail (at least ~10 characters)." };
+        return { ok:true, value };
+      }
+
+      // select type: must be one of the options
+      if (q.type === "select"){
+        const ok = q.options.includes(value);
+        if (!ok) return { ok:false, msg:"Please choose one of the provided options (tap a chip)." };
+        return { ok:true, value };
+      }
+
+      return { ok:true, value };
+    }
+
+    function currentQuestion(){ return questions[state.step]; }
+
+    // =========================
+    // MATCHING ANIMATION + BACKEND CALL
+    // =========================
+    async function runMatching(){
+      lockComposer(true);
+
+      await askAssistant("Thanks — matching 3 best options for you now…");
+
+      const anim = addBubble("assistant", `
+        <div class="card shimmer">
+          <strong>Matching…</strong>
+          <small>Comparing service fit, price fit, and availability.</small>
+          <div class="meta" style="margin-top:10px">
+            • Checking service area<br>
+            • Filtering by urgency<br>
+            • Scoring providers by fit
+          </div>
+        </div>
+      `);
+
+      await new Promise(r => setTimeout(r, 1200));
+
+      // Call backend for top 3 matches
+      let matches = [];
+      try {
+        const res = await fetch(MATCH_API, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(state.answers)
+        });
+
+        if (!res.ok) throw new Error("Backend returned an error");
+        const data = await res.json();
+        matches = (data && data.matches) ? data.matches : [];
+      } catch (e) {
+        // Show graceful error if backend not ready yet
+        anim.innerHTML = `
+          <div class="card">
+            <strong class="bad">Backend not connected yet</strong>
+            <small>Once /api/match is deployed, your 3 provider matches will show here.</small>
+            <div class="meta">
+              Fix: update MATCH_API at top of this file to your Vercel URL and deploy backend.
+            </div>
+          </div>
+        `;
+        scrollToBottom();
+        lockComposer(false);
+        return;
+      }
+
+      // Ensure 3
+      matches = matches.slice(0, 3);
+
+      // Render results
+      anim.innerHTML = `
+        <div class="card">
+          <strong>Top 3 matches</strong>
+          <small>Based on your service, urgency, location, and budget</small>
+
+          ${matches.map((m, idx) => `
+            <div class="result">
+              <div class="resultTop">
+                <div class="resultName">${idx + 1}. ${escapeHtml(m.name || "Provider")}</div>
+                <div class="resultBadge">⭐ ${escapeHtml(String(m.rating ?? "—"))}</div>
+              </div>
+              <div class="meta">
+                <b>Price:</b> ${escapeHtml(m.price_range || "—")} ·
+                <b>ETA:</b> ${escapeHtml(m.eta || "—")}
+                <br>
+                <b>Why:</b> ${escapeHtml(m.why || "Good fit for your request")}
+              </div>
+            </div>
+          `).join("")}
+
+          <div class="meta">
+            <b>Summary:</b> ${escapeHtml(state.answers.service)} in ${escapeHtml(state.answers.zip)} ·
+            ${escapeHtml(state.answers.urgency)} · ${escapeHtml(state.answers.budget)}
+          </div>
+
+          <a class="resultBadge" style="display:inline-block;margin-top:12px;text-decoration:none;color:var(--text)"
+             href="processing.html">Continue →</a>
+        </div>
+      `;
+
+      scrollToBottom();
+      lockComposer(false);
+    }
+
+    function escapeHtml(str){
+      return String(str)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
+
+    // =========================
+    // FLOW
+    // =========================
     async function start(){
       setProgress();
-      await askAssistant("Hi — I’m MatchFlow. I’ll ask a few quick questions to match you with the right provider.");
-      await askAssistant(currentQuestion().text, currentQuestion());
+      await askAssistant("Hi — I’m MatchFlow. Answer a few quick questions and I’ll return 3 best options.");
+      const q = currentQuestion();
+      await askAssistant(q.text, q.type === "select" ? q.options : null);
       inputEl.focus();
-      hintEl.textContent = "Tip: Tap chips for fast answers.";
     }
 
     async function handleSend(){
-      const raw = inputEl.value;
       const q = currentQuestion();
-      const result = validateAnswer(q, raw);
+      const raw = inputEl.value;
 
+      const result = validateAnswer(q, raw);
       if (!result.ok){
         if (raw.trim()) addBubble("user", raw.trim());
         inputEl.value = "";
@@ -726,17 +592,18 @@
       if (state.step >= questions.length){
         setProgress();
         hintEl.textContent = "Matching…";
-        await matchingSequence();
+        await runMatching();
         return;
       }
 
       setProgress();
-      hintEl.textContent = "Tip: Press Enter to send.";
-      await askAssistant(currentQuestion().text, currentQuestion());
+      const nq = currentQuestion();
+      await askAssistant(nq.text, nq.type === "select" ? nq.options : null);
+      hintEl.textContent = "Tip: tap chips for faster answers.";
     }
 
-    sendBtn.addEventListener("click", handleSend);
-    inputEl.addEventListener("keydown", (e) => {
+    document.getElementById("send").addEventListener("click", handleSend);
+    document.getElementById("input").addEventListener("keydown", (e) => {
       if (e.key === "Enter") handleSend();
     });
 
