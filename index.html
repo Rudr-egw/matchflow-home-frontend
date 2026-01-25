@@ -2,7 +2,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>MatchFlow Home — Find the right provider fast</title>
+  <title>MatchFlow Home — Fast Matching</title>
 
   <style>
     :root{
@@ -14,21 +14,17 @@
       --accent:#6ea8ff;
       --good:#44d19d;
     }
-
     *{box-sizing:border-box}
     body{
       margin:0;
       min-height:100vh;
       background:
         radial-gradient(1200px 650px at 50% 0%, #1a1a2a 0%, var(--bg) 55%),
-        radial-gradient(900px 600px at 0% 100%, rgba(110,168,255,.08) 0%, transparent 60%),
-        radial-gradient(900px 600px at 100% 100%, rgba(68,209,157,.06) 0%, transparent 60%),
         var(--bg);
       color:var(--text);
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
     }
 
-    /* Top nav */
     header{
       position:sticky;
       top:0;
@@ -38,7 +34,7 @@
       backdrop-filter: blur(12px);
     }
     .nav{
-      width:min(1100px, 94vw);
+      width:min(980px, 94vw);
       margin:0 auto;
       padding:14px 0;
       display:flex;
@@ -47,9 +43,7 @@
       gap:12px;
     }
     .brand{
-      display:flex;
-      align-items:center;
-      gap:10px;
+      display:flex; align-items:center; gap:10px;
       font-weight:900;
       letter-spacing:.01em;
     }
@@ -75,61 +69,52 @@
     }
     .navLink:hover{border-color:#2f2f4a}
 
-    /* Layout */
     .wrap{
-      width:min(1100px, 94vw);
+      width:min(980px, 94vw);
       margin:0 auto;
-      padding:34px 0 70px;
+      padding:36px 0 40px;
     }
 
-    /* Hero */
     .hero{
       display:grid;
-      grid-template-columns: 1.15fr .85fr;
-      gap:28px;
+      grid-template-columns: 1.2fr .8fr;
+      gap:18px;
       align-items:start;
-      padding:14px 0 10px;
     }
-    .kicker{
-      color:var(--muted);
-      letter-spacing:.12em;
-      text-transform:uppercase;
-      font-size:12px;
-      margin:0 0 10px;
-    }
+
     h1{
-      margin:0 0 14px;
-      font-size: clamp(36px, 5vw, 62px);
-      line-height:1.04;
+      margin:0 0 12px;
+      font-size: clamp(34px, 4.6vw, 56px);
+      line-height:1.06;
       letter-spacing:-.02em;
     }
     .lead{
-      margin:0 0 18px;
+      margin:0 0 14px;
       color:var(--muted);
-      font-size:18px;
+      font-size:16px;
+      line-height:1.7;
       max-width:72ch;
-      line-height:1.75;
     }
 
     .typingLine{
       display:flex;
       align-items:center;
       gap:10px;
-      margin:18px 0 18px;
-      padding:14px 14px;
+      margin:14px 0 14px;
+      padding:12px 12px;
       border-radius:16px;
       border:1px solid var(--line);
-      background:rgba(0,0,0,.18);
+      background:rgba(0,0,0,.16);
     }
     .typingLabel{
-      font-size:13px;
+      font-size:12px;
       color:var(--muted);
       font-weight:900;
       letter-spacing:.02em;
       white-space:nowrap;
     }
     .typingText{
-      font-size:18px;
+      font-size:17px;
       font-weight:900;
       color:var(--text);
       min-height:22px;
@@ -156,7 +141,7 @@
       margin-top:10px;
     }
     .btn{
-      padding:13px 16px;
+      padding:12px 16px;
       border-radius:14px;
       font-weight:900;
       cursor:pointer;
@@ -174,108 +159,48 @@
       background:linear-gradient(180deg, rgba(110,168,255,.22), rgba(110,168,255,.08));
     }
     .btn:hover{filter:brightness(1.06)}
-    .miniTrust{
-      margin-top:12px;
+
+    .checks{
+      margin-top:14px;
       color:var(--muted);
       font-size:13px;
-      line-height:1.6;
+      line-height:1.65;
     }
-    .miniTrust b{color:var(--text)}
     .check{
       color:var(--good);
       font-weight:900;
     }
+    .checks b{color:var(--text)}
 
-    /* Right panel (trust + what you get) */
-    .panel{
-      border:1px solid var(--line);
-      border-radius:18px;
-      background:rgba(18,18,26,.65);
-      box-shadow: 0 20px 60px rgba(0,0,0,.45);
-      overflow:hidden;
+    /* How it works (short) */
+    .how{
+      margin-top:18px;
+      padding-top:16px;
+      border-top:1px solid var(--line);
     }
-    .panelTop{
-      padding:18px 18px 14px;
-      border-bottom:1px solid var(--line);
-      background: radial-gradient(600px 180px at 15% 0%, rgba(110,168,255,.14), transparent 60%);
-    }
-    .panelTop h3{
-      margin:0 0 6px;
+    .how h2{
+      margin:0 0 8px;
       font-size:18px;
       letter-spacing:-.01em;
     }
-    .panelTop p{
-      margin:0;
+    .how p{
+      margin:8px 0;
       color:var(--muted);
       font-size:14px;
       line-height:1.65;
     }
-    .panelBody{
-      padding:16px 18px 18px;
-      color:var(--muted);
-      font-size:14px;
-      line-height:1.7;
-    }
-    .panelBody .row{
-      margin:10px 0;
-    }
-    .panelBody b{color:var(--text)}
-
-    /* Sections */
-    section{
-      margin-top:34px;
-      padding-top:26px;
-      border-top:1px solid var(--line);
-    }
-    h2{
-      margin:0 0 10px;
-      font-size:26px;
-      letter-spacing:-.01em;
-    }
-    .sectionLead{
-      margin:0 0 12px;
-      color:var(--muted);
-      font-size:16px;
-      max-width:85ch;
-    }
-
-    /* “How it works” paragraphs (no cards) */
-    .how p{
-      margin:12px 0;
-      color:var(--muted);
-      font-size:16px;
-      max-width:90ch;
-    }
     .how b{color:var(--text)}
 
-    /* Service tags */
-    .tags{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      margin-top:14px;
-    }
-    .tag{
-      padding:8px 12px;
-      border-radius:999px;
-      border:1px solid var(--line);
-      background:rgba(0,0,0,.16);
-      color:var(--text);
-      font-size:13px;
-      font-weight:900;
-    }
-
-    /* Footer */
     footer{
-      margin-top:44px;
-      padding-top:18px;
+      margin-top:18px;
+      padding-top:14px;
       border-top:1px solid var(--line);
       color:var(--muted);
       font-size:12px;
       display:flex;
       justify-content:space-between;
       flex-wrap:wrap;
-      gap:10px;
+      gap:8px;
     }
 
     @media (max-width: 900px){
@@ -296,122 +221,52 @@
   </header>
 
   <div class="wrap">
-    <!-- HERO -->
     <div class="hero">
       <div>
-        <p class="kicker">Home services — matched intelligently</p>
-        <h1>Tell us what you need.<br>We’ll match you fast.</h1>
+        <h1>Get matched to the right provider — fast.</h1>
         <p class="lead">
-          MatchFlow Home helps homeowners find the right local provider based on
-          <b>service type</b>, <b>urgency</b>, and <b>budget</b> — without endless calls or guessing.
+          Answer a few quick questions and MatchFlow will match you based on service type, urgency, and budget.
         </p>
 
-        <div class="typingLine" aria-label="typing preview">
+        <div class="typingLine">
           <div class="typingLabel">Example:</div>
           <div class="typingText" id="typingText"></div>
         </div>
 
         <div class="actions">
-          <a class="btn primary" href="chat.html">Get Matched <span style="opacity:.9">→</span></a>
-          <a class="btn" href="about.html">Learn More</a>
+          <a class="btn primary" href="chat.html">Get Matched →</a>
+          <a class="btn" href="about.html">About Us</a>
         </div>
 
-        <div class="miniTrust">
-          <span class="check">✓</span> <b>Quick intake</b> (under 60 seconds)<br>
-          <span class="check">✓</span> <b>Clear matching</b> based on fit, not randomness<br>
-          <span class="check">✓</span> <b>Privacy-first</b>: your info is used only to complete your request
+        <div class="checks">
+          <div><span class="check">✓</span> <b>Quick intake</b> (under 60 seconds)</div>
+          <div><span class="check">✓</span> <b>Clear matching</b> based on fit</div>
+          <div><span class="check">✓</span> <b>Privacy-first</b> info used only for your request</div>
         </div>
-      </div>
 
-      <div class="panel" aria-label="trust panel">
-        <div class="panelTop">
-          <h3>Why homeowners trust MatchFlow</h3>
-          <p>
-            We focus on clarity: what you need, what it costs, and who can handle it soon.
-          </p>
-        </div>
-        <div class="panelBody">
-          <div class="row"><b>Better matches:</b> Not a giant list — we surface the best-fit options.</div>
-          <div class="row"><b>Budget-aware:</b> Matches consider your price range and urgency.</div>
-          <div class="row"><b>Less hassle:</b> One chat → done. No scrolling for hours.</div>
-          <div class="row"><b>Transparent flow:</b> You always know what happens next.</div>
+        <div class="how">
+          <h2>How it works</h2>
+          <p><b>1)</b> Tell us what you need (service, ZIP, urgency, budget).</p>
+          <p><b>2)</b> We match the best provider option for your situation.</p>
+          <p><b>3)</b> You see your match and next steps instantly.</p>
         </div>
       </div>
     </div>
 
-    <!-- HOW IT WORKS -->
-    <section class="how">
-      <h2>How it works</h2>
-      <p class="sectionLead">
-        We keep it simple: a short chat intake, then a match that makes sense.
-      </p>
-
-      <p><b>1) Answer a few questions.</b> We ask for your service need, ZIP code, urgency, budget, and a short description.</p>
-      <p><b>2) Match the best provider.</b> We compare your request against provider info (service type, availability, price fit, reliability).</p>
-      <p><b>3) Move forward confidently.</b> You see a best-fit match and next steps, with everything clearly summarized.</p>
-    </section>
-
-    <!-- SERVICES -->
-    <section>
-      <h2>Services we support</h2>
-      <p class="sectionLead">
-        MatchFlow Home covers common homeowner needs — from cleaning and repairs to specialty work.
-      </p>
-
-      <div class="tags">
-        <span class="tag">Cleaning</span>
-        <span class="tag">Plumbing</span>
-        <span class="tag">Electrical</span>
-        <span class="tag">HVAC</span>
-        <span class="tag">Handyman</span>
-        <span class="tag">Lawn Care</span>
-        <span class="tag">Landscaping</span>
-        <span class="tag">Pest Control</span>
-        <span class="tag">Junk Removal</span>
-        <span class="tag">Painting</span>
-        <span class="tag">Moving</span>
-        <span class="tag">Garage Door</span>
-        <span class="tag">Roofing</span>
-        <span class="tag">And more…</span>
-      </div>
-    </section>
-
-    <!-- TRUST / PRIVACY -->
-    <section>
-      <h2>Privacy & transparency</h2>
-      <p class="sectionLead">
-        This is built to feel trustworthy. We don’t want users wondering what happens to their info.
-      </p>
-
-      <p>
-        We only collect what we need to match your request properly (service details + contact).
-        We don’t sell your personal data. You stay in control of the process, and the flow is designed
-        to be clear and simple from start to finish.
-      </p>
-
-      <div class="actions" style="margin-top:14px;">
-        <a class="btn primary" href="chat.html">Start Matching</a>
-        <a class="btn" href="about.html">Read About Us</a>
-      </div>
-    </section>
-
     <footer>
       <div>© MatchFlow Home</div>
-      <div>Built for homeowners • Fast, simple matching</div>
+      <div>Fast • Simple • Trustable</div>
     </footer>
   </div>
 
   <script>
-    // Typing/backspace animation
     const phrases = [
       "I need a plumber",
       "I need an electrician",
       "I need HVAC repair",
       "I need house cleaning",
       "I need a handyman",
-      "I need lawn care",
-      "I need pest control",
-      "I need junk removal"
+      "I need lawn care"
     ];
 
     const el = document.getElementById("typingText");
@@ -419,13 +274,10 @@
 
     function loop(){
       const text = phrases[p];
-
       if (!deleting){
         el.textContent = text.slice(0, i) + " ";
         i++;
-        if (i > text.length){
-          setTimeout(() => { deleting = true; }, 900);
-        }
+        if (i > text.length) setTimeout(() => deleting = true, 850);
       } else {
         el.textContent = text.slice(0, i) + " ";
         i--;
@@ -435,11 +287,9 @@
           i = 0;
         }
       }
-
       setTimeout(loop, deleting ? 55 : 85);
     }
 
-    // Add cursor block at end
     const cursor = document.createElement("span");
     cursor.className = "cursor";
     el.parentElement.appendChild(cursor);
