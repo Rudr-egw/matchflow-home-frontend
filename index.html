@@ -15,26 +15,28 @@
       --good:#44d19d;
     }
     *{box-sizing:border-box}
+    html,body{height:100%}
     body{
       margin:0;
-      min-height:100vh;
+      height:100%;
       background:
         radial-gradient(1200px 650px at 50% 0%, #1a1a2a 0%, var(--bg) 55%),
+        radial-gradient(900px 600px at 0% 100%, rgba(110,168,255,.10) 0%, transparent 60%),
+        radial-gradient(900px 600px at 100% 100%, rgba(68,209,157,.08) 0%, transparent 60%),
         var(--bg);
       color:var(--text);
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      overflow:hidden; /* prevents scroll */
     }
 
+    /* Top nav */
     header{
-      position:sticky;
-      top:0;
-      z-index:50;
       border-bottom:1px solid var(--line);
       background:rgba(18,18,26,.75);
       backdrop-filter: blur(12px);
     }
     .nav{
-      width:min(980px, 94vw);
+      width:min(1050px, 94vw);
       margin:0 auto;
       padding:14px 0;
       display:flex;
@@ -53,9 +55,7 @@
       box-shadow:0 0 18px rgba(110,168,255,.85);
     }
     .navRight{
-      display:flex;
-      gap:10px;
-      align-items:center;
+      display:flex; gap:10px; align-items:center;
     }
     .navLink{
       color:var(--text);
@@ -69,22 +69,33 @@
     }
     .navLink:hover{border-color:#2f2f4a}
 
-    .wrap{
-      width:min(980px, 94vw);
-      margin:0 auto;
-      padding:36px 0 40px;
-    }
-
-    .hero{
+    /* Full-height main area */
+    .main{
+      height: calc(100vh - 54px);
       display:grid;
-      grid-template-columns: 1.2fr .8fr;
+      place-items:center;
+    }
+    .wrap{
+      width:min(1050px, 94vw);
+      height:100%;
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
       gap:18px;
-      align-items:start;
+      align-items:stretch;
+      padding:22px 0;
     }
 
+    /* Left hero */
+    .left{
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      padding:12px 6px;
+      min-height:0;
+    }
     h1{
       margin:0 0 12px;
-      font-size: clamp(34px, 4.6vw, 56px);
+      font-size: clamp(36px, 4.8vw, 58px);
       line-height:1.06;
       letter-spacing:-.02em;
     }
@@ -93,7 +104,7 @@
       color:var(--muted);
       font-size:16px;
       line-height:1.7;
-      max-width:72ch;
+      max-width:70ch;
     }
 
     .typingLine{
@@ -120,9 +131,7 @@
       min-height:22px;
     }
     .cursor{
-      width:10px;
-      height:18px;
-      border-radius:4px;
+      width:10px;height:18px;border-radius:4px;
       background:rgba(110,168,255,.7);
       display:inline-block;
       margin-left:6px;
@@ -138,7 +147,7 @@
       display:flex;
       gap:12px;
       flex-wrap:wrap;
-      margin-top:10px;
+      margin-top:8px;
     }
     .btn{
       padding:12px 16px;
@@ -166,37 +175,111 @@
       font-size:13px;
       line-height:1.65;
     }
-    .check{
-      color:var(--good);
-      font-weight:900;
-    }
+    .check{color:var(--good); font-weight:900}
     .checks b{color:var(--text)}
 
-    /* How it works (short) */
+    /* How it works (tight) */
     .how{
-      margin-top:18px;
-      padding-top:16px;
+      margin-top:14px;
+      padding-top:14px;
       border-top:1px solid var(--line);
+      max-width:72ch;
     }
     .how h2{
       margin:0 0 8px;
-      font-size:18px;
+      font-size:16px;
       letter-spacing:-.01em;
     }
     .how p{
-      margin:8px 0;
+      margin:7px 0;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.6;
+    }
+    .how b{color:var(--text)}
+
+    /* Right panel fills space */
+    .right{
+      border:1px solid var(--line);
+      border-radius:18px;
+      background:rgba(18,18,26,.65);
+      overflow:hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,.45);
+      display:flex;
+      flex-direction:column;
+      min-height:0;
+    }
+    .panelTop{
+      padding:18px 18px 14px;
+      border-bottom:1px solid var(--line);
+      background: radial-gradient(700px 220px at 10% 0%, rgba(110,168,255,.18), transparent 60%);
+    }
+    .panelTop h3{
+      margin:0 0 6px;
+      font-size:18px;
+      letter-spacing:-.01em;
+    }
+    .panelTop p{
+      margin:0;
       color:var(--muted);
       font-size:14px;
       line-height:1.65;
     }
-    .how b{color:var(--text)}
 
-    footer{
-      margin-top:18px;
-      padding-top:14px;
+    .panelBody{
+      padding:16px 18px;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.7;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      flex:1;
+      justify-content:center;
+    }
+    .panelBody b{color:var(--text)}
+    .hr{height:1px;background:var(--line);opacity:.9}
+
+    /* Tiny “live feel” bar */
+    .pulseRow{
+      display:flex; align-items:center; gap:10px;
+      padding:12px 18px;
       border-top:1px solid var(--line);
+      background:rgba(0,0,0,.18);
       color:var(--muted);
       font-size:12px;
+      font-weight:800;
+      justify-content:space-between;
+    }
+    .pulse{
+      display:inline-flex; align-items:center; gap:8px;
+    }
+    .ping{
+      width:8px;height:8px;border-radius:999px;
+      background:var(--good);
+      box-shadow:0 0 14px rgba(68,209,157,.55);
+      animation: ping 1.6s infinite;
+      opacity:.9;
+    }
+    @keyframes ping{
+      0%{transform:scale(1); opacity:.9}
+      55%{transform:scale(1.35); opacity:.55}
+      100%{transform:scale(1); opacity:.9}
+    }
+
+    footer{
+      position:fixed;
+      left:0; right:0; bottom:0;
+      border-top:1px solid var(--line);
+      background:rgba(18,18,26,.75);
+      backdrop-filter: blur(12px);
+      color:var(--muted);
+      font-size:12px;
+      padding:10px 0;
+    }
+    .footInner{
+      width:min(1050px, 94vw);
+      margin:0 auto;
       display:flex;
       justify-content:space-between;
       flex-wrap:wrap;
@@ -204,7 +287,10 @@
     }
 
     @media (max-width: 900px){
-      .hero{grid-template-columns:1fr}
+      body{overflow:auto} /* allow scroll on tiny screens */
+      .main{height:auto}
+      .wrap{grid-template-columns:1fr; padding:18px 0 70px}
+      footer{position:static}
     }
   </style>
 </head>
@@ -220,12 +306,14 @@
     </div>
   </header>
 
-  <div class="wrap">
-    <div class="hero">
-      <div>
+  <main class="main">
+    <div class="wrap">
+
+      <!-- Left -->
+      <div class="left">
         <h1>Get matched to the right provider — fast.</h1>
         <p class="lead">
-          Answer a few quick questions and MatchFlow will match you based on service type, urgency, and budget.
+          Answer a few quick questions and MatchFlow matches you based on service type, urgency, and budget.
         </p>
 
         <div class="typingLine">
@@ -247,17 +335,45 @@
         <div class="how">
           <h2>How it works</h2>
           <p><b>1)</b> Tell us what you need (service, ZIP, urgency, budget).</p>
-          <p><b>2)</b> We match the best provider option for your situation.</p>
+          <p><b>2)</b> We compare your request to provider info to find the best fit.</p>
           <p><b>3)</b> You see your match and next steps instantly.</p>
         </div>
       </div>
-    </div>
 
-    <footer>
+      <!-- Right -->
+      <aside class="right">
+        <div class="panelTop">
+          <h3>Built for trust.</h3>
+          <p>
+            No giant lists. No spam. Just a clean match that makes sense.
+          </p>
+        </div>
+
+        <div class="panelBody">
+          <div><b>Smart filtering:</b> we match by service type + area + budget fit.</div>
+          <div class="hr"></div>
+          <div><b>Clear output:</b> the match summary shows exactly what we used to decide.</div>
+          <div class="hr"></div>
+          <div><b>Homeowner-first:</b> fast flow, minimal steps, no confusion.</div>
+          <div class="hr"></div>
+          <div><b>Simple next step:</b> you can continue right away after matching.</div>
+        </div>
+
+        <div class="pulseRow">
+          <div class="pulse"><span class="ping"></span> System ready</div>
+          <div>MatchFlow Home</div>
+        </div>
+      </aside>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="footInner">
       <div>© MatchFlow Home</div>
       <div>Fast • Simple • Trustable</div>
-    </footer>
-  </div>
+    </div>
+  </footer>
 
   <script>
     const phrases = [
