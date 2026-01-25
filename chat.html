@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MatchFlow — Get Matched</title>
+  <style>
+    body {
+      margin: 0;
+      background: #0b0b0f;
+      color: #f2f2f7;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto;
+      display: grid;
+      place-items: center;
+      min-height: 100vh;
+    }
+    .box {
+      width: min(700px, 90vw);
+      background: #12121a;
+      border: 1px solid #232334;
+      border-radius: 16px;
+      padding: 24px;
+    }
+    h1 { margin-top: 0; }
+    p { color: #9a9aaa; }
+    input, select {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      background: #0b0b0f;
+      border: 1px solid #232334;
+      border-radius: 10px;
+      color: #fff;
+      font-size: 16px;
+    }
+    button {
+      margin-top: 16px;
+      padding: 12px;
+      width: 100%;
+      border-radius: 12px;
+      border: 1px solid #2f2f4a;
+      background: #1a1a2a;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    button:hover { background: #232334; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h1 id="question">What service do you need?</h1>
+    <p id="subtitle">Example: plumbing, electrician, HVAC</p>
+
+    <input id="answer" placeholder="Type here..." />
+
+    <button onclick="next()">Next</button>
+  </div>
+
+  <script>
+    const questions = [
+      { key: "service", text: "What service do you need?", placeholder: "Plumber, electrician, HVAC..." },
+      { key: "zip", text: "What is your ZIP code?", placeholder: "e.g. 30024" },
+      { key: "urgency", text: "How urgent is this?", placeholder: "ASAP / This week / Flexible" },
+      { key: "budget", text: "What is your budget range?", placeholder: "$100–200, $200–500..." }
+    ];
+
+    let step = 0;
+    const answers = {};
+
+    function next() {
+      const input = document.getElementById("answer");
+      const value = input.value.trim();
+      if (!value) return;
+
+      answers[questions[step].key] = value;
+      step++;
+
+      if (step >= questions.length) {
+        document.querySelector(".box").innerHTML = `
+          <h1>Matching you now…</h1>
+          <p>Finding the best provider for your request.</p>
+          <button onclick="window.location.href='processing.html'">
+            Continue
+          </button>
+        `;
+        console.log("Collected answers:", answers);
+        return;
+      }
+
+      document.getElementById("question").textContent = questions[step].text;
+      document.getElementById("subtitle").textContent = "";
+      input.placeholder = questions[step].placeholder;
+      input.value = "";
+    }
+    <p style="color:lime;">TEST CHANGE</p>
+
+  </script>
+</body>
+</html>
