@@ -24,7 +24,7 @@
       color:var(--text);
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
     }
-    .wrap{width:min(820px, 92vw); padding:24px;}
+    .wrap{width:min(860px, 92vw); padding:24px;}
     .card{
       background:rgba(18,18,26,0.9);
       border:1px solid var(--line);
@@ -33,17 +33,46 @@
       box-shadow: 0 20px 60px rgba(0,0,0,.45);
     }
     .brand{
-      display:flex; align-items:center; gap:10px;
-      color:var(--muted); font-size:14px; letter-spacing:.12em;
+      display:flex; align-items:center; justify-content:space-between;
+      gap:10px; color:var(--muted); font-size:14px; letter-spacing:.12em;
       text-transform:uppercase;
     }
+    .leftBrand{display:flex; align-items:center; gap:10px;}
     .dot{
       width:10px; height:10px; border-radius:999px;
       background:var(--accent);
       box-shadow:0 0 18px rgba(110,168,255,.8);
     }
+
     h1{margin:12px 0 6px; font-size:34px; line-height:1.1;}
-    p{margin:0 0 16px; color:var(--muted); line-height:1.6;}
+    p{margin:0; color:var(--muted); line-height:1.6;}
+
+    .statusRow{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      margin:14px 0 10px;
+      padding:12px 12px;
+      border:1px solid var(--line);
+      border-radius:14px;
+      background:rgba(0,0,0,.18);
+    }
+
+    /* Spinner */
+    .spinner{
+      width:28px; height:28px;
+      border-radius:999px;
+      border:3px solid rgba(110,168,255,.22);
+      border-top-color: rgba(110,168,255,.95);
+      animation: spin .9s linear infinite;
+      flex:0 0 auto;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .statusText{display:flex; flex-direction:column; gap:2px;}
+    .statusText strong{font-size:14px}
+    .eta{font-size:12px; color:var(--muted)}
+
     .bar{
       width:100%;
       height:12px;
@@ -51,7 +80,7 @@
       background:rgba(0,0,0,.25);
       border-radius:999px;
       overflow:hidden;
-      margin:14px 0 18px;
+      margin:12px 0 16px;
     }
     .fill{
       height:100%;
@@ -60,6 +89,7 @@
       border-radius:999px;
       transition: width .45s ease;
     }
+
     .steps{display:flex; flex-direction:column; gap:10px; margin-top:6px;}
     .step{
       display:flex; align-items:center; gap:10px;
@@ -80,8 +110,9 @@
       background: rgba(68,209,157,.12);
       color: var(--good);
     }
-    .label{font-weight:700;}
+    .label{font-weight:800;}
     .sub{color:var(--muted); font-size:13px; margin-top:2px;}
+
     .actions{
       margin-top:18px;
       display:flex; gap:10px; flex-wrap:wrap;
@@ -93,8 +124,12 @@
       background:transparent;
       color:var(--text);
       cursor:pointer;
-      font-weight:700;
+      font-weight:800;
       transition:.15s transform, .15s background, .15s border;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
     }
     .btn:hover{transform: translateY(-1px); border-color:#2f2f4a;}
     .btn.primary{
@@ -102,22 +137,39 @@
       border-color: rgba(110,168,255,.35);
     }
     .btn.primary:hover{background:linear-gradient(180deg, rgba(110,168,255,.28), rgba(110,168,255,.10));}
-    .tiny{
-      margin-top:10px;
-      font-size:12px;
-      color:var(--muted);
+
+    .tiny{margin-top:10px; font-size:12px; color:var(--muted);}
+
+    .doneRow{
+      display:none;
+      margin-top:12px;
+      padding:12px 12px;
+      border:1px solid rgba(68,209,157,.35);
+      border-radius:14px;
+      background: rgba(68,209,157,.10);
+      color: var(--text);
     }
-    a{color:var(--accent); text-decoration:none}
-    a:hover{text-decoration:underline}
   </style>
 </head>
+
 <body>
   <div class="wrap">
     <div class="card">
-      <div class="brand"><span class="dot"></span> MatchFlow Home</div>
+      <div class="brand">
+        <div class="leftBrand"><span class="dot"></span> MatchFlow Home</div>
+        <a class="btn" href="index.html" style="padding:8px 12px; font-weight:800;">Home</a>
+      </div>
 
       <h1 id="title">Processing your request…</h1>
-      <p id="desc">This usually takes less than a minute. You can close this tab after it finishes.</p>
+      <p id="desc">We’re packaging your details and matching the best provider.</p>
+
+      <div class="statusRow" id="statusRow">
+        <div class="spinner" id="spinner"></div>
+        <div class="statusText">
+          <strong id="statusLine">Working…</strong>
+          <div class="eta" id="eta">Estimated time left: 00:45</div>
+        </div>
+      </div>
 
       <div class="bar" aria-label="progress">
         <div class="fill" id="fill"></div>
@@ -157,29 +209,43 @@
         </div>
       </div>
 
+      <div class="doneRow" id="doneRow">
+        ✅ Request submitted. You can close this page.
+      </div>
+
       <div class="actions">
         <button class="btn primary" id="closeBtn">Close this page</button>
         <a class="btn" href="index.html">Back to home</a>
       </div>
 
       <div class="tiny" id="tiny">
-        Tip: If your tab doesn’t close automatically, just close it manually.
+        Note: Some browsers only allow auto-close if this tab was opened by a button/script.
       </div>
     </div>
   </div>
 
   <script>
-    // Simple staged animation (frontend-only)
     const fill = document.getElementById("fill");
     const title = document.getElementById("title");
     const desc  = document.getElementById("desc");
+    const etaEl = document.getElementById("eta");
+    const statusLine = document.getElementById("statusLine");
+    const spinner = document.getElementById("spinner");
+    const doneRow = document.getElementById("doneRow");
 
-    const steps = [
-      { pct: 20, id: 1, wait: 700 },
-      { pct: 55, id: 2, wait: 1000 },
-      { pct: 80, id: 3, wait: 900 },
-      { pct: 100, id: 4, wait: 650 }
-    ];
+    // Total fake processing time (seconds)
+    let totalSeconds = 45;
+    let remaining = totalSeconds;
+
+    function fmt(s){
+      const mm = String(Math.floor(s/60)).padStart(2,"0");
+      const ss = String(s%60).padStart(2,"0");
+      return `${mm}:${ss}`;
+    }
+
+    function setEta(){
+      etaEl.textContent = `Estimated time left: ${fmt(remaining)}`;
+    }
 
     function markDone(n){
       const icon = document.getElementById("i"+n);
@@ -187,16 +253,41 @@
       icon.textContent = "✓";
     }
 
+    const phases = [
+      { pct: 22, step: 1, wait: 900, line: "Saving your request…" },
+      { pct: 58, step: 2, wait: 1300, line: "Matching providers…" },
+      { pct: 84, step: 3, wait: 1200, line: "Packaging your summary…" },
+      { pct: 100, step: 4, wait: 800, line: "Finalizing…" }
+    ];
+
     async function run(){
-      for (const s of steps){
-        fill.style.width = s.pct + "%";
-        await new Promise(r => setTimeout(r, s.wait));
-        markDone(s.id);
+      setEta();
+
+      // countdown timer
+      const timer = setInterval(() => {
+        remaining = Math.max(0, remaining - 1);
+        setEta();
+      }, 1000);
+
+      for (const p of phases){
+        statusLine.textContent = p.line;
+        fill.style.width = p.pct + "%";
+        await new Promise(r => setTimeout(r, p.wait));
+        markDone(p.step);
       }
+
+      clearInterval(timer);
+      remaining = 0;
+      setEta();
+
+      spinner.style.animation = "none";
+      spinner.style.borderTopColor = "rgba(68,209,157,.95)";
+      spinner.style.borderColor = "rgba(68,209,157,.22)";
+
       title.textContent = "Request submitted ✅";
       desc.textContent = "We’ve got your info. You can close this page now.";
-      // Optional: try to close (works only if page was opened by script)
-      // setTimeout(() => window.close(), 1200);
+      statusLine.textContent = "Complete";
+      doneRow.style.display = "block";
     }
 
     document.getElementById("closeBtn").onclick = () => window.close();
