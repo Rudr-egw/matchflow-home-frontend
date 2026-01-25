@@ -13,12 +13,15 @@
       --muted:#9a9aaa;
       --accent:#6ea8ff;
       --good:#44d19d;
+      --footerH: 56px; /* reserved footer height */
     }
+
     *{box-sizing:border-box}
     html,body{height:100%}
+
     body{
       margin:0;
-      height:100%;
+      min-height:100%;
       background:
         radial-gradient(1200px 650px at 50% 0%, #1a1a2a 0%, var(--bg) 55%),
         radial-gradient(900px 600px at 0% 100%, rgba(110,168,255,.10) 0%, transparent 60%),
@@ -26,7 +29,8 @@
         var(--bg);
       color:var(--text);
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
-      overflow:hidden; /* prevents scroll */
+      /* IMPORTANT: do NOT hide overflow; it clips */
+      overflow-x:hidden;
     }
 
     /* Top nav */
@@ -54,9 +58,7 @@
       background:var(--accent);
       box-shadow:0 0 18px rgba(110,168,255,.85);
     }
-    .navRight{
-      display:flex; gap:10px; align-items:center;
-    }
+    .navRight{display:flex; gap:10px; align-items:center;}
     .navLink{
       color:var(--text);
       text-decoration:none;
@@ -69,15 +71,17 @@
     }
     .navLink:hover{border-color:#2f2f4a}
 
-    /* Full-height main area */
+    /* Full-height main area that DOESN'T clip footer */
     .main{
-      height: calc(100vh - 54px);
-      display:grid;
-      place-items:center;
+      min-height: calc(100vh - 54px);
+      display:flex;
+      justify-content:center;
+      /* reserve footer space so nothing gets cut off */
+      padding-bottom: var(--footerH);
     }
+
     .wrap{
       width:min(1050px, 94vw);
-      height:100%;
       display:grid;
       grid-template-columns: 1.15fr .85fr;
       gap:18px;
@@ -85,7 +89,7 @@
       padding:22px 0;
     }
 
-    /* Left hero */
+    /* Left side */
     .left{
       display:flex;
       flex-direction:column;
@@ -93,12 +97,14 @@
       padding:12px 6px;
       min-height:0;
     }
+
     h1{
       margin:0 0 12px;
       font-size: clamp(36px, 4.8vw, 58px);
       line-height:1.06;
       letter-spacing:-.02em;
     }
+
     .lead{
       margin:0 0 14px;
       color:var(--muted);
@@ -107,15 +113,22 @@
       max-width:70ch;
     }
 
+    /* Centered typing line */
+    .typingCenter{
+      display:flex;
+      justify-content:center;
+      margin:14px 0 14px;
+    }
     .typingLine{
       display:flex;
       align-items:center;
       gap:10px;
-      margin:14px 0 14px;
-      padding:12px 12px;
+      padding:12px 14px;
       border-radius:16px;
       border:1px solid var(--line);
       background:rgba(0,0,0,.16);
+      width: min(620px, 100%);
+      justify-content:center; /* center contents */
     }
     .typingLabel{
       font-size:12px;
@@ -129,6 +142,7 @@
       font-weight:900;
       color:var(--text);
       min-height:22px;
+      text-align:center;
     }
     .cursor{
       width:10px;height:18px;border-radius:4px;
@@ -178,7 +192,6 @@
     .check{color:var(--good); font-weight:900}
     .checks b{color:var(--text)}
 
-    /* How it works (tight) */
     .how{
       margin-top:14px;
       padding-top:14px;
@@ -198,7 +211,7 @@
     }
     .how b{color:var(--text)}
 
-    /* Right panel fills space */
+    /* Right panel */
     .right{
       border:1px solid var(--line);
       border-radius:18px;
@@ -214,17 +227,8 @@
       border-bottom:1px solid var(--line);
       background: radial-gradient(700px 220px at 10% 0%, rgba(110,168,255,.18), transparent 60%);
     }
-    .panelTop h3{
-      margin:0 0 6px;
-      font-size:18px;
-      letter-spacing:-.01em;
-    }
-    .panelTop p{
-      margin:0;
-      color:var(--muted);
-      font-size:14px;
-      line-height:1.65;
-    }
+    .panelTop h3{margin:0 0 6px; font-size:18px; letter-spacing:-.01em;}
+    .panelTop p{margin:0; color:var(--muted); font-size:14px; line-height:1.65;}
 
     .panelBody{
       padding:16px 18px;
@@ -240,7 +244,6 @@
     .panelBody b{color:var(--text)}
     .hr{height:1px;background:var(--line);opacity:.9}
 
-    /* Tiny “live feel” bar */
     .pulseRow{
       display:flex; align-items:center; gap:10px;
       padding:12px 18px;
@@ -251,9 +254,7 @@
       font-weight:800;
       justify-content:space-between;
     }
-    .pulse{
-      display:inline-flex; align-items:center; gap:8px;
-    }
+    .pulse{display:inline-flex; align-items:center; gap:8px;}
     .ping{
       width:8px;height:8px;border-radius:999px;
       background:var(--good);
@@ -267,15 +268,18 @@
       100%{transform:scale(1); opacity:.9}
     }
 
+    /* Footer: fixed but NOT cutting content because we reserved space */
     footer{
       position:fixed;
       left:0; right:0; bottom:0;
+      height: var(--footerH);
+      display:flex;
+      align-items:center;
       border-top:1px solid var(--line);
       background:rgba(18,18,26,.75);
       backdrop-filter: blur(12px);
       color:var(--muted);
       font-size:12px;
-      padding:10px 0;
     }
     .footInner{
       width:min(1050px, 94vw);
@@ -284,13 +288,13 @@
       justify-content:space-between;
       flex-wrap:wrap;
       gap:8px;
+      padding:0 0;
     }
 
     @media (max-width: 900px){
-      body{overflow:auto} /* allow scroll on tiny screens */
-      .main{height:auto}
-      .wrap{grid-template-columns:1fr; padding:18px 0 70px}
-      footer{position:static}
+      .wrap{grid-template-columns:1fr}
+      footer{position:static; height:auto; padding:12px 0}
+      .main{padding-bottom:0}
     }
   </style>
 </head>
@@ -308,7 +312,6 @@
 
   <main class="main">
     <div class="wrap">
-
       <!-- Left -->
       <div class="left">
         <h1>Get matched to the right provider — fast.</h1>
@@ -316,9 +319,12 @@
           Answer a few quick questions and MatchFlow matches you based on service type, urgency, and budget.
         </p>
 
-        <div class="typingLine">
-          <div class="typingLabel">Example:</div>
-          <div class="typingText" id="typingText"></div>
+        <!-- Centered dynamic typing -->
+        <div class="typingCenter">
+          <div class="typingLine">
+            <div class="typingLabel">Example:</div>
+            <div class="typingText" id="typingText"></div>
+          </div>
         </div>
 
         <div class="actions">
@@ -344,19 +350,17 @@
       <aside class="right">
         <div class="panelTop">
           <h3>Built for trust.</h3>
-          <p>
-            No giant lists. No spam. Just a clean match that makes sense.
-          </p>
+          <p>No giant lists. No spam. Just a clean match that makes sense.</p>
         </div>
 
         <div class="panelBody">
-          <div><b>Smart filtering:</b> we match by service type + area + budget fit.</div>
+          <div><b>Smart filtering:</b> service type + area + budget fit.</div>
           <div class="hr"></div>
-          <div><b>Clear output:</b> the match summary shows exactly what we used to decide.</div>
+          <div><b>Clear output:</b> a match summary you can understand.</div>
           <div class="hr"></div>
-          <div><b>Homeowner-first:</b> fast flow, minimal steps, no confusion.</div>
+          <div><b>Homeowner-first:</b> fast flow, minimal steps.</div>
           <div class="hr"></div>
-          <div><b>Simple next step:</b> you can continue right away after matching.</div>
+          <div><b>Instant next step:</b> continue right away after matching.</div>
         </div>
 
         <div class="pulseRow">
@@ -364,7 +368,6 @@
           <div>MatchFlow Home</div>
         </div>
       </aside>
-
     </div>
   </main>
 
@@ -390,12 +393,13 @@
 
     function loop(){
       const text = phrases[p];
+
       if (!deleting){
-        el.textContent = text.slice(0, i) + " ";
+        el.textContent = text.slice(0, i);
         i++;
         if (i > text.length) setTimeout(() => deleting = true, 850);
       } else {
-        el.textContent = text.slice(0, i) + " ";
+        el.textContent = text.slice(0, i);
         i--;
         if (i < 0){
           deleting = false;
@@ -406,6 +410,7 @@
       setTimeout(loop, deleting ? 55 : 85);
     }
 
+    // Add cursor
     const cursor = document.createElement("span");
     cursor.className = "cursor";
     el.parentElement.appendChild(cursor);
