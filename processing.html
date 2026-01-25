@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MatchFlow — Processing</title>
+  <style>
+    :root{
+      --bg:#0b0b0f;
+      --card:#12121a;
+      --text:#f2f2f7;
+      --muted:#9a9aaa;
+      --line:#232334;
+      --accent:#6ea8ff;
+      --good:#44d19d;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      background: radial-gradient(1200px 600px at 50% 20%, #1a1a2a 0%, var(--bg) 55%);
+      color:var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+    }
+    .wrap{width:min(820px, 92vw); padding:24px;}
+    .card{
+      background:rgba(18,18,26,0.9);
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:26px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.45);
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      color:var(--muted); font-size:14px; letter-spacing:.12em;
+      text-transform:uppercase;
+    }
+    .dot{
+      width:10px; height:10px; border-radius:999px;
+      background:var(--accent);
+      box-shadow:0 0 18px rgba(110,168,255,.8);
+    }
+    h1{margin:12px 0 6px; font-size:34px; line-height:1.1;}
+    p{margin:0 0 16px; color:var(--muted); line-height:1.6;}
+    .bar{
+      width:100%;
+      height:12px;
+      border:1px solid var(--line);
+      background:rgba(0,0,0,.25);
+      border-radius:999px;
+      overflow:hidden;
+      margin:14px 0 18px;
+    }
+    .fill{
+      height:100%;
+      width:0%;
+      background:linear-gradient(90deg, rgba(110,168,255,.15), rgba(110,168,255,.7));
+      border-radius:999px;
+      transition: width .45s ease;
+    }
+    .steps{display:flex; flex-direction:column; gap:10px; margin-top:6px;}
+    .step{
+      display:flex; align-items:center; gap:10px;
+      padding:12px 12px;
+      border:1px solid var(--line);
+      background:rgba(0,0,0,.18);
+      border-radius:14px;
+    }
+    .icon{
+      width:26px; height:26px; border-radius:999px;
+      border:1px solid var(--line);
+      display:grid; place-items:center;
+      color:var(--muted);
+      flex:0 0 auto;
+    }
+    .icon.done{
+      border-color: rgba(68,209,157,.35);
+      background: rgba(68,209,157,.12);
+      color: var(--good);
+    }
+    .label{font-weight:700;}
+    .sub{color:var(--muted); font-size:13px; margin-top:2px;}
+    .actions{
+      margin-top:18px;
+      display:flex; gap:10px; flex-wrap:wrap;
+    }
+    .btn{
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background:transparent;
+      color:var(--text);
+      cursor:pointer;
+      font-weight:700;
+      transition:.15s transform, .15s background, .15s border;
+    }
+    .btn:hover{transform: translateY(-1px); border-color:#2f2f4a;}
+    .btn.primary{
+      background:linear-gradient(180deg, rgba(110,168,255,.22), rgba(110,168,255,.08));
+      border-color: rgba(110,168,255,.35);
+    }
+    .btn.primary:hover{background:linear-gradient(180deg, rgba(110,168,255,.28), rgba(110,168,255,.10));}
+    .tiny{
+      margin-top:10px;
+      font-size:12px;
+      color:var(--muted);
+    }
+    a{color:var(--accent); text-decoration:none}
+    a:hover{text-decoration:underline}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <div class="brand"><span class="dot"></span> MatchFlow Home</div>
+
+      <h1 id="title">Processing your request…</h1>
+      <p id="desc">This usually takes less than a minute. You can close this tab after it finishes.</p>
+
+      <div class="bar" aria-label="progress">
+        <div class="fill" id="fill"></div>
+      </div>
+
+      <div class="steps">
+        <div class="step" id="s1">
+          <div class="icon" id="i1">•</div>
+          <div>
+            <div class="label">Saving your request</div>
+            <div class="sub">Securing details & contact info</div>
+          </div>
+        </div>
+
+        <div class="step" id="s2">
+          <div class="icon" id="i2">•</div>
+          <div>
+            <div class="label">Matching the best provider</div>
+            <div class="sub">Checking urgency, budget, availability</div>
+          </div>
+        </div>
+
+        <div class="step" id="s3">
+          <div class="icon" id="i3">•</div>
+          <div>
+            <div class="label">Packaging your summary</div>
+            <div class="sub">Preparing details for the provider</div>
+          </div>
+        </div>
+
+        <div class="step" id="s4">
+          <div class="icon" id="i4">•</div>
+          <div>
+            <div class="label">Done</div>
+            <div class="sub">You’re all set</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn primary" id="closeBtn">Close this page</button>
+        <a class="btn" href="index.html">Back to home</a>
+      </div>
+
+      <div class="tiny" id="tiny">
+        Tip: If your tab doesn’t close automatically, just close it manually.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Simple staged animation (frontend-only)
+    const fill = document.getElementById("fill");
+    const title = document.getElementById("title");
+    const desc  = document.getElementById("desc");
+
+    const steps = [
+      { pct: 20, id: 1, wait: 700 },
+      { pct: 55, id: 2, wait: 1000 },
+      { pct: 80, id: 3, wait: 900 },
+      { pct: 100, id: 4, wait: 650 }
+    ];
+
+    function markDone(n){
+      const icon = document.getElementById("i"+n);
+      icon.classList.add("done");
+      icon.textContent = "✓";
+    }
+
+    async function run(){
+      for (const s of steps){
+        fill.style.width = s.pct + "%";
+        await new Promise(r => setTimeout(r, s.wait));
+        markDone(s.id);
+      }
+      title.textContent = "Request submitted ✅";
+      desc.textContent = "We’ve got your info. You can close this page now.";
+      // Optional: try to close (works only if page was opened by script)
+      // setTimeout(() => window.close(), 1200);
+    }
+
+    document.getElementById("closeBtn").onclick = () => window.close();
+
+    run();
+  </script>
+</body>
+</html>
