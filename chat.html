@@ -14,102 +14,135 @@
       --assist:#141426;
       --user:#1a1a2a;
       --accent:#6ea8ff;
+      --good:#44d19d;
+      --warn:#ffcc66;
     }
     *{box-sizing:border-box}
+    html,body{height:100%}
     body{
       margin:0;
-      background:var(--bg);
+      background:
+        radial-gradient(1200px 600px at 50% 0%, #1a1a2a 0%, var(--bg) 55%),
+        radial-gradient(900px 600px at 0% 100%, rgba(110,168,255,.08) 0%, transparent 60%),
+        radial-gradient(900px 600px at 100% 100%, rgba(68,209,157,.06) 0%, transparent 60%),
+        var(--bg);
       color:var(--text);
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
-      height:100vh;
       display:flex;
       flex-direction:column;
+      overflow:hidden;
     }
+
+    /* Top bar */
     .topbar{
       border-bottom:1px solid var(--line);
-      background:rgba(18,18,26,.8);
-      backdrop-filter: blur(10px);
-      padding:14px 16px;
+      background:rgba(18,18,26,.75);
+      backdrop-filter: blur(12px);
+      padding:12px 14px;
       display:flex;
       align-items:center;
       justify-content:space-between;
+      gap:10px;
     }
     .brand{
       display:flex; align-items:center; gap:10px;
+      font-weight:800;
+      letter-spacing:.01em;
+    }
+    .dot{
+      width:10px;height:10px;border-radius:999px;
+      background:var(--accent);
+      box-shadow:0 0 18px rgba(110,168,255,.8);
+    }
+    .sub{
+      color:var(--muted);
+      font-weight:600;
+      font-size:12px;
+      margin-top:2px;
+    }
+    .left{
+      display:flex; flex-direction:column;
+      gap:2px;
+      min-width:0;
+    }
+    .right{
+      display:flex; align-items:center; gap:10px;
+      color:var(--muted);
+      font-size:12px;
       font-weight:700;
     }
-    .dot{width:10px;height:10px;border-radius:999px;background:var(--accent);box-shadow:0 0 16px rgba(110,168,255,.8)}
-    .sub{color:var(--muted); font-weight:500; font-size:12px}
+    .pill{
+      padding:6px 10px;
+      border:1px solid var(--line);
+      border-radius:999px;
+      background:rgba(0,0,0,.18);
+      white-space:nowrap;
+    }
+    .link{
+      text-decoration:none;
+      color:var(--muted);
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background:transparent;
+      font-weight:800;
+    }
+    .link:hover{border-color:#2f2f4a}
+
+    /* Layout */
     .wrap{
-      width:min(860px, 96vw);
+      width:min(920px, 96vw);
       margin:0 auto;
       flex:1;
       display:flex;
       flex-direction:column;
-      padding:14px 0;
+      min-height:0;
     }
     .chat{
       flex:1;
       overflow:auto;
-      padding:8px 14px 14px;
+      padding:14px 14px 10px;
       display:flex;
       flex-direction:column;
-      gap:10px;
+      gap:12px;
+      scroll-behavior:smooth;
     }
+
+    /* Messages */
     .row{display:flex; gap:10px}
     .row.user{justify-content:flex-end}
     .bubble{
-      max-width:min(680px, 88%);
+      max-width:min(720px, 92%);
       border:1px solid var(--line);
-      border-radius:16px;
+      border-radius:18px;
       padding:12px 14px;
       line-height:1.45;
       white-space:pre-wrap;
+      position:relative;
+      background:rgba(0,0,0,.12);
+      transform-origin: 20px 20px;
+      animation: popIn .18s ease-out;
     }
-    .bubble.assistant{background:rgba(20,20,38,.9)}
-    .bubble.user{background:rgba(26,26,42,.9)}
-    .meta{
-      margin-top:6px;
-      font-size:12px;
-      color:var(--muted);
+    .bubble.assistant{background:rgba(20,20,38,.88)}
+    .bubble.user{background:rgba(26,26,42,.88)}
+    @keyframes popIn{
+      from{opacity:0; transform:translateY(6px) scale(.98)}
+      to{opacity:1; transform:translateY(0) scale(1)}
     }
-    .composer{
-      border-top:1px solid var(--line);
-      background:rgba(18,18,26,.85);
-      backdrop-filter: blur(10px);
-      padding:12px 14px;
+    /* subtle floating for assistant bubbles */
+    .bubble.assistant::after{
+      content:"";
+      position:absolute;
+      inset:-1px;
+      border-radius:18px;
+      pointer-events:none;
+      background: radial-gradient(500px 120px at 10% 0%, rgba(110,168,255,.10), transparent 60%);
+      opacity:.9;
+      filter: blur(.2px);
+      z-index:-1;
     }
-    .composerInner{
-      display:flex;
-      gap:10px;
-      align-items:center;
-      width:min(860px, 96vw);
-      margin:0 auto;
-    }
-    input{
-      flex:1;
-      padding:12px 14px;
-      border-radius:14px;
-      border:1px solid var(--line);
-      background:rgba(0,0,0,.25);
-      color:var(--text);
-      font-size:16px;
-      outline:none;
-    }
-    button{
-      padding:12px 14px;
-      border-radius:14px;
-      border:1px solid rgba(110,168,255,.35);
-      background:linear-gradient(180deg, rgba(110,168,255,.22), rgba(110,168,255,.08));
-      color:var(--text);
-      font-weight:700;
-      cursor:pointer;
-      white-space:nowrap;
-    }
-    button:hover{filter:brightness(1.05)}
-    .hint{color:var(--muted); font-size:12px; margin-top:8px; text-align:center}
 
-    /* typing dots */
+    /* Typing dots */
     .typing{
       display:inline-flex;
       gap:6px;
@@ -129,37 +162,146 @@
       50%{transform:translateY(-4px); opacity:.9}
     }
 
+    /* Cards / matching shimmer */
     .card{
+      margin-top:10px;
       border:1px solid var(--line);
       border-radius:16px;
       padding:14px;
-      background:rgba(0,0,0,.18);
-      margin-top:6px;
+      background:rgba(0,0,0,.16);
+      overflow:hidden;
+      position:relative;
+    }
+    .shimmer::before{
+      content:"";
+      position:absolute;
+      top:-30%;
+      left:-40%;
+      width:60%;
+      height:160%;
+      background: linear-gradient(90deg, transparent, rgba(110,168,255,.18), transparent);
+      transform: rotate(20deg);
+      animation: shimmer 1.4s ease-in-out infinite;
+    }
+    @keyframes shimmer{
+      from{transform: translateX(-30%) rotate(20deg)}
+      to{transform: translateX(260%) rotate(20deg)}
     }
     .card strong{display:block; font-size:16px; margin-bottom:4px}
     .card small{color:var(--muted)}
-    .linkBtn{
+
+    /* Buttons + chips */
+    .chips{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
       margin-top:10px;
-      display:inline-block;
+    }
+    .chip{
+      border:1px solid var(--line);
+      background:rgba(0,0,0,.18);
+      color:var(--text);
+      padding:9px 11px;
+      border-radius:999px;
+      cursor:pointer;
+      font-weight:800;
+      font-size:13px;
+      transition:.15s transform, .15s border, .15s background;
+      user-select:none;
+    }
+    .chip:hover{
+      transform: translateY(-1px);
+      border-color:#2f2f4a;
+      background:rgba(110,168,255,.08);
+    }
+    .chip.primary{
+      border-color: rgba(110,168,255,.35);
+      background: linear-gradient(180deg, rgba(110,168,255,.18), rgba(110,168,255,.06));
+    }
+
+    .linkBtn{
+      margin-top:12px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
       padding:10px 12px;
       border-radius:12px;
-      border:1px solid var(--line);
-      background:transparent;
+      border:1px solid rgba(110,168,255,.35);
+      background:linear-gradient(180deg, rgba(110,168,255,.22), rgba(110,168,255,.08));
       color:var(--text);
       text-decoration:none;
-      font-weight:700;
+      font-weight:900;
     }
-    .linkBtn:hover{border-color:#2f2f4a}
+    .linkBtn:hover{filter:brightness(1.05)}
+    .arrow{opacity:.9}
+
+    /* Composer */
+    .composer{
+      border-top:1px solid var(--line);
+      background:rgba(18,18,26,.82);
+      backdrop-filter: blur(12px);
+      padding:12px 14px;
+    }
+    .composerInner{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      width:min(920px, 96vw);
+      margin:0 auto;
+    }
+    input{
+      flex:1;
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background:rgba(0,0,0,.22);
+      color:var(--text);
+      font-size:16px;
+      outline:none;
+      transition: border .15s;
+    }
+    input:focus{border-color: rgba(110,168,255,.35)}
+    button{
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px solid rgba(110,168,255,.35);
+      background:linear-gradient(180deg, rgba(110,168,255,.22), rgba(110,168,255,.08));
+      color:var(--text);
+      font-weight:900;
+      cursor:pointer;
+      white-space:nowrap;
+    }
+    button:hover{filter:brightness(1.05)}
+    .hint{
+      color:var(--muted);
+      font-size:12px;
+      margin-top:8px;
+      text-align:center;
+    }
+
+    /* invalid shake */
+    .shake{animation: shake .25s ease-in-out}
+    @keyframes shake{
+      0%{transform:translateX(0)}
+      25%{transform:translateX(-6px)}
+      50%{transform:translateX(6px)}
+      75%{transform:translateX(-4px)}
+      100%{transform:translateX(0)}
+    }
   </style>
 </head>
 
 <body>
   <div class="topbar">
-    <div>
+    <div class="left">
       <div class="brand"><span class="dot"></span> MatchFlow Chat</div>
-      <div class="sub">Answer a few questions. We’ll match you fast.</div>
+      <div class="sub">Answer a few quick questions — we’ll match you fast.</div>
     </div>
-    <a class="sub" href="index.html" style="text-decoration:none;color:var(--muted)">Back</a>
+    <div class="right">
+      <span class="pill" id="progressPill">Question 1 of 5</span>
+      <a class="link" href="index.html">Back</a>
+    </div>
   </div>
 
   <div class="wrap">
@@ -171,36 +313,93 @@
       <input id="input" placeholder="Type your answer…" autocomplete="off" />
       <button id="send">Send</button>
     </div>
-    <div class="hint">Press Enter to send</div>
+    <div class="hint" id="hint">Tip: For service / urgency / budget, you can tap the chips.</div>
   </div>
 
   <script>
-    // Questions we collect (simple MVP)
-    const questions = [
-      { key: "service", text: "What service do you need? (plumber, electrician, HVAC, etc.)" },
-      { key: "zip", text: "What’s your ZIP code?" },
-      { key: "urgency", text: "How urgent is it? (ASAP / This week / Flexible)" },
-      { key: "budget", text: "What’s your budget range? (example: $100–200, $200–500)" },
-      { key: "details", text: "Quickly describe the job in 1 sentence." }
+    // ---------- OPTIONS ----------
+    const SERVICE_CANON = [
+      "plumbing","electrical","hvac","roofing","handyman",
+      "appliance repair","garage door","pest control","lawn care","landscaping",
+      "tree service","cleaning","junk removal","moving","painting",
+      "drywall","flooring","tile","carpentry","deck / patio",
+      "fence","windows","doors","gutter cleaning","pressure washing",
+      "pool service","sprinkler / irrigation","security / cameras","internet / wifi","locksmith",
+      "concrete","foundation","water damage","mold remediation"
     ];
 
-    const state = { step: 0, answers: {} };
+    const SERVICE_ALIASES = {
+      "plumber":"plumbing","pluming":"plumbing","plubming":"plumbing","sink":"plumbing","toilet":"plumbing","drain":"plumbing","clog":"plumbing","leak":"plumbing",
+      "electrician":"electrical","electrian":"electrical","electrcian":"electrical","wiring":"electrical","outlet":"electrical","breaker":"electrical",
+      "ac":"hvac","a/c":"hvac","air conditioning":"hvac","heater":"hvac","furnace":"hvac",
+      "roof":"roofing","roofer":"roofing","rooffing":"roofing",
+      "handy man":"handyman","general repair":"handyman",
+      "fridge":"appliance repair","refrigerator":"appliance repair","washer":"appliance repair","dryer":"appliance repair","dishwasher":"appliance repair","oven":"appliance repair","stove":"appliance repair",
+      "garage":"garage door","garage door repair":"garage door",
+      "bugs":"pest control","ants":"pest control","roaches":"pest control","termite":"pest control","termites":"pest control",
+      "mowing":"lawn care","grass":"lawn care","lawn":"lawn care",
+      "landscape":"landscaping","landscaper":"landscaping",
+      "tree removal":"tree service","trees":"tree service",
+      "house cleaning":"cleaning","deep clean":"cleaning",
+      "trash removal":"junk removal","haul away":"junk removal",
+      "movers":"moving","moving help":"moving",
+      "paint":"painting","painter":"painting",
+      "dry wall":"drywall","sheetrock":"drywall",
+      "floor":"flooring","floors":"flooring",
+      "tiling":"tile","tiles":"tile",
+      "deck":"deck / patio","patio":"deck / patio",
+      "gutters":"gutter cleaning",
+      "power washing":"pressure washing","pressure wash":"pressure washing",
+      "pool":"pool service",
+      "sprinklers":"sprinkler / irrigation","irrigation":"sprinkler / irrigation",
+      "camera":"security / cameras","cameras":"security / cameras","security":"security / cameras",
+      "wifi":"internet / wifi","internet":"internet / wifi",
+      "locks":"locksmith","lock":"locksmith",
+      "cement":"concrete",
+      "foundation repair":"foundation",
+      "flood":"water damage",
+      "mold":"mold remediation"
+    };
 
+    const URGENCY_CANON = ["ASAP","This week","Flexible"];
+    const URGENCY_ALIASES = {
+      "urgent":"ASAP","asap":"ASAP","today":"ASAP","right now":"ASAP",
+      "soon":"This week","tomorrow":"This week","this week":"This week","thisweek":"This week",
+      "not urgent":"Flexible","whenever":"Flexible","flex":"Flexible","flexible":"Flexible"
+    };
+
+    const BUDGET_CANON = [
+      "$0–50", "$50–100", "$100–150", "$150–200", "$200–300", "$300–400", "$400–500",
+      "$500–750", "$750–1000", "$1000–1500", "$1500–2000", "$2000–3000", "$3000–5000", "$5000+"
+    ];
+
+    // We use chips for these question types:
+    const questions = [
+      { key:"service", type:"service", text:"What service do you need?", chips: ["plumbing","electrical","hvac","handyman","cleaning","lawn care","painting","pest control","junk removal","roofing"] },
+      { key:"zip", type:"zip", text:"What’s your ZIP code? (5 digits)" },
+      { key:"urgency", type:"urgency", text:"How urgent is it?", chips: ["ASAP","This week","Flexible"] },
+      { key:"budget", type:"budget", text:"What’s your budget range?", chips: ["$0–50","$50–100","$100–150","$150–200","$200–300","$300–400","$400–500","$500–750","$750–1000","$1000–1500","$1500–2000","$2000–3000","$3000–5000","$5000+"] },
+      { key:"details", type:"details", text:"Quickly describe the job in 1 sentence." }
+    ];
+
+    // ---------- UI helpers ----------
     const chatEl = document.getElementById("chat");
     const inputEl = document.getElementById("input");
     const sendBtn = document.getElementById("send");
+    const progressPill = document.getElementById("progressPill");
+    const hintEl = document.getElementById("hint");
 
-    function scrollToBottom(){
-      chatEl.scrollTop = chatEl.scrollHeight;
-    }
+    const state = { step:0, answers:{} };
 
-    function addBubble(role, contentHtml){
+    function scrollToBottom(){ chatEl.scrollTop = chatEl.scrollHeight; }
+
+    function addBubble(role, html){
       const row = document.createElement("div");
       row.className = "row " + role;
 
       const bubble = document.createElement("div");
       bubble.className = "bubble " + role;
-      bubble.innerHTML = contentHtml;
+      bubble.innerHTML = html;
 
       row.appendChild(bubble);
       chatEl.appendChild(row);
@@ -214,67 +413,210 @@
       </span>`;
     }
 
-    async function askAssistant(text){
-      // show typing bubble first
+    function setProgress(){
+      const n = Math.min(state.step + 1, questions.length);
+      progressPill.textContent = `Question ${n} of ${questions.length}`;
+    }
+
+    function normalizeSpaces(s){ return s.toLowerCase().trim().replace(/\s+/g," "); }
+
+    function normalizeService(raw){
+      const v = normalizeSpaces(raw);
+      if (SERVICE_ALIASES[v]) return SERVICE_ALIASES[v];
+      if (SERVICE_CANON.includes(v)) return v;
+      const stripped = v.replace(/[^a-z0-9 ]/g, "");
+      if (SERVICE_ALIASES[stripped]) return SERVICE_ALIASES[stripped];
+      if (SERVICE_CANON.includes(stripped)) return stripped;
+      for (const key of Object.keys(SERVICE_ALIASES)) {
+        if (v.includes(key)) return SERVICE_ALIASES[key];
+      }
+      return null;
+    }
+
+    function normalizeUrgency(raw){
+      const v = normalizeSpaces(raw);
+      if (URGENCY_ALIASES[v]) return URGENCY_ALIASES[v];
+      const found = URGENCY_CANON.find(x => x.toLowerCase() === v);
+      return found || null;
+    }
+
+    function normalizeBudget(raw){
+      const v0 = raw.trim();
+      if (BUDGET_CANON.includes(v0)) return v0;
+
+      const cleaned = v0.replace(/\$/g,"").replace(/\s/g,"").replace(/–/g,"-").toLowerCase();
+
+      const plusMatch = cleaned.match(/^(\d+)\+$/);
+      if (plusMatch) return `$${Number(plusMatch[1])}+`;
+
+      const single = cleaned.match(/^\d+$/);
+      if (single){
+        const n = Number(cleaned);
+        if (!Number.isFinite(n) || n < 0) return null;
+        const buckets = [
+          [0,50,"$0–50"],[50,100,"$50–100"],[100,150,"$100–150"],[150,200,"$150–200"],
+          [200,300,"$200–300"],[300,400,"$300–400"],[400,500,"$400–500"],
+          [500,750,"$500–750"],[750,1000,"$750–1000"],[1000,1500,"$1000–1500"],
+          [1500,2000,"$1500–2000"],[2000,3000,"$2000–3000"],[3000,5000,"$3000–5000"]
+        ];
+        for (const [a,b,label] of buckets) if (n >= a && n <= b) return label;
+        if (n > 5000) return "$5000+";
+        return "$0–50";
+      }
+
+      const range = cleaned.match(/^(\d+)-(\d+)$/);
+      if (range){
+        let a = Number(range[1]), b = Number(range[2]);
+        if (!Number.isFinite(a) || !Number.isFinite(b) || a < 0 || b < 0) return null;
+        if (a > b) [a,b] = [b,a];
+
+        const buckets = [
+          [0,50,"$0–50"],[50,100,"$50–100"],[100,150,"$100–150"],[150,200,"$150–200"],
+          [200,300,"$200–300"],[300,400,"$300–400"],[400,500,"$400–500"],
+          [500,750,"$500–750"],[750,1000,"$750–1000"],[1000,1500,"$1000–1500"],
+          [1500,2000,"$1500–2000"],[2000,3000,"$2000–3000"],[3000,5000,"$3000–5000"]
+        ];
+        let best=null, bestOverlap=-1;
+        for (const [x,y,label] of buckets){
+          const overlap = Math.max(0, Math.min(b,y) - Math.max(a,x));
+          if (overlap > bestOverlap){ bestOverlap = overlap; best = label; }
+        }
+        if (b >= 5000) return "$5000+";
+        return best || "$200–300";
+      }
+
+      return null;
+    }
+
+    function validateAnswer(q, raw){
+      const value = raw.trim();
+      if (!value) return { ok:false, msg:"Please type an answer." };
+
+      if (q.type === "service"){
+        const svc = normalizeService(value);
+        if (!svc) return { ok:false, msg:"Try a service like: plumbing, electrical, hvac, lawn care, painting, cleaning, junk removal." };
+        return { ok:true, value:svc };
+      }
+
+      if (q.type === "zip"){
+        const v = value.replace(/\s+/g,"");
+        if (!/^\d{5}$/.test(v)) return { ok:false, msg:"Enter a valid 5-digit ZIP (example: 30024)." };
+        return { ok:true, value:v };
+      }
+
+      if (q.type === "urgency"){
+        const u = normalizeUrgency(value);
+        if (!u) return { ok:false, msg:"Type: ASAP, This week, or Flexible." };
+        return { ok:true, value:u };
+      }
+
+      if (q.type === "budget"){
+        const b = normalizeBudget(value);
+        if (!b) return { ok:false, msg:"Choose a chip or type a number (250), a range (200-300), or 1000+." };
+        return { ok:true, value:b };
+      }
+
+      if (q.type === "details"){
+        if (value.length < 10) return { ok:false, msg:"Add a bit more detail (at least ~10 characters)." };
+        return { ok:true, value };
+      }
+
+      return { ok:true, value };
+    }
+
+    function renderChips(q){
+      if (!q.chips) return "";
+      const chips = q.chips.map((c,i) => {
+        const cls = (i < 4) ? "chip primary" : "chip";
+        return `<button class="${cls}" data-chip="${c}">${c}</button>`;
+      }).join("");
+      return `<div class="chips" aria-label="quick options">${chips}</div>`;
+    }
+
+    async function askAssistant(text, q=null){
       const bubble = addBubble("assistant", typingDots());
-
-      // little delay for realism
       await new Promise(r => setTimeout(r, 650));
+      bubble.innerHTML = `<div>${text}</div>` + (q ? renderChips(q) : "");
+      scrollToBottom();
 
-      bubble.innerHTML = text;
+      // chip clicks
+      bubble.querySelectorAll("[data-chip]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          inputEl.value = btn.getAttribute("data-chip");
+          handleSend();
+        });
+      });
+    }
+
+    function showInvalid(msg){
+      inputEl.classList.remove("shake");
+      void inputEl.offsetWidth; // reset animation
+      inputEl.classList.add("shake");
+      addBubble("assistant", `⚠️ ${msg}`);
+    }
+
+    function currentQuestion(){ return questions[state.step]; }
+
+    async function start(){
+      setProgress();
+      await askAssistant("Hi — I’m MatchFlow. I’ll ask a few quick questions to match you with the right provider.");
+      await askAssistant(currentQuestion().text, currentQuestion());
+      inputEl.focus();
+      hintEl.textContent = "Tip: Tap the chips for fast answers.";
+    }
+
+    async function matchingSequence(){
+      await askAssistant("Got it. Matching providers now…");
+      const bubble = addBubble("assistant", `<div class="card shimmer"><strong>Matching…</strong><small>Checking availability, price range, and service area.</small></div>`);
+      await new Promise(r => setTimeout(r, 1200));
+      bubble.innerHTML = `<div class="card shimmer"><strong>Scanning providers…</strong><small>Comparing ratings + response times.</small></div>`;
+      await new Promise(r => setTimeout(r, 1200));
+      bubble.innerHTML = `
+        <div class="card">
+          <strong>Best match: Apex Home Services</strong>
+          <small>
+            Category: ${state.answers.service} • ZIP: ${state.answers.zip} •
+            Urgency: ${state.answers.urgency} • Budget: ${state.answers.budget}
+          </small>
+          <div style="margin-top:10px;color:var(--muted)">
+            Next: you’ll fill a request form and sign. (Backend + real database next.)
+          </div>
+          <a class="linkBtn" href="processing.html"><span>Continue to Request Form</span> <span class="arrow">→</span></a>
+        </div>
+      `;
       scrollToBottom();
     }
 
-    function currentQuestion(){
-      return questions[state.step];
-    }
-
-    async function start(){
-      await askAssistant("Hi — I’m MatchFlow. I’ll ask a few quick questions to match you with the right provider.");
-      await askAssistant(currentQuestion().text);
-      inputEl.focus();
-    }
-
     async function handleSend(){
-      const value = inputEl.value.trim();
-      if (!value) return;
+      const raw = inputEl.value;
 
-      // show user message
-      addBubble("user", value);
-      inputEl.value = "";
-
-      // save answer
       const q = currentQuestion();
-      state.answers[q.key] = value;
-      state.step++;
+      const result = validateAnswer(q, raw);
 
-      // if done, run matching animation + show result
-      if (state.step >= questions.length){
-        await askAssistant("Got it. Matching providers now…");
-        const bubble = addBubble("assistant", typingDots());
-        await new Promise(r => setTimeout(r, 1100));
-        bubble.innerHTML = `
-          <div class="card">
-            <strong>Best match: Apex Home Services</strong>
-            <small>
-              Category: ${state.answers.service || "N/A"} •
-              ZIP: ${state.answers.zip || "N/A"} •
-              Budget: ${state.answers.budget || "N/A"} •
-              ETA: Today / This week
-            </small>
-            <div style="margin-top:10px;color:var(--muted)">
-              Next: you’ll fill a request form and sign. (We’ll wire the real form + database next.)
-            </div>
-            <a class="linkBtn" href="processing.html">Continue to Request Form</a>
-          </div>
-        `;
-        scrollToBottom();
-        console.log("Collected answers:", state.answers);
+      if (!result.ok){
+        // show their attempted message (optional) then error
+        if (raw.trim()) addBubble("user", raw.trim());
+        inputEl.value = "";
+        showInvalid(result.msg);
         return;
       }
 
-      // otherwise ask next question
-      await askAssistant(currentQuestion().text);
+      addBubble("user", result.value);
+      inputEl.value = "";
+
+      state.answers[q.key] = result.value;
+      state.step++;
+
+      if (state.step >= questions.length){
+        setProgress();
+        hintEl.textContent = "Matching…";
+        await matchingSequence();
+        return;
+      }
+
+      setProgress();
+      hintEl.textContent = "Tip: Press Enter to send.";
+      await askAssistant(currentQuestion().text, currentQuestion());
     }
 
     sendBtn.addEventListener("click", handleSend);
