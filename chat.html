@@ -1,4 +1,3 @@
-<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -16,6 +15,7 @@
       --accent:#6ea8ff;
       --good:#44d19d;
       --warn:#ffcc66;
+      --bad:#ff6b6b;
     }
     *{box-sizing:border-box}
     html,body{height:100%}
@@ -46,7 +46,7 @@
     }
     .brand{
       display:flex; align-items:center; gap:10px;
-      font-weight:800;
+      font-weight:900;
       letter-spacing:.01em;
     }
     .dot{
@@ -69,7 +69,7 @@
       display:flex; align-items:center; gap:10px;
       color:var(--muted);
       font-size:12px;
-      font-weight:700;
+      font-weight:800;
     }
     .pill{
       padding:6px 10px;
@@ -85,7 +85,7 @@
       border-radius:999px;
       border:1px solid var(--line);
       background:transparent;
-      font-weight:800;
+      font-weight:900;
     }
     .link:hover{border-color:#2f2f4a}
 
@@ -112,7 +112,7 @@
     .row{display:flex; gap:10px}
     .row.user{justify-content:flex-end}
     .bubble{
-      max-width:min(720px, 92%);
+      max-width:min(760px, 94%);
       border:1px solid var(--line);
       border-radius:18px;
       padding:12px 14px;
@@ -128,18 +128,6 @@
     @keyframes popIn{
       from{opacity:0; transform:translateY(6px) scale(.98)}
       to{opacity:1; transform:translateY(0) scale(1)}
-    }
-    /* subtle floating for assistant bubbles */
-    .bubble.assistant::after{
-      content:"";
-      position:absolute;
-      inset:-1px;
-      border-radius:18px;
-      pointer-events:none;
-      background: radial-gradient(500px 120px at 10% 0%, rgba(110,168,255,.10), transparent 60%);
-      opacity:.9;
-      filter: blur(.2px);
-      z-index:-1;
     }
 
     /* Typing dots */
@@ -162,7 +150,7 @@
       50%{transform:translateY(-4px); opacity:.9}
     }
 
-    /* Cards / matching shimmer */
+    /* Shimmer card */
     .card{
       margin-top:10px;
       border:1px solid var(--line);
@@ -189,8 +177,9 @@
     }
     .card strong{display:block; font-size:16px; margin-bottom:4px}
     .card small{color:var(--muted)}
+    .card .meta{margin-top:10px; color:var(--muted); font-size:13px}
 
-    /* Buttons + chips */
+    /* Chips */
     .chips{
       display:flex;
       flex-wrap:wrap;
@@ -204,7 +193,7 @@
       padding:9px 11px;
       border-radius:999px;
       cursor:pointer;
-      font-weight:800;
+      font-weight:900;
       font-size:13px;
       transition:.15s transform, .15s border, .15s background;
       user-select:none;
@@ -219,6 +208,7 @@
       background: linear-gradient(180deg, rgba(110,168,255,.18), rgba(110,168,255,.06));
     }
 
+    /* CTA button */
     .linkBtn{
       margin-top:12px;
       display:inline-flex;
@@ -289,6 +279,8 @@
       75%{transform:translateX(-4px)}
       100%{transform:translateX(0)}
     }
+    .warn{color: var(--warn)}
+    .bad{color: var(--bad)}
   </style>
 </head>
 
@@ -299,7 +291,7 @@
       <div class="sub">Answer a few quick questions — we’ll match you fast.</div>
     </div>
     <div class="right">
-      <span class="pill" id="progressPill">Question 1 of 5</span>
+      <span class="pill" id="progressPill">Question 1 of 8</span>
       <a class="link" href="index.html">Back</a>
     </div>
   </div>
@@ -313,11 +305,13 @@
       <input id="input" placeholder="Type your answer…" autocomplete="off" />
       <button id="send">Send</button>
     </div>
-    <div class="hint" id="hint">Tip: For service / urgency / budget, you can tap the chips.</div>
+    <div class="hint" id="hint">Tip: Tap chips for fast answers.</div>
   </div>
 
   <script>
-    // ---------- OPTIONS ----------
+    // -------------------------
+    // BIG SERVICE LIST (canonical)
+    // -------------------------
     const SERVICE_CANON = [
       "plumbing","electrical","hvac","roofing","handyman",
       "appliance repair","garage door","pest control","lawn care","landscaping",
@@ -325,64 +319,130 @@
       "drywall","flooring","tile","carpentry","deck / patio",
       "fence","windows","doors","gutter cleaning","pressure washing",
       "pool service","sprinkler / irrigation","security / cameras","internet / wifi","locksmith",
-      "concrete","foundation","water damage","mold remediation"
+      "concrete","foundation","water damage","mold remediation",
+      "bathroom remodel","kitchen remodel","home inspection","chimney service",
+      "insulation","solar","smart home","paver / hardscape","septic","well service"
     ];
 
+    // Common typos / slang / variants -> canonical
     const SERVICE_ALIASES = {
-      "plumber":"plumbing","pluming":"plumbing","plubming":"plumbing","sink":"plumbing","toilet":"plumbing","drain":"plumbing","clog":"plumbing","leak":"plumbing",
-      "electrician":"electrical","electrian":"electrical","electrcian":"electrical","wiring":"electrical","outlet":"electrical","breaker":"electrical",
-      "ac":"hvac","a/c":"hvac","air conditioning":"hvac","heater":"hvac","furnace":"hvac",
-      "roof":"roofing","roofer":"roofing","rooffing":"roofing",
-      "handy man":"handyman","general repair":"handyman",
-      "fridge":"appliance repair","refrigerator":"appliance repair","washer":"appliance repair","dryer":"appliance repair","dishwasher":"appliance repair","oven":"appliance repair","stove":"appliance repair",
-      "garage":"garage door","garage door repair":"garage door",
-      "bugs":"pest control","ants":"pest control","roaches":"pest control","termite":"pest control","termites":"pest control",
-      "mowing":"lawn care","grass":"lawn care","lawn":"lawn care",
-      "landscape":"landscaping","landscaper":"landscaping",
-      "tree removal":"tree service","trees":"tree service",
-      "house cleaning":"cleaning","deep clean":"cleaning",
-      "trash removal":"junk removal","haul away":"junk removal",
-      "movers":"moving","moving help":"moving",
+      // plumbing
+      "plumber":"plumbing","pluming":"plumbing","plubming":"plumbing","pip":"plumbing","pipe":"plumbing","pipes":"plumbing",
+      "leak":"plumbing","leaky":"plumbing","drain":"plumbing","clog":"plumbing","toilet":"plumbing","sink":"plumbing","garbage disposal":"plumbing",
+
+      // electrical
+      "electric":"electrical","electrician":"electrical","electrian":"electrical","electrcian":"electrical","electical":"electrical",
+      "wiring":"electrical","outlet":"electrical","breaker":"electrical","panel":"electrical","light":"electrical","lights":"electrical",
+
+      // hvac
+      "ac":"hvac","a/c":"hvac","aircon":"hvac","air con":"hvac","air conditioning":"hvac",
+      "heat":"hvac","heater":"hvac","furnace":"hvac","vent":"hvac","thermostat":"hvac",
+
+      // roofing
+      "roof":"roofing","roofer":"roofing","rooffing":"roofing","shingles":"roofing","leaking roof":"roofing",
+
+      // handyman
+      "handy man":"handyman","handy":"handyman","general repair":"handyman","small repairs":"handyman","fix stuff":"handyman",
+
+      // appliance
+      "appliance":"appliance repair","fridge":"appliance repair","refrigerator":"appliance repair","washer":"appliance repair",
+      "dryer":"appliance repair","dishwasher":"appliance repair","oven":"appliance repair","stove":"appliance repair","microwave":"appliance repair",
+
+      // garage door
+      "garage":"garage door","garage door repair":"garage door","garage opener":"garage door",
+
+      // pest
+      "pests":"pest control","bug":"pest control","bugs":"pest control","ants":"pest control","roaches":"pest control",
+      "termite":"pest control","termites":"pest control","mosquito":"pest control",
+
+      // lawn/landscape/tree
+      "grass":"lawn care","mowing":"lawn care","lawn":"lawn care","yard":"lawn care",
+      "landscape":"landscaping","landscaper":"landscaping","mulch":"landscaping",
+      "trees":"tree service","tree":"tree service","tree removal":"tree service","stump":"tree service",
+
+      // cleaning/junk/moving
+      "house cleaning":"cleaning","deep clean":"cleaning","maid":"cleaning","cleaner":"cleaning",
+      "trash removal":"junk removal","haul away":"junk removal","junk":"junk removal",
+      "moving help":"moving","movers":"moving",
+
+      // paint/drywall/floor/tile/carpentry
       "paint":"painting","painter":"painting",
       "dry wall":"drywall","sheetrock":"drywall",
-      "floor":"flooring","floors":"flooring",
-      "tiling":"tile","tiles":"tile",
-      "deck":"deck / patio","patio":"deck / patio",
+      "floors":"flooring","floor":"flooring","carpet":"flooring",
+      "tiles":"tile","tiling":"tile",
+      "woodwork":"carpentry","carpenter":"carpentry",
+      "deck":"deck / patio","patio":"deck / patio","porch":"deck / patio",
+      "fencing":"fence",
+      "window":"windows","windows repair":"windows",
+      "door":"doors",
+
+      // gutters / washing
       "gutters":"gutter cleaning",
-      "power washing":"pressure washing","pressure wash":"pressure washing",
-      "pool":"pool service",
+      "pressure wash":"pressure washing","power washing":"pressure washing",
+
+      // pool/irrigation/security/wifi/locks
+      "pool":"pool service","pool cleaning":"pool service",
       "sprinklers":"sprinkler / irrigation","irrigation":"sprinkler / irrigation",
       "camera":"security / cameras","cameras":"security / cameras","security":"security / cameras",
-      "wifi":"internet / wifi","internet":"internet / wifi",
-      "locks":"locksmith","lock":"locksmith",
-      "cement":"concrete",
+      "wifi":"internet / wifi","internet":"internet / wifi","router":"internet / wifi",
+      "lock":"locksmith","locks":"locksmith",
+
+      // concrete/foundation/water/mold
+      "cement":"concrete","driveway":"concrete",
       "foundation repair":"foundation",
-      "flood":"water damage",
-      "mold":"mold remediation"
+      "flood":"water damage","water leak damage":"water damage",
+      "mold":"mold remediation",
+
+      // remodel / other
+      "bath remodel":"bathroom remodel","bathroom renovation":"bathroom remodel",
+      "kitchen renovation":"kitchen remodel",
+      "inspection":"home inspection",
+      "smart home install":"smart home",
+      "pavers":"paver / hardscape",
+      "septic tank":"septic",
+      "well":"well service"
     };
 
     const URGENCY_CANON = ["ASAP","This week","Flexible"];
     const URGENCY_ALIASES = {
-      "urgent":"ASAP","asap":"ASAP","today":"ASAP","right now":"ASAP",
-      "soon":"This week","tomorrow":"This week","this week":"This week","thisweek":"This week",
-      "not urgent":"Flexible","whenever":"Flexible","flex":"Flexible","flexible":"Flexible"
+      "urgent":"ASAP","asap":"ASAP","right now":"ASAP","today":"ASAP","emergency":"ASAP",
+      "tomorrow":"This week","thisweek":"This week","this week":"This week","soon":"This week",
+      "not urgent":"Flexible","flex":"Flexible","flexible":"Flexible","whenever":"Flexible"
     };
 
+    // Lots of budget ranges (canonical)
     const BUDGET_CANON = [
-      "$0–50", "$50–100", "$100–150", "$150–200", "$200–300", "$300–400", "$400–500",
-      "$500–750", "$750–1000", "$1000–1500", "$1500–2000", "$2000–3000", "$3000–5000", "$5000+"
+      "$0–50",
+      "$50–100",
+      "$100–150",
+      "$150–200",
+      "$200–300",
+      "$300–400",
+      "$400–500",
+      "$500–750",
+      "$750–1000",
+      "$1000–1500",
+      "$1500–2000",
+      "$2000–3000",
+      "$3000–5000",
+      "$5000+"
     ];
 
-    // We use chips for these question types:
+    // Questions (now includes name/email/phone)
     const questions = [
-      { key:"service", type:"service", text:"What service do you need?", chips: ["plumbing","electrical","hvac","handyman","cleaning","lawn care","painting","pest control","junk removal","roofing"] },
-      { key:"zip", type:"zip", text:"What’s your ZIP code? (5 digits)" },
+      { key:"service", type:"service", text:"What service do you need?", chips: ["plumbing","electrical","hvac","cleaning","lawn care","painting","pest control","junk removal","handyman","roofing"] },
+      { key:"zip", type:"zip", text:"What ZIP code is the service needed in? (5 digits)" },
       { key:"urgency", type:"urgency", text:"How urgent is it?", chips: ["ASAP","This week","Flexible"] },
-      { key:"budget", type:"budget", text:"What’s your budget range?", chips: ["$0–50","$50–100","$100–150","$150–200","$200–300","$300–400","$400–500","$500–750","$750–1000","$1000–1500","$1500–2000","$2000–3000","$3000–5000","$5000+"] },
-      { key:"details", type:"details", text:"Quickly describe the job in 1 sentence." }
+      { key:"budget", type:"budget", text:"What’s your budget range?", chips: ["$50–100","$100–150","$150–200","$200–300","$300–400","$400–500","$500–750","$750–1000","$1000–1500","$1500–2000","$2000–3000","$3000–5000","$5000+"] },
+      { key:"details", type:"details", text:"Briefly describe what needs to be done (1 sentence)." },
+      { key:"name", type:"name", text:"What’s your full name?" },
+      { key:"email", type:"email", text:"What’s the best email to contact you?" },
+      { key:"phone", type:"phone", text:"What’s the best phone number?" }
     ];
 
-    // ---------- UI helpers ----------
+    // -------------------------
+    // UI helpers
+    // -------------------------
     const chatEl = document.getElementById("chat");
     const inputEl = document.getElementById("input");
     const sendBtn = document.getElementById("send");
@@ -392,30 +452,23 @@
     const state = { step:0, answers:{} };
 
     function scrollToBottom(){ chatEl.scrollTop = chatEl.scrollHeight; }
-
+    function typingDots(){
+      return `<span class="typing" aria-label="typing"><span></span><span></span><span></span></span>`;
+    }
+    function setProgress(){
+      const n = Math.min(state.step + 1, questions.length);
+      progressPill.textContent = `Question ${n} of ${questions.length}`;
+    }
     function addBubble(role, html){
       const row = document.createElement("div");
       row.className = "row " + role;
-
       const bubble = document.createElement("div");
       bubble.className = "bubble " + role;
       bubble.innerHTML = html;
-
       row.appendChild(bubble);
       chatEl.appendChild(row);
       scrollToBottom();
       return bubble;
-    }
-
-    function typingDots(){
-      return `<span class="typing" aria-label="typing">
-        <span></span><span></span><span></span>
-      </span>`;
-    }
-
-    function setProgress(){
-      const n = Math.min(state.step + 1, questions.length);
-      progressPill.textContent = `Question ${n} of ${questions.length}`;
     }
 
     function normalizeSpaces(s){ return s.toLowerCase().trim().replace(/\s+/g," "); }
@@ -424,9 +477,11 @@
       const v = normalizeSpaces(raw);
       if (SERVICE_ALIASES[v]) return SERVICE_ALIASES[v];
       if (SERVICE_CANON.includes(v)) return v;
+
       const stripped = v.replace(/[^a-z0-9 ]/g, "");
       if (SERVICE_ALIASES[stripped]) return SERVICE_ALIASES[stripped];
       if (SERVICE_CANON.includes(stripped)) return stripped;
+
       for (const key of Object.keys(SERVICE_ALIASES)) {
         if (v.includes(key)) return SERVICE_ALIASES[key];
       }
@@ -447,39 +502,65 @@
       const cleaned = v0.replace(/\$/g,"").replace(/\s/g,"").replace(/–/g,"-").toLowerCase();
 
       const plusMatch = cleaned.match(/^(\d+)\+$/);
-      if (plusMatch) return `$${Number(plusMatch[1])}+`;
+      if (plusMatch) {
+        const n = Number(plusMatch[1]);
+        if (Number.isFinite(n) && n >= 0) return `$${n}+`;
+        return null;
+      }
 
       const single = cleaned.match(/^\d+$/);
       if (single){
         const n = Number(cleaned);
         if (!Number.isFinite(n) || n < 0) return null;
         const buckets = [
-          [0,50,"$0–50"],[50,100,"$50–100"],[100,150,"$100–150"],[150,200,"$150–200"],
-          [200,300,"$200–300"],[300,400,"$300–400"],[400,500,"$400–500"],
-          [500,750,"$500–750"],[750,1000,"$750–1000"],[1000,1500,"$1000–1500"],
-          [1500,2000,"$1500–2000"],[2000,3000,"$2000–3000"],[3000,5000,"$3000–5000"]
+          [0,50,"$0–50"],
+          [50,100,"$50–100"],
+          [100,150,"$100–150"],
+          [150,200,"$150–200"],
+          [200,300,"$200–300"],
+          [300,400,"$300–400"],
+          [400,500,"$400–500"],
+          [500,750,"$500–750"],
+          [750,1000,"$750–1000"],
+          [1000,1500,"$1000–1500"],
+          [1500,2000,"$1500–2000"],
+          [2000,3000,"$2000–3000"],
+          [3000,5000,"$3000–5000"]
         ];
-        for (const [a,b,label] of buckets) if (n >= a && n <= b) return label;
+        for (const [a,b,label] of buckets){
+          if (n >= a && n <= b) return label;
+        }
         if (n > 5000) return "$5000+";
         return "$0–50";
       }
 
       const range = cleaned.match(/^(\d+)-(\d+)$/);
       if (range){
-        let a = Number(range[1]), b = Number(range[2]);
+        let a = Number(range[1]);
+        let b = Number(range[2]);
         if (!Number.isFinite(a) || !Number.isFinite(b) || a < 0 || b < 0) return null;
         if (a > b) [a,b] = [b,a];
 
         const buckets = [
-          [0,50,"$0–50"],[50,100,"$50–100"],[100,150,"$100–150"],[150,200,"$150–200"],
-          [200,300,"$200–300"],[300,400,"$300–400"],[400,500,"$400–500"],
-          [500,750,"$500–750"],[750,1000,"$750–1000"],[1000,1500,"$1000–1500"],
-          [1500,2000,"$1500–2000"],[2000,3000,"$2000–3000"],[3000,5000,"$3000–5000"]
+          [0,50,"$0–50"],
+          [50,100,"$50–100"],
+          [100,150,"$100–150"],
+          [150,200,"$150–200"],
+          [200,300,"$200–300"],
+          [300,400,"$300–400"],
+          [400,500,"$400–500"],
+          [500,750,"$500–750"],
+          [750,1000,"$750–1000"],
+          [1000,1500,"$1000–1500"],
+          [1500,2000,"$1500–2000"],
+          [2000,3000,"$2000–3000"],
+          [3000,5000,"$3000–5000"]
         ];
-        let best=null, bestOverlap=-1;
+
+        let best = null, bestOverlap = -1;
         for (const [x,y,label] of buckets){
           const overlap = Math.max(0, Math.min(b,y) - Math.max(a,x));
-          if (overlap > bestOverlap){ bestOverlap = overlap; best = label; }
+          if (overlap > bestOverlap) { bestOverlap = overlap; best = label; }
         }
         if (b >= 5000) return "$5000+";
         return best || "$200–300";
@@ -488,37 +569,67 @@
       return null;
     }
 
+    function validateEmail(v){
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
+    }
+    function validatePhone(v){
+      const digits = v.replace(/\D/g,"");
+      return digits.length >= 10 && digits.length <= 15;
+    }
+    function validateName(v){
+      const s = v.trim();
+      if (s.length < 2) return false;
+      // allow letters, spaces, hyphen, apostrophe
+      return /^[a-zA-Z][a-zA-Z\s\-']+$/.test(s);
+    }
+
     function validateAnswer(q, raw){
       const value = raw.trim();
       if (!value) return { ok:false, msg:"Please type an answer." };
 
       if (q.type === "service"){
         const svc = normalizeService(value);
-        if (!svc) return { ok:false, msg:"Try a service like: plumbing, electrical, hvac, lawn care, painting, cleaning, junk removal." };
-        return { ok:true, value:svc };
+        if (!svc) return { ok:false, msg:"Try: plumbing, electrical, hvac, cleaning, lawn care, painting, pest control, junk removal, handyman, roofing." };
+        return { ok:true, value: svc };
       }
 
       if (q.type === "zip"){
         const v = value.replace(/\s+/g,"");
         if (!/^\d{5}$/.test(v)) return { ok:false, msg:"Enter a valid 5-digit ZIP (example: 30024)." };
-        return { ok:true, value:v };
+        return { ok:true, value: v };
       }
 
       if (q.type === "urgency"){
         const u = normalizeUrgency(value);
         if (!u) return { ok:false, msg:"Type: ASAP, This week, or Flexible." };
-        return { ok:true, value:u };
+        return { ok:true, value: u };
       }
 
       if (q.type === "budget"){
         const b = normalizeBudget(value);
-        if (!b) return { ok:false, msg:"Choose a chip or type a number (250), a range (200-300), or 1000+." };
-        return { ok:true, value:b };
+        if (!b) return { ok:false, msg:"Choose a chip or type: 250, 200-300, or 1000+." };
+        return { ok:true, value: b };
       }
 
       if (q.type === "details"){
         if (value.length < 10) return { ok:false, msg:"Add a bit more detail (at least ~10 characters)." };
         return { ok:true, value };
+      }
+
+      if (q.type === "name"){
+        if (!validateName(value)) return { ok:false, msg:"Please enter your full name (letters/spaces only)." };
+        return { ok:true, value };
+      }
+
+      if (q.type === "email"){
+        if (!validateEmail(value)) return { ok:false, msg:"Please enter a valid email (example: name@gmail.com)." };
+        return { ok:true, value: value.toLowerCase() };
+      }
+
+      if (q.type === "phone"){
+        if (!validatePhone(value)) return { ok:false, msg:"Please enter a valid phone number (10–15 digits)." };
+        // store digits only to keep clean
+        return { ok:true, value: value.replace(/\D/g,"") };
       }
 
       return { ok:true, value };
@@ -535,7 +646,7 @@
 
     async function askAssistant(text, q=null){
       const bubble = addBubble("assistant", typingDots());
-      await new Promise(r => setTimeout(r, 650));
+      await new Promise(r => setTimeout(r, 600));
       bubble.innerHTML = `<div>${text}</div>` + (q ? renderChips(q) : "");
       scrollToBottom();
 
@@ -550,51 +661,56 @@
 
     function showInvalid(msg){
       inputEl.classList.remove("shake");
-      void inputEl.offsetWidth; // reset animation
+      void inputEl.offsetWidth;
       inputEl.classList.add("shake");
-      addBubble("assistant", `⚠️ ${msg}`);
+      addBubble("assistant", `<span class="warn">⚠️ ${msg}</span>`);
     }
 
     function currentQuestion(){ return questions[state.step]; }
+
+    async function matchingSequence(){
+      await askAssistant("Thanks — matching the best provider now…");
+      const b1 = addBubble("assistant", `<div class="card shimmer"><strong>Matching…</strong><small>Checking service area, urgency, and budget fit.</small></div>`);
+      await new Promise(r => setTimeout(r, 1100));
+      b1.innerHTML = `<div class="card shimmer"><strong>Comparing providers…</strong><small>Ratings, response time, and pricing.</small></div>`;
+      await new Promise(r => setTimeout(r, 1100));
+
+      // Placeholder result (backend will replace this later)
+      const bestName = "Top Local Provider";
+      const bestRating = "4.8";
+      const bestPrice = "Fits your budget";
+
+      b1.innerHTML = `
+        <div class="card">
+          <strong>Best match found: ${bestName}</strong>
+          <small>Rating: ${bestRating} • ${bestPrice}</small>
+          <div class="meta">
+            <b>Service:</b> ${state.answers.service}<br>
+            <b>ZIP:</b> ${state.answers.zip}<br>
+            <b>Urgency:</b> ${state.answers.urgency}<br>
+            <b>Budget:</b> ${state.answers.budget}<br>
+            <b>Contact:</b> ${state.answers.name} • ${state.answers.email} • ${state.answers.phone}
+          </div>
+          <a class="linkBtn" href="processing.html"><span>Continue</span> <span class="arrow">→</span></a>
+        </div>
+      `;
+      scrollToBottom();
+    }
 
     async function start(){
       setProgress();
       await askAssistant("Hi — I’m MatchFlow. I’ll ask a few quick questions to match you with the right provider.");
       await askAssistant(currentQuestion().text, currentQuestion());
       inputEl.focus();
-      hintEl.textContent = "Tip: Tap the chips for fast answers.";
-    }
-
-    async function matchingSequence(){
-      await askAssistant("Got it. Matching providers now…");
-      const bubble = addBubble("assistant", `<div class="card shimmer"><strong>Matching…</strong><small>Checking availability, price range, and service area.</small></div>`);
-      await new Promise(r => setTimeout(r, 1200));
-      bubble.innerHTML = `<div class="card shimmer"><strong>Scanning providers…</strong><small>Comparing ratings + response times.</small></div>`;
-      await new Promise(r => setTimeout(r, 1200));
-      bubble.innerHTML = `
-        <div class="card">
-          <strong>Best match: Apex Home Services</strong>
-          <small>
-            Category: ${state.answers.service} • ZIP: ${state.answers.zip} •
-            Urgency: ${state.answers.urgency} • Budget: ${state.answers.budget}
-          </small>
-          <div style="margin-top:10px;color:var(--muted)">
-            Next: you’ll fill a request form and sign. (Backend + real database next.)
-          </div>
-          <a class="linkBtn" href="processing.html"><span>Continue to Request Form</span> <span class="arrow">→</span></a>
-        </div>
-      `;
-      scrollToBottom();
+      hintEl.textContent = "Tip: Tap chips for fast answers.";
     }
 
     async function handleSend(){
       const raw = inputEl.value;
-
       const q = currentQuestion();
       const result = validateAnswer(q, raw);
 
       if (!result.ok){
-        // show their attempted message (optional) then error
         if (raw.trim()) addBubble("user", raw.trim());
         inputEl.value = "";
         showInvalid(result.msg);
