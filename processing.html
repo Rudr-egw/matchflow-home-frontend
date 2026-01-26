@@ -180,6 +180,47 @@
       color: var(--teal);
       display:none;
     }
+
+    .feedback{
+      margin-top:10px;
+      padding:10px;
+      border-radius:16px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.9);
+      max-height:320px;
+      overflow:auto;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+    .fbRow{display:flex; gap:10px; align-items:flex-end;}
+    .fbRow.user{justify-content:flex-end;}
+    .fbBubble{
+      max-width:80%;
+      padding:10px 12px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background: rgba(11,27,59,.04);
+      font-size:12px;
+      color: var(--navy);
+      line-height:1.4;
+    }
+    .fbRow.user .fbBubble{
+      background: rgba(26,166,160,.12);
+      border-color: rgba(26,166,160,.25);
+    }
+    .feedbackInput{
+      margin-top:10px;
+      display:flex;
+      gap:10px;
+    }
+    .feedbackInput input{
+      flex:1;
+      border-radius:12px;
+      border:1px solid var(--line);
+      padding:10px;
+      font-size:13px;
+    }
   </style>
 </head>
 
@@ -226,10 +267,20 @@
       </div>
 
       <div class="pane">
-        <h1>Support info</h1>
-        <p class="sub">If you ever need to reference this request, copy the details below.</p>
+        <h1>Quick feedback</h1>
+        <p class="sub">Optional. Answer 5 quick questions to help us improve.</p>
 
-        <div class="receipt" id="receipt"></div>
+        <div class="feedback" id="feedback"></div>
+
+        <div class="feedbackInput" id="feedbackInput">
+          <input id="fbField" type="text" placeholder="Type your answer..." />
+          <button class="btn" id="fbSend" type="button">Send</button>
+        </div>
+
+        <div class="actions" id="fbActions" style="display:none;">
+          <a class="btn primary" href="index.html">Back to Home</a>
+          <button class="btn" id="closeBtn2" type="button">Close Tab</button>
+        </div>
       </div>
     </div>
   </div>
@@ -239,15 +290,6 @@
   </div>
 
   <script>
-    // Receipt
-    const id = "MF-" + Math.random().toString(36).slice(2,8).toUpperCase();
-    const time = new Date().toLocaleString();
-    document.getElementById("receipt").textContent =
-`Request ID: ${id}
-Submitted:  ${time}
-Status:     Processing
-Note:       Prices are quote-based. Providers decide the exact total after review.`;
-
     document.getElementById("yr").textContent = new Date().getFullYear();
 
     // Step animation + ETA countdown
@@ -289,6 +331,67 @@ Note:       Prices are quote-based. Providers decide the exact total after revie
       window.close();
       setTimeout(()=>alert("If this did not close, your browser blocked it. You can safely close the tab manually."), 300);
     });
+
+    // Feedback chatbot
+    const feedbackEl = document.getElementById("feedback");
+    const fbField = document.getElementById("fbField");
+    const fbSend = document.getElementById("fbSend");
+    const fbInput = document.getElementById("feedbackInput");
+    const fbActions = document.getElementById("fbActions");
+
+    const questions = [
+      "Where did you hear about MatchFlow Home?",
+      "What type of service did you request today?",
+      "How easy was the process on a scale of 1 to 5?",
+      "What should we improve or fix next?",
+      "Anything else you want us to know?"
+    ];
+    let qIndex = 0;
+
+    function addFb(text, who="bot"){
+      const row = document.createElement("div");
+      row.className = "fbRow " + (who === "user" ? "user" : "");
+      const bubble = document.createElement("div");
+      bubble.className = "fbBubble";
+      bubble.textContent = text;
+      row.appendChild(bubble);
+      feedbackEl.appendChild(row);
+      feedbackEl.scrollTop = feedbackEl.scrollHeight;
+    }
+
+    function askNext(){
+      if (qIndex < questions.length) {
+        addFb(questions[qIndex], "bot");
+      } else {
+        addFb("Thanks for the feedback. You can close the site or go back home.", "bot");
+        fbInput.style.display = "none";
+        fbActions.style.display = "flex";
+      }
+    }
+
+    function handleSend(){
+      const val = fbField.value.trim();
+      if (!val) return;
+      addFb(val, "user");
+      fbField.value = "";
+      qIndex += 1;
+      setTimeout(askNext, 250);
+    }
+
+    fbSend.addEventListener("click", handleSend);
+    fbField.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        handleSend();
+      }
+    });
+
+    document.getElementById("closeBtn2").addEventListener("click", () => {
+      window.close();
+      setTimeout(()=>alert("If this did not close, your browser blocked it. You can safely close the tab manually."), 300);
+    });
+
+    askNext();
   </script>
 </body>
 </html>
