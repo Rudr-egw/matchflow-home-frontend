@@ -109,6 +109,63 @@
     }
     .stamp img{width:40px; height:40px;}
 
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.9);
+      color: var(--navy);
+      font-size:12px;
+      font-weight:600;
+    }
+
+    .list{
+      margin:12px 0 0;
+      padding:0;
+      list-style:none;
+      display:grid;
+      gap:10px;
+    }
+    .listItem{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      padding:10px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background: rgba(11,27,59,.04);
+    }
+    .badge{
+      width:28px;height:28px;
+      border-radius:10px;
+      background: rgba(26,166,160,.16);
+      color: var(--teal);
+      display:grid; place-items:center;
+      font-weight:800; font-size:12px;
+      flex:0 0 auto;
+    }
+    .listItem b{display:block; font-size:13px; color:var(--navy); margin-bottom:2px;}
+    .listItem span{display:block; font-size:12px; color:var(--muted); line-height:1.45;}
+
+    .statGrid{
+      margin-top:14px;
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:10px;
+    }
+    @media (max-width: 900px){.statGrid{grid-template-columns:1fr}}
+    .stat{
+      border-radius:16px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.9);
+      padding:12px;
+    }
+    .stat b{display:block; font-size:14px; color:var(--navy); margin-bottom:4px;}
+    .stat span{display:block; font-size:12px; color:var(--muted);}
+
     .grid{
       display:grid;
       grid-template-columns: 1fr 1fr;
@@ -211,6 +268,7 @@
   <main class="wrap">
     <section class="hero">
       <div class="panel heroText">
+        <span class="pill">Founder story</span>
         <h1>Hi, my name is Rudra.</h1>
         <p class="sub">
           I built MatchFlow Home after seeing the same problem on platforms like Facebook and Nextdoor.
@@ -221,6 +279,22 @@
           MatchFlow Home lets you submit one request with photos and details. We share only what providers need
           to quote the job. We do not sell your information.
         </p>
+        <ul class="list">
+          <li class="listItem">
+            <div class="badge">1</div>
+            <div>
+              <b>One request, less noise</b>
+              <span>We turn your issue into a clear summary so providers can respond quickly.</span>
+            </div>
+          </li>
+          <li class="listItem">
+            <div class="badge">2</div>
+            <div>
+              <b>Privacy first</b>
+              <span>Your details are shared only with businesses that can take the job.</span>
+            </div>
+          </li>
+        </ul>
         <div class="cta">
           <a class="btn primary" href="chat.html">Start a request -></a>
           <a class="btn" href="index.html">Back to home</a>
@@ -234,7 +308,7 @@
 
     <section class="panel" style="padding:18px; margin-top:16px;">
       <h1 style="font-size:22px; margin:0 0 8px;">How it works</h1>
-      <p class="sub" style="margin:0 0 10px;">
+      <p class="sub" style="margin:0 0 12px;">
         Fill out the form, upload photos, and submit your request. One of our 7 team members will review it,
         email you for any quick clarifications, and start matching. If you give us 2-3 days, we will send you
         three options that fit your budget. Then we connect you by email and phone so you can take it from there.
@@ -270,11 +344,25 @@
           </div>
         </div>
       </div>
+      <div class="statGrid">
+        <div class="stat">
+          <b>Free for homeowners</b>
+          <span>No fees to submit a request or compare options.</span>
+        </div>
+        <div class="stat">
+          <b>7-person review team</b>
+          <span>Real people make sure your request is clear.</span>
+        </div>
+        <div class="stat">
+          <b>Three options</b>
+          <span>We send you choices that fit your budget.</span>
+        </div>
+      </div>
     </section>
 
     <section class="grid">
       <article class="card">
-        <img alt="Neighborly connections" src="assets/about-1.svg" loading="lazy" />
+        <img alt="Neighborly connections" src="https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&w=1400&q=80" loading="lazy" />
         <div class="body">
           <h2>Why I built this</h2>
           <p>
@@ -285,7 +373,7 @@
       </article>
 
       <article class="card">
-        <img alt="Privacy first" src="assets/about-2.svg" loading="lazy" />
+        <img alt="Privacy first" src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1400&q=80" loading="lazy" />
         <div class="body">
           <h2>Your info stays yours</h2>
           <p>
@@ -296,7 +384,7 @@
       </article>
 
       <article class="card">
-        <img alt="Team process" src="assets/about-3.svg" loading="lazy" />
+        <img alt="Team process" src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1400&q=80" loading="lazy" />
         <div class="body">
           <h2>Real people review every request</h2>
           <p>
@@ -306,7 +394,7 @@
       </article>
 
       <article class="card">
-        <img alt="Three options" src="assets/about-4.svg" loading="lazy" />
+        <img alt="Three options" src="https://images.unsplash.com/photo-1487014679447-9f8336841d58?auto=format&fit=crop&w=1400&q=80" loading="lazy" />
         <div class="body">
           <h2>Three options to choose from</h2>
           <p>

@@ -314,15 +314,15 @@
       <h3>What happens next</h3>
       <div class="how">
         <div class="item">
-          <div class="tick">OK</div>
+          <div class="tick">&#10003;</div>
           <div><b>Upload photos</b><span>Optional, but it helps providers estimate more accurately.</span></div>
         </div>
         <div class="item">
-          <div class="tick">OK</div>
+          <div class="tick">&#10003;</div>
           <div><b>Submit your request</b><span>We collect the key details and start outreach.</span></div>
         </div>
         <div class="item">
-          <div class="tick">OK</div>
+          <div class="tick">&#10003;</div>
           <div><b>Three options</b><span>We aim to send three choices within 2-3 days.</span></div>
         </div>
       </div>
@@ -619,7 +619,7 @@
           t.remove();
 
           if(res.ok){
-            await botSay("Got it OK We received your request.");
+            await botSay("Got it ✓ We received your request.");
             await botSay("Sending you to a quick processing screen...");
             await sleep(650);
             window.location.href = "processing.html";
