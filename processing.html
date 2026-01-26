@@ -1,298 +1,285 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>MatchFlow — Processing</title>
   <style>
     :root{
-      --bg:#0b0b0f;
-      --card:#12121a;
-      --text:#f2f2f7;
-      --muted:#9a9aaa;
-      --line:#232334;
-      --accent:#6ea8ff;
-      --good:#44d19d;
+      --bg:#070A0F;
+      --panel: rgba(255,255,255,.06);
+      --line: rgba(255,255,255,.10);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.68);
+      --accent: #6ea8ff;
+      --accent2:#7cf7c6;
+      --shadow: 0 28px 90px rgba(0,0,0,.55);
+      --r: 22px;
     }
     *{box-sizing:border-box}
+    html,body{height:100%}
     body{
       margin:0;
-      min-height:100vh;
-      display:grid;
-      place-items:center;
-      background: radial-gradient(1200px 600px at 50% 20%, #1a1a2a 0%, var(--bg) 55%);
+      background:
+        radial-gradient(1200px 700px at 50% 18%, rgba(110,168,255,.20), transparent 60%),
+        radial-gradient(900px 600px at 18% 92%, rgba(124,247,198,.14), transparent 58%),
+        radial-gradient(900px 600px at 84% 92%, rgba(255,255,255,.07), transparent 62%),
+        var(--bg);
       color:var(--text);
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
-    }
-    .wrap{width:min(860px, 92vw); padding:24px;}
-    .card{
-      background:rgba(18,18,26,0.9);
-      border:1px solid var(--line);
-      border-radius:18px;
-      padding:26px;
-      box-shadow: 0 20px 60px rgba(0,0,0,.45);
-    }
-    .brand{
-      display:flex; align-items:center; justify-content:space-between;
-      gap:10px; color:var(--muted); font-size:14px; letter-spacing:.12em;
-      text-transform:uppercase;
-    }
-    .leftBrand{display:flex; align-items:center; gap:10px;}
-    .dot{
-      width:10px; height:10px; border-radius:999px;
-      background:var(--accent);
-      box-shadow:0 0 18px rgba(110,168,255,.8);
-    }
-
-    h1{margin:12px 0 6px; font-size:34px; line-height:1.1;}
-    p{margin:0; color:var(--muted); line-height:1.6;}
-
-    .statusRow{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      margin:14px 0 10px;
-      padding:12px 12px;
-      border:1px solid var(--line);
-      border-radius:14px;
-      background:rgba(0,0,0,.18);
-    }
-
-    /* Spinner */
-    .spinner{
-      width:28px; height:28px;
-      border-radius:999px;
-      border:3px solid rgba(110,168,255,.22);
-      border-top-color: rgba(110,168,255,.95);
-      animation: spin .9s linear infinite;
-      flex:0 0 auto;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    .statusText{display:flex; flex-direction:column; gap:2px;}
-    .statusText strong{font-size:14px}
-    .eta{font-size:12px; color:var(--muted)}
-
-    .bar{
-      width:100%;
-      height:12px;
-      border:1px solid var(--line);
-      background:rgba(0,0,0,.25);
-      border-radius:999px;
       overflow:hidden;
-      margin:12px 0 16px;
+      display:grid;
+      place-items:center;
+      padding:22px;
     }
-    .fill{
-      height:100%;
-      width:0%;
-      background:linear-gradient(90deg, rgba(110,168,255,.15), rgba(110,168,255,.7));
-      border-radius:999px;
-      transition: width .45s ease;
+    .card{
+      width:min(860px, 100%);
+      border-radius: var(--r);
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.05);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+    .top{
+      padding:18px 18px 12px;
+      display:flex; align-items:center; justify-content:space-between;
+      border-bottom:1px solid rgba(255,255,255,.08);
+      background: rgba(0,0,0,.14);
+    }
+    .brand{display:flex; align-items:center; gap:10px}
+    .logo{
+      width:34px;height:34px;border-radius:14px;
+      background: linear-gradient(135deg, rgba(110,168,255,.95), rgba(124,247,198,.85));
+      box-shadow: 0 18px 45px rgba(110,168,255,.18);
+    }
+    .brand b{display:block; font-size:14px}
+    .brand span{display:block; font-size:12px; color:var(--muted); margin-top:2px}
+
+    .body{
+      padding:18px;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:14px;
+      align-items:stretch;
+    }
+    @media (max-width: 840px){ body{overflow:auto} .body{grid-template-columns:1fr} }
+
+    .pane{
+      border-radius: 18px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.16);
+      padding:16px;
+    }
+    h1{
+      margin:0 0 6px;
+      font-size:20px;
+      letter-spacing:-.2px;
+    }
+    .sub{margin:0; color:var(--muted); font-size:13px; line-height:1.45}
+
+    .spinnerRow{
+      display:flex; align-items:center; gap:12px;
+      margin-top:12px;
+    }
+    .spin{
+      width:18px;height:18px;border-radius:50%;
+      border:2px solid rgba(255,255,255,.18);
+      border-top-color: rgba(124,247,198,.85);
+      animation: spin .85s linear infinite;
+    }
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    .eta{
+      margin-top:10px;
+      font-size:12px;
+      color: rgba(255,255,255,.74);
     }
 
-    .steps{display:flex; flex-direction:column; gap:10px; margin-top:6px;}
-    .step{
-      display:flex; align-items:center; gap:10px;
-      padding:12px 12px;
-      border:1px solid var(--line);
-      background:rgba(0,0,0,.18);
-      border-radius:14px;
+    .steps{
+      margin-top:14px;
+      display:grid;
+      gap:10px;
     }
-    .icon{
-      width:26px; height:26px; border-radius:999px;
-      border:1px solid var(--line);
-      display:grid; place-items:center;
-      color:var(--muted);
+    .step{
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+      border-radius: 16px;
+      padding:12px 12px;
+      display:flex; gap:10px; align-items:flex-start;
+    }
+    .dot{
+      width:10px;height:10px;border-radius:50%;
+      background: rgba(255,255,255,.20);
+      box-shadow: 0 0 0 4px rgba(255,255,255,.06);
+      margin-top:4px;
       flex:0 0 auto;
     }
-    .icon.done{
-      border-color: rgba(68,209,157,.35);
-      background: rgba(68,209,157,.12);
-      color: var(--good);
+    .step.done .dot{
+      background: var(--accent2);
+      box-shadow: 0 0 0 4px rgba(124,247,198,.12);
     }
-    .label{font-weight:800;}
-    .sub{color:var(--muted); font-size:13px; margin-top:2px;}
+    .step.active .dot{
+      background: var(--accent);
+      box-shadow: 0 0 0 4px rgba(110,168,255,.12);
+      animation: pulse 1.6s infinite ease-in-out;
+    }
+    @keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(.86);opacity:.7}}
+    .step b{display:block; font-size:13px; margin-bottom:2px}
+    .step span{display:block; font-size:12px; color:var(--muted); line-height:1.35}
 
     .actions{
-      margin-top:18px;
-      display:flex; gap:10px; flex-wrap:wrap;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:14px;
     }
     .btn{
-      padding:12px 14px;
-      border-radius:14px;
-      border:1px solid var(--line);
-      background:transparent;
-      color:var(--text);
       cursor:pointer;
-      font-weight:800;
-      transition:.15s transform, .15s background, .15s border;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: rgba(255,255,255,.92);
+      padding:11px 14px;
+      border-radius:16px;
+      font-weight:900;
+      font-size:13px;
+      transition: transform .12s ease, background .12s ease;
+      user-select:none;
       text-decoration:none;
       display:inline-flex;
       align-items:center;
-      justify-content:center;
+      gap:9px;
+      white-space:nowrap;
     }
-    .btn:hover{transform: translateY(-1px); border-color:#2f2f4a;}
+    .btn:hover{transform: translateY(-1px); background: rgba(255,255,255,.09)}
     .btn.primary{
-      background:linear-gradient(180deg, rgba(110,168,255,.22), rgba(110,168,255,.08));
-      border-color: rgba(110,168,255,.35);
+      border:none;
+      color:#071018;
+      background: linear-gradient(135deg, rgba(110,168,255,.95), rgba(124,247,198,.80));
     }
-    .btn.primary:hover{background:linear-gradient(180deg, rgba(110,168,255,.28), rgba(110,168,255,.10));}
 
-    .tiny{margin-top:10px; font-size:12px; color:var(--muted);}
-
-    .doneRow{
+    .receipt{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size:12px;
+      color: rgba(255,255,255,.80);
+      line-height:1.5;
+      padding:12px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.18);
+      margin-top:10px;
+      white-space:pre-wrap;
+      word-break:break-word;
+    }
+    .toast{
+      margin-top:10px;
+      font-size:12px;
+      color: rgba(124,247,198,.92);
       display:none;
-      margin-top:12px;
-      padding:12px 12px;
-      border:1px solid rgba(68,209,157,.35);
-      border-radius:14px;
-      background: rgba(68,209,157,.10);
-      color: var(--text);
     }
   </style>
 </head>
 
 <body>
-  <div class="wrap">
-    <div class="card">
+  <div class="card">
+    <div class="top">
       <div class="brand">
-        <div class="leftBrand"><span class="dot"></span> MatchFlow Home</div>
-        <a class="btn" href="index.html" style="padding:8px 12px; font-weight:800;">Home</a>
-      </div>
-
-      <h1 id="title">Processing your request…</h1>
-      <p id="desc">We’re packaging your details and matching the best provider.</p>
-
-      <div class="statusRow" id="statusRow">
-        <div class="spinner" id="spinner"></div>
-        <div class="statusText">
-          <strong id="statusLine">Working…</strong>
-          <div class="eta" id="eta">Estimated time left: 00:45</div>
+        <div class="logo"></div>
+        <div>
+          <b>MatchFlow</b>
+          <span>Processing your request</span>
         </div>
       </div>
+      <div style="color:rgba(255,255,255,.70); font-size:12px;">You can close this after it finishes</div>
+    </div>
 
-      <div class="bar" aria-label="progress">
-        <div class="fill" id="fill"></div>
-      </div>
+    <div class="body">
+      <div class="pane">
+        <h1>We’ve got it ✅</h1>
+        <p class="sub">We’re organizing your details and preparing outreach.</p>
 
-      <div class="steps">
-        <div class="step" id="s1">
-          <div class="icon" id="i1">•</div>
+        <div class="spinnerRow">
+          <div class="spin" aria-hidden="true"></div>
           <div>
-            <div class="label">Saving your request</div>
-            <div class="sub">Securing details & contact info</div>
+            <div style="font-weight:900; font-size:13px;">Working…</div>
+            <div class="eta" id="eta">Estimated time left: ~45 seconds</div>
           </div>
         </div>
 
-        <div class="step" id="s2">
-          <div class="icon" id="i2">•</div>
-          <div>
-            <div class="label">Matching the best provider</div>
-            <div class="sub">Checking urgency, budget, availability</div>
-          </div>
+        <div class="steps" id="steps">
+          <div class="step active" id="s1"><div class="dot"></div><div><b>Formatting request</b><span>Cleaning up details for providers</span></div></div>
+          <div class="step" id="s2"><div class="dot"></div><div><b>Preparing outreach</b><span>Getting a shortlist ready</span></div></div>
+          <div class="step" id="s3"><div class="dot"></div><div><b>Queued</b><span>We’ll follow up with quote ranges</span></div></div>
         </div>
 
-        <div class="step" id="s3">
-          <div class="icon" id="i3">•</div>
-          <div>
-            <div class="label">Packaging your summary</div>
-            <div class="sub">Preparing details for the provider</div>
-          </div>
+        <div class="actions">
+          <a class="btn primary" href="index.html">Back to Home</a>
+          <a class="btn" href="chat.html">Submit Another Request</a>
+          <button class="btn" id="copyBtn" type="button">Copy Support Info</button>
+          <button class="btn" id="closeBtn" type="button">Close Tab</button>
         </div>
 
-        <div class="step" id="s4">
-          <div class="icon" id="i4">•</div>
-          <div>
-            <div class="label">Done</div>
-            <div class="sub">You’re all set</div>
-          </div>
-        </div>
+        <div class="toast" id="toast">Copied to clipboard ✅</div>
       </div>
 
-      <div class="doneRow" id="doneRow">
-        ✅ Request submitted. You can close this page.
-      </div>
+      <div class="pane">
+        <h1>Support info</h1>
+        <p class="sub">If you ever need to reference this request, copy the details below.</p>
 
-      <div class="actions">
-        <button class="btn primary" id="closeBtn">Close this page</button>
-        <a class="btn" href="index.html">Back to home</a>
-      </div>
-
-      <div class="tiny" id="tiny">
-        Note: Some browsers only allow auto-close if this tab was opened by a button/script.
+        <div class="receipt" id="receipt"></div>
       </div>
     </div>
   </div>
 
   <script>
-    const fill = document.getElementById("fill");
-    const title = document.getElementById("title");
-    const desc  = document.getElementById("desc");
+    // Receipt
+    const id = "MF-" + Math.random().toString(36).slice(2,8).toUpperCase();
+    const time = new Date().toLocaleString();
+    document.getElementById("receipt").textContent =
+`Request ID: ${id}
+Submitted:  ${time}
+Status:     Processing
+Note:       Prices are quote-based. Providers decide the exact total after review.`;
+
+    // Step animation + ETA countdown
     const etaEl = document.getElementById("eta");
-    const statusLine = document.getElementById("statusLine");
-    const spinner = document.getElementById("spinner");
-    const doneRow = document.getElementById("doneRow");
+    const s1 = document.getElementById("s1");
+    const s2 = document.getElementById("s2");
+    const s3 = document.getElementById("s3");
 
-    // Total fake processing time (seconds)
-    let totalSeconds = 45;
-    let remaining = totalSeconds;
+    let seconds = 45;
+    const t = setInterval(() => {
+      seconds--;
+      etaEl.textContent = "Estimated time left: ~" + Math.max(8, seconds) + " seconds";
 
-    function fmt(s){
-      const mm = String(Math.floor(s/60)).padStart(2,"0");
-      const ss = String(s%60).padStart(2,"0");
-      return `${mm}:${ss}`;
-    }
-
-    function setEta(){
-      etaEl.textContent = `Estimated time left: ${fmt(remaining)}`;
-    }
-
-    function markDone(n){
-      const icon = document.getElementById("i"+n);
-      icon.classList.add("done");
-      icon.textContent = "✓";
-    }
-
-    const phases = [
-      { pct: 22, step: 1, wait: 900, line: "Saving your request…" },
-      { pct: 58, step: 2, wait: 1300, line: "Matching providers…" },
-      { pct: 84, step: 3, wait: 1200, line: "Packaging your summary…" },
-      { pct: 100, step: 4, wait: 800, line: "Finalizing…" }
-    ];
-
-    async function run(){
-      setEta();
-
-      // countdown timer
-      const timer = setInterval(() => {
-        remaining = Math.max(0, remaining - 1);
-        setEta();
-      }, 1000);
-
-      for (const p of phases){
-        statusLine.textContent = p.line;
-        fill.style.width = p.pct + "%";
-        await new Promise(r => setTimeout(r, p.wait));
-        markDone(p.step);
+      if (seconds === 30) { s1.classList.remove("active"); s1.classList.add("done"); s2.classList.add("active"); }
+      if (seconds === 16) { s2.classList.remove("active"); s2.classList.add("done"); s3.classList.add("active"); }
+      if (seconds <= 8) {
+        // finish state
+        s3.classList.remove("active"); s3.classList.add("done");
+        etaEl.textContent = "All set — you can close this page.";
+        clearInterval(t);
       }
+    }, 1000);
 
-      clearInterval(timer);
-      remaining = 0;
-      setEta();
+    // Copy support info
+    const copyBtn = document.getElementById("copyBtn");
+    const toast = document.getElementById("toast");
+    copyBtn.addEventListener("click", async () => {
+      try{
+        await navigator.clipboard.writeText(document.getElementById("receipt").textContent);
+        toast.style.display = "block";
+        setTimeout(()=>toast.style.display="none", 1600);
+      }catch(e){
+        alert("Copy failed — your browser may block clipboard access.");
+      }
+    });
 
-      spinner.style.animation = "none";
-      spinner.style.borderTopColor = "rgba(68,209,157,.95)";
-      spinner.style.borderColor = "rgba(68,209,157,.22)";
-
-      title.textContent = "Request submitted ✅";
-      desc.textContent = "We’ve got your info. You can close this page now.";
-      statusLine.textContent = "Complete";
-      doneRow.style.display = "block";
-    }
-
-    document.getElementById("closeBtn").onclick = () => window.close();
-
-    run();
+    // Close tab (may be blocked if not opened by script)
+    document.getElementById("closeBtn").addEventListener("click", () => {
+      window.close();
+      setTimeout(()=>alert("If this didn’t close, your browser blocked it. You can safely close the tab manually."), 300);
+    });
   </script>
 </body>
 </html>
