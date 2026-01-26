@@ -583,6 +583,56 @@
 
       wireSubmit();
       wireBudgetOptions();
+      wireDraftStorage();
+    }
+
+    const DRAFT_KEY = "matchflow_form_draft_v1";
+
+    function wireDraftStorage(){
+      const form = document.getElementById("requestForm");
+      if (!form) return;
+
+      restoreDraft(form);
+
+      form.addEventListener("input", () => saveDraft(form));
+      form.addEventListener("change", () => saveDraft(form));
+    }
+
+    function saveDraft(form){
+      const data = {};
+      const fields = form.querySelectorAll("input, textarea, select");
+      fields.forEach((el) => {
+        if (!el.name) return;
+        if (el.type === "checkbox") data[el.name] = el.checked;
+        else data[el.name] = el.value;
+      });
+      localStorage.setItem(DRAFT_KEY, JSON.stringify(data));
+    }
+
+    function restoreDraft(form){
+      const raw = localStorage.getItem(DRAFT_KEY);
+      if (!raw) return;
+      let data = {};
+      try{ data = JSON.parse(raw) || {}; } catch(e){ return; }
+
+      const serviceSelect = document.getElementById("serviceSelect");
+      const budgetSelect = document.getElementById("budgetSelect");
+
+      if (data.service && serviceSelect) {
+        serviceSelect.value = data.service;
+        serviceSelect.dispatchEvent(new Event("change"));
+      }
+
+      const fields = form.querySelectorAll("input, textarea, select");
+      fields.forEach((el) => {
+        if (!el.name || data[el.name] === undefined) return;
+        if (el.type === "checkbox") el.checked = !!data[el.name];
+        else el.value = data[el.name];
+      });
+
+      if (data.budget_goal && budgetSelect) {
+        budgetSelect.value = data.budget_goal;
+      }
     }
 
     function wireBudgetOptions(){
