@@ -1,295 +1,248 @@
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>About — MatchFlow Home</title>
-
+  <title>About — MatchFlow</title>
   <style>
     :root{
-      --bg:#0b0b0f;
-      --panel:#12121a;
-      --text:#f2f2f7;
-      --muted:#9a9aaa;
-      --line:#232334;
-      --accent:#6ea8ff;
+      --bg:#070A0F;
+      --panel: rgba(255,255,255,.06);
+      --line: rgba(255,255,255,.10);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.68);
+      --accent: #6ea8ff;
+      --accent2:#7cf7c6;
+      --shadow: 0 28px 90px rgba(0,0,0,.55);
+      --r: 22px;
     }
     *{box-sizing:border-box}
+    html,body{height:100%}
     body{
       margin:0;
+      background:
+        radial-gradient(1200px 700px at 50% 18%, rgba(110,168,255,.20), transparent 60%),
+        radial-gradient(900px 600px at 18% 92%, rgba(124,247,198,.14), transparent 58%),
+        radial-gradient(900px 600px at 84% 92%, rgba(255,255,255,.07), transparent 62%),
+        var(--bg);
       color:var(--text);
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
-      line-height:1.75;
-      background:
-        radial-gradient(1200px 600px at 50% 0%, #141423, var(--bg) 60%),
-        var(--bg);
     }
 
-    /* Top bar */
-    header{
-      position:sticky;
-      top:0;
-      z-index:50;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      padding:14px 18px;
-      border-bottom:1px solid var(--line);
-      background:rgba(18,18,26,.72);
-      backdrop-filter: blur(12px);
+    .top{
+      position:sticky; top:0; z-index:5;
+      height:64px;
+      padding:0 18px;
+      display:flex; align-items:center; justify-content:space-between;
+      border-bottom:1px solid rgba(255,255,255,.08);
+      background: rgba(0,0,0,.14);
+      backdrop-filter: blur(10px);
     }
-    .brand{
-      display:flex; align-items:center; gap:10px;
-      font-weight:900; letter-spacing:.01em;
+    .brand{display:flex; align-items:center; gap:10px; min-width:0}
+    .logo{
+      width:34px;height:34px;border-radius:14px;
+      background: linear-gradient(135deg, rgba(110,168,255,.95), rgba(124,247,198,.85));
+      box-shadow: 0 18px 45px rgba(110,168,255,.18);
+      flex:0 0 auto;
     }
-    .dot{
-      width:10px; height:10px; border-radius:999px;
-      background:var(--accent);
-      box-shadow:0 0 18px rgba(110,168,255,.85);
-    }
-    header a{
-      color:var(--text);
+    .brandTxt b{display:block; font-size:14px}
+    .brandTxt span{display:block; font-size:12px; color:var(--muted); margin-top:2px}
+
+    .link{
+      color: rgba(255,255,255,.82);
       text-decoration:none;
-      border:1px solid var(--line);
-      padding:8px 12px;
-      border-radius:999px;
-      font-weight:800;
-    }
-    header a:hover{border-color:#2f2f4a}
-
-    /* Layout */
-    .wrap{max-width:1020px; margin:0 auto; padding:28px 18px 88px;}
-    .hero{
-      padding:44px 0 20px;
-      display:grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap:26px;
-      align-items:center;
-    }
-    .kicker{
-      color:var(--muted);
-      letter-spacing:.12em;
-      text-transform:uppercase;
-      font-size:12px;
-      margin:0 0 10px;
-    }
-    h1{
-      margin:0 0 14px;
-      font-size: clamp(34px, 4.8vw, 56px);
-      line-height:1.06;
-      letter-spacing:-.02em;
-    }
-    .lead{
-      margin:0;
-      color:var(--muted);
-      font-size:18px;
-      max-width:70ch;
-    }
-
-    /* Images */
-    .photo{
-      border-radius:18px;
-      border:1px solid var(--line);
-      overflow:hidden;
-      background:rgba(0,0,0,.25);
-      box-shadow: 0 18px 60px rgba(0,0,0,.45);
-    }
-    .photo img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      display:block;
-      filter:saturate(1.05) contrast(1.05);
-    }
-    .caption{
-      padding:10px 12px;
       font-size:13px;
-      color:var(--muted);
-      border-top:1px solid var(--line);
-      background:rgba(18,18,26,.75);
+      padding:10px 12px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+      transition: transform .12s ease, background .12s ease;
+      white-space:nowrap;
     }
+    .link:hover{transform: translateY(-1px); background: rgba(255,255,255,.07)}
 
-    /* Sections */
-    section{padding:34px 0; border-top:1px solid var(--line);}
-    h2{
-      margin:0 0 10px;
-      font-size:26px;
-      letter-spacing:-.01em;
+    .wrap{width:min(1040px, 94vw); margin:0 auto; padding:18px 0 42px;}
+    .hero{
+      border-radius: var(--r);
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.05);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      margin-top:14px;
     }
-    p{margin:12px 0; color:var(--muted); font-size:17px; max-width:78ch;}
+    .heroImg{
+      height: 270px;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,.70)),
+        url("https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=1400&q=70") center/cover no-repeat;
+    }
+    .heroBody{padding:18px}
+    h1{margin:0 0 8px; font-size:28px; letter-spacing:-.3px}
+    .sub{margin:0; color:var(--muted); font-size:14px; line-height:1.55}
 
-    .split{
+    .grid{
       display:grid;
       grid-template-columns: 1fr 1fr;
-      gap:22px;
-      align-items:start;
-      margin-top:18px;
+      gap:14px;
+      margin-top:14px;
     }
+    @media (max-width: 900px){.grid{grid-template-columns:1fr}}
 
-    /* Simple “how it works” lines (no cards) */
-    .steps{
-      margin-top:16px;
-      border-left:2px solid rgba(110,168,255,.35);
-      padding-left:14px;
+    .card{
+      border-radius: var(--r);
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.05);
+      box-shadow: var(--shadow);
+      overflow:hidden;
     }
-    .steps p{margin:10px 0}
-    .steps b{color:var(--text)}
+    .card img{
+      width:100%;
+      height:180px;
+      object-fit:cover;
+      display:block;
+    }
+    .card .body{padding:16px}
+    .card h2{margin:0 0 8px; font-size:16px}
+    .card p{margin:0; color:var(--muted); font-size:13px; line-height:1.55}
 
-    /* CTA */
     .cta{
-      margin-top:8px;
+      margin-top:14px;
       display:flex;
-      gap:12px;
+      gap:10px;
       flex-wrap:wrap;
     }
     .btn{
+      cursor:pointer;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: rgba(255,255,255,.92);
+      padding:12px 14px;
+      border-radius:16px;
+      font-weight:900;
+      font-size:13px;
+      transition: transform .12s ease, background .12s ease;
+      user-select:none;
+      text-decoration:none;
       display:inline-flex;
       align-items:center;
-      justify-content:center;
-      padding:12px 16px;
-      border-radius:14px;
-      border:1px solid var(--line);
-      text-decoration:none;
-      color:var(--text);
-      font-weight:900;
-      background:transparent;
+      gap:9px;
+      white-space:nowrap;
     }
+    .btn:hover{transform: translateY(-1px); background: rgba(255,255,255,.09)}
     .btn.primary{
-      border-color: rgba(110,168,255,.35);
-      background:linear-gradient(180deg, rgba(110,168,255,.22), rgba(110,168,255,.08));
+      border:none;
+      color:#071018;
+      background: linear-gradient(135deg, rgba(110,168,255,.95), rgba(124,247,198,.80));
     }
-    .btn:hover{filter:brightness(1.06)}
 
-    /* Responsive */
-    @media (max-width: 880px){
-      .hero{grid-template-columns:1fr}
-      .split{grid-template-columns:1fr}
+    .footer{
+      margin-top:16px;
+      color: rgba(255,255,255,.60);
+      font-size:12px;
+      text-align:center;
     }
   </style>
 </head>
 
 <body>
-  <header>
-    <div class="brand"><span class="dot"></span> MatchFlow Home</div>
-    <a href="index.html">Back Home</a>
-  </header>
-
-  <div class="wrap">
-    <!-- HERO -->
-    <div class="hero">
-      <div>
-        <p class="kicker">About MatchFlow Home</p>
-        <h1>Finding the right home service shouldn’t feel like a gamble.</h1>
-        <p class="lead">
-          MatchFlow Home is a homeowner-first matching experience that helps you quickly
-          find the right local provider based on your service need, urgency, and budget —
-          without scrolling endless listings or guessing who to trust.
-        </p>
-        <div class="cta">
-          <a class="btn primary" href="chat.html">Get Matched</a>
-          <a class="btn" href="#how">How it works</a>
-        </div>
-      </div>
-
-      <div class="photo" aria-label="Home cleaning photo">
-        <!-- Replace these image URLs later with your own if you want -->
-        <img
-          src="https://images.unsplash.com/photo-1581579186898-9e7d2f5b4b7f?auto=format&fit=crop&w=1200&q=70"
-          alt="Cleaner wiping a countertop"
-        />
-        <div class="caption">Fast help for cleaning, repairs, and more — matched with clarity.</div>
+  <header class="top">
+    <div class="brand">
+      <div class="logo"></div>
+      <div class="brandTxt">
+        <b>MatchFlow</b>
+        <span>Local connections, simplified.</span>
       </div>
     </div>
+    <div style="display:flex; gap:10px;">
+      <a class="link" href="index.html">Home</a>
+      <a class="link" href="chat.html">Get Matched</a>
+    </div>
+  </header>
 
-    <!-- WHY -->
-    <section>
-      <h2>Why we built MatchFlow Home</h2>
-      <p>
-        Home projects pile up fast. A leaking sink, a breaker that keeps tripping, a room that
-        needs a deep clean — and suddenly you’re hunting for someone reliable. Most people end
-        up bouncing between review sites, calling multiple businesses, waiting for callbacks,
-        and hoping the price and availability line up.
-      </p>
-      <p>
-        We built MatchFlow Home because that process wastes time and creates stress. The right
-        provider exists — you just shouldn’t have to work so hard to find them.
-      </p>
-
-      <div class="split">
-        <div class="photo">
-          <img
-            src="https://images.unsplash.com/photo-1581092335397-9d6cce3a6f85?auto=format&fit=crop&w=1200&q=70"
-            alt="Plumber working under a sink"
-          />
-          <div class="caption">Plumbing help when you need it — matched by urgency and budget.</div>
-        </div>
-
-        <div class="photo">
-          <img
-            src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1200&q=70"
-            alt="Electrician working on wiring"
-          />
-          <div class="caption">Electrical issues are time-sensitive — we prioritize speed and fit.</div>
+  <main class="wrap">
+    <section class="hero">
+      <div class="heroImg" aria-hidden="true"></div>
+      <div class="heroBody">
+        <h1>About MatchFlow</h1>
+        <p class="sub">
+          MatchFlow is a simple way for homeowners to submit a request and get connected to local service providers.
+          Instead of searching through dozens of listings, you send one clear request—with photos if you have them—
+          and we use that to begin outreach and help you get quote ranges that match your situation.
+        </p>
+        <div class="cta">
+          <a class="btn primary" href="chat.html">Start a request →</a>
+          <a class="btn" href="index.html">Back to home</a>
         </div>
       </div>
     </section>
 
-    <!-- HOW IT WORKS -->
-    <section id="how">
-      <h2>How it works</h2>
-      <p>
-        MatchFlow Home uses a guided, chat-style intake that asks the questions that actually
-        matter: what you need, where you are, how urgent it is, and what price range you’re
-        comfortable with. Then we use that information to identify the best-fit provider options
-        from our database.
-      </p>
-
-      <div class="steps">
-        <p><b>1) Tell us what you need.</b> Choose a service type (cleaning, plumbing, electrical, HVAC, lawn, and more).</p>
-        <p><b>2) Set urgency + budget.</b> So we don’t match you with the wrong level of service or price.</p>
-        <p><b>3) Get your best match.</b> We show the top options with clear details (name, rating, price fit, availability).</p>
-        <p><b>4) Submit your request form.</b> Once you confirm, you fill out a request form so we can pass details to the provider.</p>
-      </div>
-    </section>
-
-    <!-- TRUST -->
-    <section>
-      <h2>Trust and transparency</h2>
-      <p>
-        MatchFlow Home is designed to be simple, clear, and honest. We don’t want homeowners
-        guessing what happens next — or feeling pressured. Our goal is to make it obvious
-        why a provider is recommended (service match, budget fit, availability, reliability).
-      </p>
-      <p>
-        Your information is only used to complete your request and share details with the matched
-        provider after you submit. We keep the process straightforward so you always know what’s happening.
-      </p>
-
-      <div class="photo" style="margin-top:18px;">
+    <section class="grid">
+      <article class="card">
         <img
-          src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=1400&q=70"
-          alt="Clean modern home interior"
+          alt="Cleaner working in a home"
+          src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6b3?auto=format&fit=crop&w=1400&q=70"
+          loading="lazy"
         />
-        <div class="caption">Less searching. Less stress. Better matches.</div>
-      </div>
+        <div class="body">
+          <h2>Why we exist</h2>
+          <p>
+            Finding the right provider can take time—especially when you’re dealing with something urgent.
+            MatchFlow helps you send one request with the key details, so providers can respond faster and more accurately.
+          </p>
+        </div>
+      </article>
+
+      <article class="card">
+        <img
+          alt="Handyman tools on a workbench"
+          src="https://images.unsplash.com/photo-1581141849291-1125c7b692b5?auto=format&fit=crop&w=1400&q=70"
+          loading="lazy"
+        />
+        <div class="body">
+          <h2>How quotes work</h2>
+          <p>
+            Exact pricing depends on the provider’s quote after they review the job.
+            We collect your budget goal and details so we can push for options closest to what you’re aiming for.
+          </p>
+        </div>
+      </article>
+
+      <article class="card">
+        <img
+          alt="Plumber working under a sink"
+          src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1400&q=70"
+          loading="lazy"
+        />
+        <div class="body">
+          <h2>Photos help a lot</h2>
+          <p>
+            A couple photos (wide shot + close-up) can save time and reduce back-and-forth.
+            It helps providers estimate more accurately before they show up.
+          </p>
+        </div>
+      </article>
+
+      <article class="card">
+        <img
+          alt="Friendly neighborhood home exterior"
+          src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=1400&q=70"
+          loading="lazy"
+        />
+        <div class="body">
+          <h2>Neighborly, professional</h2>
+          <p>
+            We’re building a cleaner experience that feels trustworthy, simple, and fast.
+            Our goal is to make “getting help” feel less stressful.
+          </p>
+        </div>
+      </article>
     </section>
 
-    <!-- VISION -->
-    <section>
-      <h2>Our long-term vision</h2>
-      <p>
-        We’re building MatchFlow Home to become the most reliable front-door for home services —
-        a place where homeowners can request help in seconds and get matched confidently.
-      </p>
-      <p>
-        Over time, the platform will support more service categories, better availability signals,
-        and smarter follow-ups — while keeping the same promise: fast, accurate matching without the chaos.
-      </p>
+    <div class="footer">© <span id="yr"></span> MatchFlow</div>
+  </main>
 
-      <div class="cta" style="margin-top:18px;">
-        <a class="btn primary" href="chat.html">Start Matching</a>
-        <a class="btn" href="index.html">Go Home</a>
-      </div>
-    </section>
-  </div>
+  <script>
+    document.getElementById("yr").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
