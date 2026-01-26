@@ -3,50 +3,47 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>MatchFlow — Request</title>
+  <title>MatchFlow Home - Request</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     :root{
-      --bg:#070A0F;
-      --panel: rgba(255,255,255,.06);
-      --panel2: rgba(0,0,0,.22);
-      --line: rgba(255,255,255,.10);
-      --text: rgba(255,255,255,.92);
-      --muted: rgba(255,255,255,.68);
-      --accent: #6ea8ff;
-      --accent2:#7cf7c6;
-      --warn: #ffcc66;
-      --shadow: 0 28px 90px rgba(0,0,0,.55);
-      --r: 22px;
+      --navy:#0b1b3b;
+      --teal:#1aa6a0;
+      --orange:#f26c24;
+      --cream:#f8f6f2;
+      --paper:#f3f6f5;
+      --text:#121827;
+      --muted:#546079;
+      --line: rgba(11,27,59,.12);
+      --shadow: 0 26px 60px rgba(11,27,59,.14);
+      --r: 20px;
     }
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
       margin:0;
       background:
-        radial-gradient(1200px 700px at 50% 18%, rgba(110,168,255,.20), transparent 60%),
-        radial-gradient(900px 600px at 18% 92%, rgba(124,247,198,.14), transparent 58%),
-        radial-gradient(900px 600px at 84% 92%, rgba(255,255,255,.07), transparent 62%),
-        var(--bg);
+        radial-gradient(1200px 700px at 5% 0%, rgba(26,166,160,.12), transparent 60%),
+        radial-gradient(900px 600px at 95% 12%, rgba(242,108,36,.12), transparent 62%),
+        linear-gradient(180deg, #fbfaf8 0%, #eef4f3 100%);
       color:var(--text);
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      font-family: "Manrope", "Segoe UI", Arial, sans-serif;
       overflow:hidden;
     }
 
     .top{
-      height:64px;
+      height:70px;
       padding:0 18px;
       display:flex; align-items:center; justify-content:space-between;
-      border-bottom:1px solid rgba(255,255,255,.08);
-      background: rgba(0,0,0,.14);
+      border-bottom:1px solid var(--line);
+      background: rgba(248,246,242,.85);
       position:sticky; top:0;
+      backdrop-filter: blur(10px);
     }
-    .brand{display:flex; align-items:center; gap:10px; min-width:0}
-    .logo{
-      width:34px;height:34px;border-radius:14px;
-      background: linear-gradient(135deg, rgba(110,168,255,.95), rgba(124,247,198,.85));
-      box-shadow: 0 18px 45px rgba(110,168,255,.18);
-      flex:0 0 auto;
-    }
+    .brand{display:flex; align-items:center; gap:12px; min-width:0}
+    .logoImg{width:34px;height:34px; flex:0 0 auto;}
     .brandTxt{min-width:0}
     .brandTxt b{display:block; font-size:14px; letter-spacing:.2px}
     .brandTxt span{
@@ -55,20 +52,20 @@
     }
     .nav{display:flex; align-items:center; gap:10px;}
     .link{
-      color: rgba(255,255,255,.82);
+      color: var(--navy);
       text-decoration:none;
       font-size:13px;
       padding:10px 12px;
       border-radius:14px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.04);
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.7);
       transition: transform .12s ease, background .12s ease;
       white-space:nowrap;
     }
-    .link:hover{transform: translateY(-1px); background: rgba(255,255,255,.07)}
+    .link:hover{transform: translateY(-1px); background: #ffffff}
 
     .layout{
-      height: calc(100% - 64px);
+      height: calc(100% - 70px);
       display:grid;
       grid-template-columns: 380px 1fr;
       gap:14px;
@@ -82,7 +79,7 @@
     .panel{
       border-radius: var(--r);
       border:1px solid var(--line);
-      background: rgba(255,255,255,.05);
+      background: rgba(255,255,255,.88);
       box-shadow: var(--shadow);
       overflow:hidden;
       position:relative;
@@ -90,14 +87,11 @@
 
     /* Left */
     .left{padding:16px}
-    .left h3{margin:0 0 10px; font-size:13px; letter-spacing:.2px}
-    .how{
-      display:grid;
-      gap:10px;
-    }
+    .left h3{margin:0 0 10px; font-size:13px; letter-spacing:.2px; color:var(--navy)}
+    .how{display:grid; gap:10px;}
     .item{
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.16);
+      border:1px solid var(--line);
+      background: rgba(11,27,59,.04);
       border-radius:18px;
       padding:12px 12px;
       display:flex;
@@ -106,64 +100,59 @@
     }
     .tick{
       width:18px;height:18px;border-radius:7px;
-      background: rgba(124,247,198,.14);
-      border:1px solid rgba(124,247,198,.32);
+      background: rgba(26,166,160,.16);
+      border:1px solid rgba(26,166,160,.4);
       display:flex; align-items:center; justify-content:center;
       flex:0 0 auto;
       margin-top:1px;
       font-weight:900;
-      color: rgba(124,247,198,.95);
+      color: var(--teal);
       font-size:12px;
     }
-    .item b{display:block; font-size:13px; margin-bottom:2px}
+    .item b{display:block; font-size:13px; margin-bottom:2px; color:var(--navy)}
     .item span{display:block; font-size:12px; color:var(--muted); line-height:1.35}
 
     .tip{
       margin-top:12px;
       padding:12px 12px;
       border-radius:18px;
-      border:1px dashed rgba(255,255,255,.18);
-      background: rgba(0,0,0,.14);
-      color: rgba(255,255,255,.84);
+      border:1px dashed rgba(11,27,59,.22);
+      background: rgba(11,27,59,.04);
+      color: var(--navy);
       font-size:12px;
       line-height:1.45;
     }
 
     /* Right chat */
-    .right{
-      display:flex;
-      flex-direction:column;
-      min-height: 560px;
-      height:100%;
-    }
+    .right{display:flex; flex-direction:column; min-height: 560px; height:100%;}
 
     .chatTop{
       padding:14px 14px;
-      border-bottom:1px solid rgba(255,255,255,.08);
+      border-bottom:1px solid var(--line);
       display:flex;
       align-items:center;
       justify-content:space-between;
       gap:12px;
-      background: rgba(0,0,0,.14);
+      background: rgba(255,255,255,.9);
     }
-    .stepWrap b{display:block; font-size:13px}
+    .stepWrap b{display:block; font-size:13px; color:var(--navy)}
     .stepWrap span{display:block; font-size:12px; color:var(--muted); margin-top:2px}
     .progWrap{display:flex; align-items:center; gap:10px}
     .bar{
       width:190px; height:10px;
       border-radius:999px;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(0,0,0,.18);
+      border:1px solid var(--line);
+      background: rgba(11,27,59,.06);
       overflow:hidden;
     }
     .fill{
       height:100%;
       width:0%;
-      background: linear-gradient(90deg, rgba(110,168,255,.95), rgba(124,247,198,.80));
+      background: linear-gradient(90deg, var(--teal), var(--orange));
       border-radius:999px;
       transition: width .65s ease;
     }
-    .pct{font-size:12px; color: rgba(255,255,255,.80); white-space:nowrap}
+    .pct{font-size:12px; color: var(--navy); white-space:nowrap}
 
     .chat{
       flex:1;
@@ -173,7 +162,7 @@
       flex-direction:column;
       gap:10px;
       scroll-behavior:smooth;
-      background: linear-gradient(180deg, rgba(255,255,255,.02), transparent 25%);
+      background: linear-gradient(180deg, rgba(11,27,59,.02), transparent 25%);
     }
     .row{display:flex; gap:10px; align-items:flex-end; animation: pop .22s ease both;}
     @keyframes pop{from{transform:translateY(6px); opacity:0}to{transform:translateY(0); opacity:1}}
@@ -181,36 +170,36 @@
     .avatar{
       width:30px;height:30px;border-radius:12px;
       display:flex; align-items:center; justify-content:center;
-      font-weight:900; font-size:12px;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(0,0,0,.22);
-      color: rgba(255,255,255,.78);
+      font-weight:900; font-size:11px;
+      border:1px solid var(--line);
+      background: rgba(11,27,59,.06);
+      color: var(--navy);
       flex:0 0 auto;
     }
     .avatar.bot{
-      border-color: rgba(110,168,255,.22);
-      background: rgba(110,168,255,.12);
-      color: rgba(110,168,255,.95);
+      border-color: rgba(26,166,160,.3);
+      background: rgba(26,166,160,.12);
+      color: var(--teal);
     }
     .bubble{
       max-width: 78%;
       padding:12px 14px;
       border-radius: 18px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.22);
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.9);
       line-height:1.35;
       font-size:13px;
       white-space:pre-wrap;
     }
     .row.user .bubble{
-      background: rgba(110,168,255,.16);
-      border-color: rgba(110,168,255,.25);
+      background: rgba(26,166,160,.12);
+      border-color: rgba(26,166,160,.25);
     }
 
     .typing{display:inline-flex; gap:6px; align-items:center;}
     .typing i{
       width:7px;height:7px;border-radius:50%;
-      background: rgba(255,255,255,.62);
+      background: rgba(11,27,59,.5);
       display:inline-block;
       animation: bounce 1s infinite ease-in-out;
     }
@@ -222,22 +211,22 @@
       width:100%;
       max-width:78%;
       border-radius:18px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.22);
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.92);
       padding:14px;
     }
-    .card h4{margin:0 0 6px; font-size:14px}
+    .card h4{margin:0 0 6px; font-size:14px; color:var(--navy)}
     .card p{margin:0 0 12px; font-size:12px; color:var(--muted); line-height:1.45}
 
     .btnRow{display:flex; gap:10px; flex-wrap:wrap;}
     .btn{
       cursor:pointer;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.06);
-      color: rgba(255,255,255,.92);
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.9);
+      color: var(--navy);
       padding:11px 14px;
       border-radius:16px;
-      font-weight:900;
+      font-weight:700;
       font-size:13px;
       transition: transform .12s ease, background .12s ease;
       user-select:none;
@@ -247,15 +236,17 @@
       gap:9px;
       white-space:nowrap;
     }
-    .btn:hover{transform: translateY(-1px); background: rgba(255,255,255,.09)}
+    .btn:hover{transform: translateY(-1px); background: #ffffff}
     .btn.primary{
       border:none;
-      color:#071018;
-      background: linear-gradient(135deg, rgba(110,168,255,.95), rgba(124,247,198,.80));
+      color:#fff;
+      background: linear-gradient(135deg, var(--teal), var(--orange));
+      box-shadow: 0 10px 24px rgba(26,166,160,.25);
     }
     .btn.warn{
-      border-color: rgba(255,204,102,.30);
-      background: rgba(255,204,102,.12);
+      border-color: rgba(242,108,36,.35);
+      background: rgba(242,108,36,.12);
+      color: var(--navy);
     }
     .btn[disabled]{opacity:.55; cursor:not-allowed; transform:none}
 
@@ -264,17 +255,17 @@
       margin-top:8px;
       padding:10px 10px;
       border-radius:14px;
-      border:1px solid rgba(255,255,255,.08);
-      background: rgba(0,0,0,.12);
+      border:1px solid var(--line);
+      background: rgba(11,27,59,.04);
     }
 
     /* Form */
     form{width:100%}
-    label{display:block; font-size:12px; color:rgba(255,255,255,.86); margin:10px 0 6px}
+    label{display:block; font-size:12px; color:var(--navy); margin:10px 0 6px}
     input, textarea, select{
       width:100%;
-      background: rgba(0,0,0,.22);
-      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.9);
+      border:1px solid var(--line);
       border-radius:12px;
       padding:10px 10px;
       color:var(--text);
@@ -291,12 +282,12 @@
       gap:10px;
       margin-top:10px;
       font-size:12px;
-      color: rgba(255,255,255,.74);
+      color: var(--muted);
     }
     .spin{
       width:16px;height:16px;border-radius:50%;
-      border:2px solid rgba(255,255,255,.18);
-      border-top-color: rgba(124,247,198,.85);
+      border:2px solid rgba(11,27,59,.18);
+      border-top-color: var(--teal);
       animation: spin .85s linear infinite;
     }
     @keyframes spin{to{transform:rotate(360deg)}}
@@ -306,10 +297,10 @@
 <body>
   <header class="top">
     <div class="brand">
-      <div class="logo"></div>
+      <img class="logoImg" src="assets/logo.svg" alt="MatchFlow Home logo" />
       <div class="brandTxt">
-        <b>MatchFlow</b>
-        <span>Upload photos → submit request → we reach out for quote ranges</span>
+        <b>MatchFlow Home</b>
+        <span>Upload photos, submit your request, and we handle the matching</span>
       </div>
     </div>
     <nav class="nav">
@@ -323,21 +314,21 @@
       <h3>What happens next</h3>
       <div class="how">
         <div class="item">
-          <div class="tick">✓</div>
-          <div><b>Upload photos</b><span>Optional, but helps providers estimate more accurately.</span></div>
+          <div class="tick">OK</div>
+          <div><b>Upload photos</b><span>Optional, but it helps providers estimate more accurately.</span></div>
         </div>
         <div class="item">
-          <div class="tick">✓</div>
+          <div class="tick">OK</div>
           <div><b>Submit your request</b><span>We collect the key details and start outreach.</span></div>
         </div>
         <div class="item">
-          <div class="tick">✓</div>
-          <div><b>Quote-based pricing</b><span>Final price comes from provider quotes. We aim near your goal.</span></div>
+          <div class="tick">OK</div>
+          <div><b>Three options</b><span>We aim to send three choices within 2-3 days.</span></div>
         </div>
       </div>
 
       <div class="tip">
-        <b>Tip:</b> When Dropbox asks for a name, use the same name you’ll enter on the form.
+        <b>Tip:</b> When Dropbox asks for a name, use the same name you enter on the form.
         That helps us match photos to your request quickly.
       </div>
     </aside>
@@ -345,8 +336,8 @@
     <section class="panel right">
       <div class="chatTop">
         <div class="stepWrap">
-          <b id="stepTitle">Step 1 of 2 — Photos</b>
-          <span id="stepSub">Takes about 30–60 seconds.</span>
+          <b id="stepTitle">Step 1 of 2 - Photos</b>
+          <span id="stepSub">Takes about 30-60 seconds.</span>
         </div>
         <div class="progWrap">
           <div class="bar"><div class="fill" id="fill"></div></div>
@@ -436,7 +427,7 @@
     }
 
     function photoStep(){
-      stepTitle.textContent = "Step 1 of 2 — Photos";
+      stepTitle.textContent = "Step 1 of 2 - Photos";
       stepSub.textContent = "Optional, but helps a lot.";
       setProgress(0);
 
@@ -444,10 +435,10 @@
         <div class="card">
           <h4>Upload photos first</h4>
           <p>
-            If you can, upload 1–5 photos (wide shot + close-up). It helps providers estimate faster and more accurately.
+            If you can, upload 1-5 photos (wide shot + close-up). It helps providers estimate faster and more accurately.
           </p>
           <div class="btnRow">
-            <a class="btn primary" id="uploadBtn" href="${DROPBOX_LINK}" target="_blank" rel="noreferrer">Upload photos ↗</a>
+            <a class="btn primary" id="uploadBtn" href="${DROPBOX_LINK}" target="_blank" rel="noreferrer">Upload photos -></a>
             <button class="btn warn" id="skipBtn" type="button">Skip</button>
           </div>
         </div>
@@ -455,18 +446,18 @@
 
       addMsg(`
         <div class="card">
-          <h4>When you’re done</h4>
+          <h4>When you are done</h4>
           <p>Come back here, check the box, and continue.</p>
 
           <div class="checkboxRow">
-            <input id="done" type="checkbox" style="width:18px;height:18px; accent-color: var(--accent2);" />
-            <label for="done" style="margin:0; font-size:13px; color:rgba(255,255,255,.88);">
-              I uploaded my photos (or I’m skipping)
+            <input id="done" type="checkbox" style="width:18px;height:18px; accent-color: var(--teal);" />
+            <label for="done" style="margin:0; font-size:13px; color:var(--navy);">
+              I uploaded my photos (or I am skipping)
             </label>
           </div>
 
           <div class="btnRow" style="margin-top:12px;">
-            <button class="btn primary" id="continueBtn" type="button" disabled>Continue →</button>
+            <button class="btn primary" id="continueBtn" type="button" disabled>Continue -></button>
           </div>
         </div>
       `, "bot", true);
@@ -477,7 +468,7 @@
       const continueBtn = document.getElementById("continueBtn");
 
       uploadBtn.addEventListener("click", () => {
-        addMsg("Opening photo upload…", "user");
+        addMsg("Opening photo upload...", "user");
         startSimProgress();
       });
 
@@ -494,14 +485,14 @@
 
       continueBtn.addEventListener("click", async () => {
         finishProgress();
-        addMsg("Continuing…", "user");
+        addMsg("Continuing...", "user");
         await sleep(250);
         formStep();
       });
     }
 
     function formStep(){
-      stepTitle.textContent = "Step 2 of 2 — Request";
+      stepTitle.textContent = "Step 2 of 2 - Request";
       stepSub.textContent = "Quick form, then we start outreach.";
       setProgress(100);
 
@@ -509,7 +500,7 @@
         <div class="card">
           <h4>Request form</h4>
           <p>
-            Fill this out and submit. Pricing is quote-based—providers decide exact cost after reviewing your details.
+            Fill this out and submit. Pricing is quote-based. Providers decide exact cost after reviewing your details.
           </p>
 
           <form id="requestForm" action="${FORMSPREE_ACTION}" method="POST">
@@ -567,28 +558,28 @@
             <select name="budget_goal" required>
               <option value="" selected disabled>Select one</option>
               <option>Under $250</option>
-              <option>$250–$750</option>
-              <option>$750–$1,500</option>
-              <option>$1,500–$3,000</option>
-              <option>$3,000–$7,500</option>
+              <option>$250-$750</option>
+              <option>$750-$1,500</option>
+              <option>$1,500-$3,000</option>
+              <option>$3,000-$7,500</option>
               <option>$7,500+</option>
               <option>Not sure</option>
             </select>
 
             <label>Describe what you need</label>
-            <textarea name="message" required placeholder="Describe the issue, where it is, and anything important…"></textarea>
+            <textarea name="message" required placeholder="Describe the issue, where it is, and anything important..."></textarea>
 
-            <div style="margin-top:10px; color: rgba(255,255,255,.70); font-size:12px; line-height:1.45;">
+            <div style="margin-top:10px; color: var(--muted); font-size:12px; line-height:1.45;">
               <b>Note:</b> Photo upload happens in Dropbox. Please make sure you uploaded photos before submitting this form.
             </div>
 
             <div class="btnRow" style="justify-content:flex-end; margin-top:12px;">
-              <button class="btn primary" id="submitBtn" type="submit">Submit →</button>
+              <button class="btn primary" id="submitBtn" type="submit">Submit -></button>
             </div>
 
             <div class="sendStatus" id="sendStatus">
               <span class="spin"></span>
-              <span id="sendText">Sending your request…</span>
+              <span id="sendText">Sending your request...</span>
             </div>
           </form>
         </div>
@@ -607,9 +598,9 @@
         e.preventDefault();
 
         submitBtn.disabled = true;
-        submitBtn.textContent = "Sending…";
+        submitBtn.textContent = "Sending...";
         sendStatus.style.display = "flex";
-        sendText.textContent = "Sending your request…";
+        sendText.textContent = "Sending your request...";
 
         const t = addTyping();
 
@@ -628,28 +619,28 @@
           t.remove();
 
           if(res.ok){
-            await botSay("Got it ✅ We received your request.");
-            await botSay("Sending you to a quick processing screen…");
+            await botSay("Got it OK We received your request.");
+            await botSay("Sending you to a quick processing screen...");
             await sleep(650);
             window.location.href = "processing.html";
           } else {
             submitBtn.disabled = false;
-            submitBtn.textContent = "Submit →";
+            submitBtn.textContent = "Submit ->";
             sendText.textContent = "Something went wrong. Please try again.";
           }
         } catch(err){
           t.remove();
           submitBtn.disabled = false;
-          submitBtn.textContent = "Submit →";
+          submitBtn.textContent = "Submit ->";
           sendText.textContent = "Network error. Please try again.";
         }
       });
     }
 
     (async function init(){
-      await botSay("Hey 👋 I’m MatchFlow. I’ll help you submit a service request quickly.");
-      await botSay("First we’ll upload photos (optional), then a short form.");
-      await botSay("Let’s do it.");
+      await botSay("Hi, I am MatchFlow. I will help you submit a service request quickly.");
+      await botSay("First we will upload photos (optional), then a short form.");
+      await botSay("Let's do it.");
       photoStep();
     })();
   </script>

@@ -3,122 +3,170 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>About — MatchFlow</title>
+  <title>About - MatchFlow Home</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     :root{
-      --bg:#070A0F;
-      --panel: rgba(255,255,255,.06);
-      --line: rgba(255,255,255,.10);
-      --text: rgba(255,255,255,.92);
-      --muted: rgba(255,255,255,.68);
-      --accent: #6ea8ff;
-      --accent2:#7cf7c6;
-      --shadow: 0 28px 90px rgba(0,0,0,.55);
-      --r: 22px;
+      --navy:#0b1b3b;
+      --teal:#1aa6a0;
+      --orange:#f26c24;
+      --cream:#f8f6f2;
+      --paper:#f3f6f5;
+      --text:#121827;
+      --muted:#546079;
+      --line: rgba(11,27,59,.12);
+      --shadow: 0 26px 60px rgba(11,27,59,.14);
+      --r: 20px;
     }
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
       margin:0;
       background:
-        radial-gradient(1200px 700px at 50% 18%, rgba(110,168,255,.20), transparent 60%),
-        radial-gradient(900px 600px at 18% 92%, rgba(124,247,198,.14), transparent 58%),
-        radial-gradient(900px 600px at 84% 92%, rgba(255,255,255,.07), transparent 62%),
-        var(--bg);
+        radial-gradient(1200px 700px at 5% 0%, rgba(26,166,160,.12), transparent 60%),
+        radial-gradient(900px 600px at 95% 12%, rgba(242,108,36,.12), transparent 62%),
+        linear-gradient(180deg, #fbfaf8 0%, #eef4f3 100%);
       color:var(--text);
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      font-family: "Manrope", "Segoe UI", Arial, sans-serif;
     }
 
     .top{
       position:sticky; top:0; z-index:5;
-      height:64px;
+      height:70px;
       padding:0 18px;
       display:flex; align-items:center; justify-content:space-between;
-      border-bottom:1px solid rgba(255,255,255,.08);
-      background: rgba(0,0,0,.14);
+      border-bottom:1px solid var(--line);
+      background: rgba(248,246,242,.85);
       backdrop-filter: blur(10px);
     }
-    .brand{display:flex; align-items:center; gap:10px; min-width:0}
-    .logo{
-      width:34px;height:34px;border-radius:14px;
-      background: linear-gradient(135deg, rgba(110,168,255,.95), rgba(124,247,198,.85));
-      box-shadow: 0 18px 45px rgba(110,168,255,.18);
-      flex:0 0 auto;
-    }
+    .brand{display:flex; align-items:center; gap:12px; min-width:0}
+    .logoImg{width:36px;height:36px; flex:0 0 auto;}
     .brandTxt b{display:block; font-size:14px}
     .brandTxt span{display:block; font-size:12px; color:var(--muted); margin-top:2px}
 
     .link{
-      color: rgba(255,255,255,.82);
+      color: var(--navy);
       text-decoration:none;
       font-size:13px;
       padding:10px 12px;
       border-radius:14px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.04);
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.7);
       transition: transform .12s ease, background .12s ease;
       white-space:nowrap;
     }
-    .link:hover{transform: translateY(-1px); background: rgba(255,255,255,.07)}
+    .link:hover{transform: translateY(-1px); background: #ffffff}
 
-    .wrap{width:min(1040px, 94vw); margin:0 auto; padding:18px 0 42px;}
+    .wrap{width:min(1080px, 94vw); margin:0 auto; padding:20px 0 46px;}
+
     .hero{
-      border-radius: var(--r);
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.05);
-      box-shadow: var(--shadow);
-      overflow:hidden;
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap:16px;
       margin-top:14px;
     }
-    .heroImg{
-      height: 270px;
-      background:
-        linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,.70)),
-        url("https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=1400&q=70") center/cover no-repeat;
+    @media (max-width: 980px){.hero{grid-template-columns:1fr}}
+
+    .panel{
+      border-radius: var(--r);
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.88);
+      box-shadow: var(--shadow);
+      overflow:hidden;
     }
-    .heroBody{padding:18px}
-    h1{margin:0 0 8px; font-size:28px; letter-spacing:-.3px}
-    .sub{margin:0; color:var(--muted); font-size:14px; line-height:1.55}
+    .heroText{padding:22px}
+    h1{
+      margin:0 0 8px;
+      font-size:30px;
+      letter-spacing:-.3px;
+      font-family: "Fraunces", "Georgia", serif;
+      color: var(--navy);
+    }
+    .sub{margin:0; color:var(--muted); font-size:14px; line-height:1.6}
+
+    .heroArt{
+      background:
+        radial-gradient(400px 240px at 20% 0%, rgba(26,166,160,.18), transparent 60%),
+        radial-gradient(300px 200px at 90% 10%, rgba(242,108,36,.18), transparent 60%),
+        #ffffff;
+      display:grid;
+      place-items:center;
+      padding:22px;
+      min-height: 240px;
+      position:relative;
+    }
+    .logoBig{width:min(220px, 55%); height:auto;}
+    .stamp{
+      position:absolute;
+      right:16px; bottom:16px;
+      width:56px; height:56px;
+      border-radius:16px;
+      border:1px solid var(--line);
+      background:#fff;
+      display:grid; place-items:center;
+    }
+    .stamp img{width:40px; height:40px;}
 
     .grid{
       display:grid;
       grid-template-columns: 1fr 1fr;
       gap:14px;
-      margin-top:14px;
+      margin-top:16px;
     }
     @media (max-width: 900px){.grid{grid-template-columns:1fr}}
 
     .card{
       border-radius: var(--r);
       border:1px solid var(--line);
-      background: rgba(255,255,255,.05);
+      background: rgba(255,255,255,.88);
       box-shadow: var(--shadow);
       overflow:hidden;
     }
-    .card img{
-      width:100%;
-      height:180px;
-      object-fit:cover;
-      display:block;
-    }
+    .card img{width:100%; height:200px; object-fit:cover; display:block; background:#fff;}
     .card .body{padding:16px}
-    .card h2{margin:0 0 8px; font-size:16px}
+    .card h2{margin:0 0 8px; font-size:16px; color:var(--navy)}
     .card p{margin:0; color:var(--muted); font-size:13px; line-height:1.55}
 
+    .how{
+      margin-top:16px;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:14px;
+    }
+    @media (max-width: 900px){.how{grid-template-columns:1fr}}
+    .step{
+      border-radius:18px;
+      border:1px solid var(--line);
+      background: rgba(11,27,59,.04);
+      padding:14px;
+      display:flex; gap:10px; align-items:flex-start;
+    }
+    .num{
+      width:26px; height:26px; border-radius:9px;
+      background: rgba(26,166,160,.16);
+      color: var(--teal);
+      display:grid; place-items:center;
+      font-weight:800; font-size:12px; flex:0 0 auto;
+    }
+    .step b{display:block; font-size:13px; margin-bottom:4px; color:var(--navy)}
+    .step span{display:block; font-size:12px; color:var(--muted); line-height:1.45}
+
     .cta{
-      margin-top:14px;
+      margin-top:16px;
       display:flex;
       gap:10px;
       flex-wrap:wrap;
     }
     .btn{
       cursor:pointer;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.06);
-      color: rgba(255,255,255,.92);
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.9);
+      color: var(--navy);
       padding:12px 14px;
       border-radius:16px;
-      font-weight:900;
+      font-weight:700;
       font-size:13px;
       transition: transform .12s ease, background .12s ease;
       user-select:none;
@@ -128,16 +176,17 @@
       gap:9px;
       white-space:nowrap;
     }
-    .btn:hover{transform: translateY(-1px); background: rgba(255,255,255,.09)}
+    .btn:hover{transform: translateY(-1px); background: #ffffff}
     .btn.primary{
       border:none;
-      color:#071018;
-      background: linear-gradient(135deg, rgba(110,168,255,.95), rgba(124,247,198,.80));
+      color:#fff;
+      background: linear-gradient(135deg, var(--teal), var(--orange));
+      box-shadow: 0 10px 24px rgba(26,166,160,.25);
     }
 
     .footer{
-      margin-top:16px;
-      color: rgba(255,255,255,.60);
+      margin-top:18px;
+      color: var(--muted);
       font-size:12px;
       text-align:center;
     }
@@ -147,9 +196,9 @@
 <body>
   <header class="top">
     <div class="brand">
-      <div class="logo"></div>
+      <img class="logoImg" src="assets/logo.svg" alt="MatchFlow Home logo" />
       <div class="brandTxt">
-        <b>MatchFlow</b>
+        <b>MatchFlow Home</b>
         <span>Local connections, simplified.</span>
       </div>
     </div>
@@ -161,84 +210,114 @@
 
   <main class="wrap">
     <section class="hero">
-      <div class="heroImg" aria-hidden="true"></div>
-      <div class="heroBody">
-        <h1>About MatchFlow</h1>
+      <div class="panel heroText">
+        <h1>Hi, my name is Rudra.</h1>
         <p class="sub">
-          MatchFlow is a simple way for homeowners to submit a request and get connected to local service providers.
-          Instead of searching through dozens of listings, you send one clear request—with photos if you have them—
-          and we use that to begin outreach and help you get quote ranges that match your situation.
+          I built MatchFlow Home after seeing the same problem on platforms like Facebook and Nextdoor.
+          When a homeowner asks for help, dozens of replies turn into ads, and people have to scroll for hours
+          to find the right business. I wanted a calmer, clearer way to match homeowners with the right pros.
+        </p>
+        <p class="sub" style="margin-top:10px;">
+          MatchFlow Home lets you submit one request with photos and details. We share only what providers need
+          to quote the job. We do not sell your information.
         </p>
         <div class="cta">
-          <a class="btn primary" href="chat.html">Start a request →</a>
+          <a class="btn primary" href="chat.html">Start a request -></a>
           <a class="btn" href="index.html">Back to home</a>
+        </div>
+      </div>
+      <div class="panel heroArt">
+        <img class="logoBig" src="assets/logo.svg" alt="MatchFlow Home logo" />
+        <div class="stamp"><img src="assets/logo.svg" alt="" aria-hidden="true" /></div>
+      </div>
+    </section>
+
+    <section class="panel" style="padding:18px; margin-top:16px;">
+      <h1 style="font-size:22px; margin:0 0 8px;">How it works</h1>
+      <p class="sub" style="margin:0 0 10px;">
+        Fill out the form, upload photos, and submit your request. One of our 7 team members will review it,
+        email you for any quick clarifications, and start matching. If you give us 2-3 days, we will send you
+        three options that fit your budget. Then we connect you by email and phone so you can take it from there.
+        The best part is it is completely free for homeowners.
+      </p>
+      <div class="how">
+        <div class="step">
+          <div class="num">1</div>
+          <div>
+            <b>Submit one clear request</b>
+            <span>Share the issue, your budget, and a couple photos if you can.</span>
+          </div>
+        </div>
+        <div class="step">
+          <div class="num">2</div>
+          <div>
+            <b>We organize and verify</b>
+            <span>A team member reviews your details and reaches out by email if needed.</span>
+          </div>
+        </div>
+        <div class="step">
+          <div class="num">3</div>
+          <div>
+            <b>Three options in 2-3 days</b>
+            <span>We send you three businesses that match your needs and budget.</span>
+          </div>
+        </div>
+        <div class="step">
+          <div class="num">4</div>
+          <div>
+            <b>Direct connection</b>
+            <span>We connect you by email and phone so you can finalize details directly.</span>
+          </div>
         </div>
       </div>
     </section>
 
     <section class="grid">
       <article class="card">
-        <img
-          alt="Cleaner working in a home"
-          src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6b3?auto=format&fit=crop&w=1400&q=70"
-          loading="lazy"
-        />
+        <img alt="Neighborly connections" src="assets/about-1.svg" loading="lazy" />
         <div class="body">
-          <h2>Why we exist</h2>
+          <h2>Why I built this</h2>
           <p>
-            Finding the right provider can take time—especially when you’re dealing with something urgent.
-            MatchFlow helps you send one request with the key details, so providers can respond faster and more accurately.
+            Homeowners deserve a fast, low stress way to find help. MatchFlow keeps the request simple and
+            keeps the noise out of the process.
           </p>
         </div>
       </article>
 
       <article class="card">
-        <img
-          alt="Handyman tools on a workbench"
-          src="https://images.unsplash.com/photo-1581141849291-1125c7b692b5?auto=format&fit=crop&w=1400&q=70"
-          loading="lazy"
-        />
+        <img alt="Privacy first" src="assets/about-2.svg" loading="lazy" />
         <div class="body">
-          <h2>How quotes work</h2>
+          <h2>Your info stays yours</h2>
           <p>
-            Exact pricing depends on the provider’s quote after they review the job.
-            We collect your budget goal and details so we can push for options closest to what you’re aiming for.
+            We do not sell your information. We share only the request details and photos with businesses that
+            can take the job.
           </p>
         </div>
       </article>
 
       <article class="card">
-        <img
-          alt="Plumber working under a sink"
-          src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1400&q=70"
-          loading="lazy"
-        />
+        <img alt="Team process" src="assets/about-3.svg" loading="lazy" />
         <div class="body">
-          <h2>Photos help a lot</h2>
+          <h2>Real people review every request</h2>
           <p>
-            A couple photos (wide shot + close-up) can save time and reduce back-and-forth.
-            It helps providers estimate more accurately before they show up.
+            Our 7 person team makes sure your request is clear and reaches the right providers quickly.
           </p>
         </div>
       </article>
 
       <article class="card">
-        <img
-          alt="Friendly neighborhood home exterior"
-          src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=1400&q=70"
-          loading="lazy"
-        />
+        <img alt="Three options" src="assets/about-4.svg" loading="lazy" />
         <div class="body">
-          <h2>Neighborly, professional</h2>
+          <h2>Three options to choose from</h2>
           <p>
-            We’re building a cleaner experience that feels trustworthy, simple, and fast.
-            Our goal is to make “getting help” feel less stressful.
+            Within a couple days, we send you three options that match your budget and timing so you can pick
+            the best fit.
           </p>
         </div>
       </article>
     </section>
 
-    <div class="footer">© <span id="yr"></span> MatchFlow</div>
+    <div class="footer">(c) <span id="yr"></span> MatchFlow Home</div>
   </main>
 
   <script>

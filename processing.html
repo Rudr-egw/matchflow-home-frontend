@@ -3,40 +3,43 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>MatchFlow — Processing</title>
+  <title>MatchFlow Home - Processing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     :root{
-      --bg:#070A0F;
-      --panel: rgba(255,255,255,.06);
-      --line: rgba(255,255,255,.10);
-      --text: rgba(255,255,255,.92);
-      --muted: rgba(255,255,255,.68);
-      --accent: #6ea8ff;
-      --accent2:#7cf7c6;
-      --shadow: 0 28px 90px rgba(0,0,0,.55);
-      --r: 22px;
+      --navy:#0b1b3b;
+      --teal:#1aa6a0;
+      --orange:#f26c24;
+      --cream:#f8f6f2;
+      --paper:#f3f6f5;
+      --text:#121827;
+      --muted:#546079;
+      --line: rgba(11,27,59,.12);
+      --shadow: 0 26px 60px rgba(11,27,59,.14);
+      --r: 20px;
     }
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
       margin:0;
       background:
-        radial-gradient(1200px 700px at 50% 18%, rgba(110,168,255,.20), transparent 60%),
-        radial-gradient(900px 600px at 18% 92%, rgba(124,247,198,.14), transparent 58%),
-        radial-gradient(900px 600px at 84% 92%, rgba(255,255,255,.07), transparent 62%),
-        var(--bg);
+        radial-gradient(1200px 700px at 5% 0%, rgba(26,166,160,.12), transparent 60%),
+        radial-gradient(900px 600px at 95% 12%, rgba(242,108,36,.12), transparent 62%),
+        linear-gradient(180deg, #fbfaf8 0%, #eef4f3 100%);
       color:var(--text);
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      font-family: "Manrope", "Segoe UI", Arial, sans-serif;
       overflow:hidden;
       display:grid;
       place-items:center;
       padding:22px;
     }
     .card{
-      width:min(860px, 100%);
+      width:min(900px, 100%);
       border-radius: var(--r);
       border:1px solid var(--line);
-      background: rgba(255,255,255,.05);
+      background: rgba(255,255,255,.88);
       box-shadow: var(--shadow);
       overflow:hidden;
       position:relative;
@@ -44,16 +47,13 @@
     .top{
       padding:18px 18px 12px;
       display:flex; align-items:center; justify-content:space-between;
-      border-bottom:1px solid rgba(255,255,255,.08);
-      background: rgba(0,0,0,.14);
+      border-bottom:1px solid var(--line);
+      background: rgba(248,246,242,.85);
+      backdrop-filter: blur(10px);
     }
-    .brand{display:flex; align-items:center; gap:10px}
-    .logo{
-      width:34px;height:34px;border-radius:14px;
-      background: linear-gradient(135deg, rgba(110,168,255,.95), rgba(124,247,198,.85));
-      box-shadow: 0 18px 45px rgba(110,168,255,.18);
-    }
-    .brand b{display:block; font-size:14px}
+    .brand{display:flex; align-items:center; gap:12px}
+    .logoImg{width:34px;height:34px;}
+    .brand b{display:block; font-size:14px; color:var(--navy)}
     .brand span{display:block; font-size:12px; color:var(--muted); margin-top:2px}
 
     .body{
@@ -67,14 +67,16 @@
 
     .pane{
       border-radius: 18px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.16);
+      border:1px solid var(--line);
+      background: rgba(11,27,59,.04);
       padding:16px;
     }
     h1{
       margin:0 0 6px;
       font-size:20px;
       letter-spacing:-.2px;
+      font-family: "Fraunces", "Georgia", serif;
+      color: var(--navy);
     }
     .sub{margin:0; color:var(--muted); font-size:13px; line-height:1.45}
 
@@ -84,8 +86,8 @@
     }
     .spin{
       width:18px;height:18px;border-radius:50%;
-      border:2px solid rgba(255,255,255,.18);
-      border-top-color: rgba(124,247,198,.85);
+      border:2px solid rgba(11,27,59,.18);
+      border-top-color: var(--teal);
       animation: spin .85s linear infinite;
     }
     @keyframes spin{to{transform:rotate(360deg)}}
@@ -93,7 +95,7 @@
     .eta{
       margin-top:10px;
       font-size:12px;
-      color: rgba(255,255,255,.74);
+      color: var(--muted);
     }
 
     .steps{
@@ -102,30 +104,30 @@
       gap:10px;
     }
     .step{
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.04);
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.8);
       border-radius: 16px;
       padding:12px 12px;
       display:flex; gap:10px; align-items:flex-start;
     }
     .dot{
       width:10px;height:10px;border-radius:50%;
-      background: rgba(255,255,255,.20);
-      box-shadow: 0 0 0 4px rgba(255,255,255,.06);
+      background: rgba(11,27,59,.2);
+      box-shadow: 0 0 0 4px rgba(11,27,59,.06);
       margin-top:4px;
       flex:0 0 auto;
     }
     .step.done .dot{
-      background: var(--accent2);
-      box-shadow: 0 0 0 4px rgba(124,247,198,.12);
+      background: var(--teal);
+      box-shadow: 0 0 0 4px rgba(26,166,160,.12);
     }
     .step.active .dot{
-      background: var(--accent);
-      box-shadow: 0 0 0 4px rgba(110,168,255,.12);
+      background: var(--orange);
+      box-shadow: 0 0 0 4px rgba(242,108,36,.12);
       animation: pulse 1.6s infinite ease-in-out;
     }
     @keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(.86);opacity:.7}}
-    .step b{display:block; font-size:13px; margin-bottom:2px}
+    .step b{display:block; font-size:13px; margin-bottom:2px; color:var(--navy)}
     .step span{display:block; font-size:12px; color:var(--muted); line-height:1.35}
 
     .actions{
@@ -136,12 +138,12 @@
     }
     .btn{
       cursor:pointer;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.06);
-      color: rgba(255,255,255,.92);
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.9);
+      color: var(--navy);
       padding:11px 14px;
       border-radius:16px;
-      font-weight:900;
+      font-weight:700;
       font-size:13px;
       transition: transform .12s ease, background .12s ease;
       user-select:none;
@@ -151,22 +153,23 @@
       gap:9px;
       white-space:nowrap;
     }
-    .btn:hover{transform: translateY(-1px); background: rgba(255,255,255,.09)}
+    .btn:hover{transform: translateY(-1px); background: #ffffff}
     .btn.primary{
       border:none;
-      color:#071018;
-      background: linear-gradient(135deg, rgba(110,168,255,.95), rgba(124,247,198,.80));
+      color:#fff;
+      background: linear-gradient(135deg, var(--teal), var(--orange));
+      box-shadow: 0 10px 24px rgba(26,166,160,.25);
     }
 
     .receipt{
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
       font-size:12px;
-      color: rgba(255,255,255,.80);
+      color: var(--navy);
       line-height:1.5;
       padding:12px;
       border-radius:16px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.18);
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.9);
       margin-top:10px;
       white-space:pre-wrap;
       word-break:break-word;
@@ -174,7 +177,7 @@
     .toast{
       margin-top:10px;
       font-size:12px;
-      color: rgba(124,247,198,.92);
+      color: var(--teal);
       display:none;
     }
   </style>
@@ -184,24 +187,24 @@
   <div class="card">
     <div class="top">
       <div class="brand">
-        <div class="logo"></div>
+        <img class="logoImg" src="assets/logo.svg" alt="MatchFlow Home logo" />
         <div>
-          <b>MatchFlow</b>
+          <b>MatchFlow Home</b>
           <span>Processing your request</span>
         </div>
       </div>
-      <div style="color:rgba(255,255,255,.70); font-size:12px;">You can close this after it finishes</div>
+      <div style="color:var(--muted); font-size:12px;">You can close this after it finishes</div>
     </div>
 
     <div class="body">
       <div class="pane">
-        <h1>We’ve got it ✅</h1>
-        <p class="sub">We’re organizing your details and preparing outreach.</p>
+        <h1>We have it OK</h1>
+        <p class="sub">We are organizing your details and preparing outreach.</p>
 
         <div class="spinnerRow">
           <div class="spin" aria-hidden="true"></div>
           <div>
-            <div style="font-weight:900; font-size:13px;">Working…</div>
+            <div style="font-weight:800; font-size:13px; color:var(--navy);">Working...</div>
             <div class="eta" id="eta">Estimated time left: ~45 seconds</div>
           </div>
         </div>
@@ -209,7 +212,7 @@
         <div class="steps" id="steps">
           <div class="step active" id="s1"><div class="dot"></div><div><b>Formatting request</b><span>Cleaning up details for providers</span></div></div>
           <div class="step" id="s2"><div class="dot"></div><div><b>Preparing outreach</b><span>Getting a shortlist ready</span></div></div>
-          <div class="step" id="s3"><div class="dot"></div><div><b>Queued</b><span>We’ll follow up with quote ranges</span></div></div>
+          <div class="step" id="s3"><div class="dot"></div><div><b>Queued</b><span>We will follow up with quote ranges</span></div></div>
         </div>
 
         <div class="actions">
@@ -219,7 +222,7 @@
           <button class="btn" id="closeBtn" type="button">Close Tab</button>
         </div>
 
-        <div class="toast" id="toast">Copied to clipboard ✅</div>
+        <div class="toast" id="toast">Copied to clipboard OK</div>
       </div>
 
       <div class="pane">
@@ -257,7 +260,7 @@ Note:       Prices are quote-based. Providers decide the exact total after revie
       if (seconds <= 8) {
         // finish state
         s3.classList.remove("active"); s3.classList.add("done");
-        etaEl.textContent = "All set — you can close this page.";
+        etaEl.textContent = "All set - you can close this page.";
         clearInterval(t);
       }
     }, 1000);
@@ -271,14 +274,14 @@ Note:       Prices are quote-based. Providers decide the exact total after revie
         toast.style.display = "block";
         setTimeout(()=>toast.style.display="none", 1600);
       }catch(e){
-        alert("Copy failed — your browser may block clipboard access.");
+        alert("Copy failed - your browser may block clipboard access.");
       }
     });
 
     // Close tab (may be blocked if not opened by script)
     document.getElementById("closeBtn").addEventListener("click", () => {
       window.close();
-      setTimeout(()=>alert("If this didn’t close, your browser blocked it. You can safely close the tab manually."), 300);
+      setTimeout(()=>alert("If this did not close, your browser blocked it. You can safely close the tab manually."), 300);
     });
   </script>
 </body>
