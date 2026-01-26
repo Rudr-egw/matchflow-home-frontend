@@ -154,6 +154,14 @@
     }
     .pct{font-size:12px; color: var(--navy); white-space:nowrap}
 
+    .airtable-embed{
+      width:100%;
+      height:540px;
+      border:1px solid var(--line);
+      border-radius:14px;
+      background:#fff;
+    }
+
     .chat{
       flex:1;
       padding:16px;
@@ -328,8 +336,7 @@
       </div>
 
       <div class="tip">
-        <b>Tip:</b> When Dropbox asks for a name, use the same name you enter on the form.
-        That helps us match photos to your request quickly.
+        <b>Tip:</b> Use the same name and email on the form and the photo upload below so we can match everything.
       </div>
     </aside>
 
@@ -350,7 +357,6 @@
   </div>
 
   <script>
-    const DROPBOX_LINK = "https://www.dropbox.com/request/x3H95v2Lx3fOEIEGFdQk";
     const FORMSPREE_ACTION = "https://formspree.io/f/mbdogolb";
 
     const chat = document.getElementById("chat");
@@ -410,7 +416,7 @@
       addMsg(t, "bot");
     }
 
-    // Simulated progress while they upload in a new tab
+    // Simulated progress while they upload photos
     let timer = null;
     function startSimProgress(){
       clearInterval(timer);
@@ -433,14 +439,11 @@
 
       addMsg(`
         <div class="card">
-          <h4>Upload photos first</h4>
+          <h4>Upload photos below</h4>
           <p>
             If you can, upload 1-5 photos (wide shot + close-up). It helps providers estimate faster and more accurately.
           </p>
-          <div class="btnRow">
-            <a class="btn primary" id="uploadBtn" href="${DROPBOX_LINK}" target="_blank" rel="noreferrer">Upload photos -></a>
-            <button class="btn warn" id="skipBtn" type="button">Skip</button>
-          </div>
+          <iframe class="airtable-embed" src="https://airtable.com/embed/appJcERBxRVO7zsF7/pagLsogxeqrhWr6Sb/form" frameborder="0" onmousewheel="" width="100%" height="533" style="background: transparent; border: 1px solid var(--line);"></iframe>
         </div>
       `, "bot", true);
 
@@ -462,22 +465,10 @@
         </div>
       `, "bot", true);
 
-      const uploadBtn = document.getElementById("uploadBtn");
-      const skipBtn = document.getElementById("skipBtn");
       const done = document.getElementById("done");
       const continueBtn = document.getElementById("continueBtn");
 
-      uploadBtn.addEventListener("click", () => {
-        addMsg("Opening photo upload...", "user");
-        startSimProgress();
-      });
-
-      skipBtn.addEventListener("click", () => {
-        addMsg("Skipping photos.", "user");
-        startSimProgress();
-        done.checked = true;
-        continueBtn.disabled = false;
-      });
+      startSimProgress();
 
       done.addEventListener("change", () => {
         continueBtn.disabled = !done.checked;
@@ -590,7 +581,7 @@
             </div>
 
             <div style="margin-top:10px; color: var(--muted); font-size:12px; line-height:1.45;">
-              <b>Note:</b> Photo upload happens in Dropbox. Please make sure you uploaded photos before submitting this form.
+              <b>Note:</b> If you uploaded photos above, make sure you used the same name and email.
             </div>
 
             <div class="btnRow" style="justify-content:flex-end; margin-top:12px;">
@@ -628,8 +619,6 @@
           const fd = new FormData(form);
           fd.append("source", "MatchFlow Chat");
           fd.append("timestamp", new Date().toISOString());
-          fd.append("dropbox_upload_link", DROPBOX_LINK);
-
           const res = await fetch(form.action, {
             method: "POST",
             body: fd,
