@@ -569,6 +569,23 @@
             <label>Describe what you need</label>
             <textarea name="message" required placeholder="Describe the issue, where it is, and anything important..."></textarea>
 
+            <label>Privacy and consent</label>
+            <div style="border:1px solid var(--line); background: rgba(11,27,59,.04); border-radius:14px; padding:12px; font-size:12px; color:var(--muted); line-height:1.45;">
+              <b style="color:var(--navy);">MatchFlow Home privacy and consent</b>
+              <p style="margin:6px 0 0;">
+                We do not sell your information. By submitting this form, you allow MatchFlow Home to share your
+                request details, photos, and budget range with local businesses so they can decide if the job is a fit.
+                If a business confirms they can take your request and you say yes, we will then connect you by sharing
+                your contact details. After that, we step back and you work directly with the business.
+              </p>
+              <div style="margin-top:8px; display:flex; gap:10px; align-items:flex-start;">
+                <input id="consent" name="consent" type="checkbox" required style="width:18px;height:18px; accent-color: var(--teal);" />
+                <label for="consent" style="margin:0; font-size:12px; color:var(--navy);">
+                  I agree to the privacy and consent terms above.
+                </label>
+              </div>
+            </div>
+
             <div style="margin-top:10px; color: var(--muted); font-size:12px; line-height:1.45;">
               <b>Note:</b> Photo upload happens in Dropbox. Please make sure you uploaded photos before submitting this form.
             </div>
