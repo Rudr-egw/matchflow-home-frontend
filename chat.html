@@ -1,558 +1,429 @@
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>MatchFlow — Chat</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>MatchFlow — Request Help</title>
 
   <style>
     :root{
-      --bg:#0b0b0f;
-      --panel:#12121a;
-      --line:#232334;
-      --text:#f2f2f7;
-      --muted:#9a9aaa;
+      --bg:#0b0d10;
+      --card: rgba(18,22,30,.86);
+      --line:#232a34;
+      --text:#eef2f7;
+      --muted:#a7b0bd;
       --accent:#6ea8ff;
-      --good:#44d19d;
-      --warn:#ffcc66;
-      --bad:#ff6b6b;
+      --accent2:#7cf7c6;
+      --shadow: 0 20px 70px rgba(0,0,0,.5);
+      --radius:18px;
     }
+
     *{box-sizing:border-box}
-    html,body{height:100%}
     body{
       margin:0;
+      min-height:100vh;
       background:
-        radial-gradient(1200px 650px at 50% 0%, #1a1a2a 0%, var(--bg) 55%),
-        radial-gradient(900px 600px at 0% 100%, rgba(110,168,255,.10) 0%, transparent 60%),
-        radial-gradient(900px 600px at 100% 100%, rgba(68,209,157,.08) 0%, transparent 60%),
+        radial-gradient(900px 500px at 50% 15%, rgba(110,168,255,.22), transparent 55%),
+        radial-gradient(700px 420px at 25% 90%, rgba(124,247,198,.14), transparent 60%),
         var(--bg);
       color:var(--text);
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
       display:flex;
-      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      padding:22px;
+    }
+
+    .shell{
+      width:min(980px, 100%);
+      display:grid;
+      grid-template-columns: 360px 1fr;
+      gap:14px;
+    }
+
+    @media (max-width: 900px){
+      .shell{ grid-template-columns: 1fr; }
+    }
+
+    .panel{
+      background: var(--card);
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
       overflow:hidden;
     }
 
-    /* Top bar */
+    /* LEFT */
+    .left{ padding:18px; }
+    .brand{ display:flex; align-items:center; gap:10px; margin-bottom:12px; }
+    .logo{
+      width:36px;height:36px;border-radius:12px;
+      background: linear-gradient(135deg, rgba(110,168,255,.9), rgba(124,247,198,.85));
+      box-shadow: 0 12px 30px rgba(110,168,255,.22);
+    }
+    .brand h1{ margin:0; font-size:16px; letter-spacing:.2px; }
+    .brand p{ margin:2px 0 0; font-size:12px; color:var(--muted); }
+
+    .trust{
+      margin-top:14px;
+      border-top:1px solid var(--line);
+      padding-top:14px;
+      display:grid;
+      gap:10px;
+    }
+    .trustItem{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      padding:10px 12px;
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:14px;
+      background: rgba(0,0,0,.18);
+    }
+    .check{
+      width:18px;height:18px;border-radius:6px;
+      background: rgba(124,247,198,.14);
+      border:1px solid rgba(124,247,198,.35);
+      display:flex;align-items:center;justify-content:center;
+      flex: 0 0 auto;
+      margin-top:1px;
+    }
+    .check::before{
+      content:"✓";
+      color: var(--accent2);
+      font-weight:700;
+      font-size:12px;
+      line-height:1;
+    }
+    .trustItem b{ display:block; font-size:13px; margin-bottom:2px; }
+    .trustItem span{ display:block; font-size:12px; color:var(--muted); line-height:1.3; }
+
+    .micro{
+      margin-top:14px;
+      font-size:12px;
+      color:var(--muted);
+      line-height:1.35;
+    }
+
+    /* RIGHT */
+    .right{
+      display:flex;
+      flex-direction:column;
+      height: min(78vh, 720px);
+      min-height: 560px;
+    }
+
     .topbar{
+      padding:14px 16px;
       border-bottom:1px solid var(--line);
-      background:rgba(18,18,26,.75);
-      backdrop-filter: blur(12px);
-      padding:12px 14px;
       display:flex;
       align-items:center;
       justify-content:space-between;
       gap:10px;
     }
-    .brand{
-      display:flex; align-items:center; gap:10px;
-      font-weight:900;
-      letter-spacing:.01em;
-    }
-    .dot{
-      width:10px;height:10px;border-radius:999px;
-      background:var(--accent);
-      box-shadow:0 0 18px rgba(110,168,255,.8);
-    }
-    .sub{color:var(--muted); font-weight:700; font-size:12px; margin-top:2px;}
-    .left{display:flex; flex-direction:column; gap:2px; min-width:0;}
-    .right{display:flex; align-items:center; gap:10px; color:var(--muted); font-size:12px; font-weight:900;}
+
+    .titleWrap{ display:flex; flex-direction:column; gap:2px; min-width:0; }
+    .title{ font-size:14px; margin:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .subtitle{ font-size:12px; color:var(--muted); margin:0; }
+
     .pill{
-      padding:6px 10px;
-      border:1px solid var(--line);
+      font-size:12px;
+      color:rgba(255,255,255,.86);
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.22);
+      padding:7px 10px;
       border-radius:999px;
-      background:rgba(0,0,0,.18);
+      display:flex;
+      align-items:center;
+      gap:8px;
+      user-select:none;
       white-space:nowrap;
     }
-    .link{
-      text-decoration:none;
-      color:var(--muted);
-      padding:6px 10px;
-      border-radius:999px;
-      border:1px solid var(--line);
-      background:transparent;
-      font-weight:900;
+    .dotLive{
+      width:8px;height:8px;border-radius:50%;
+      background: var(--accent2);
+      box-shadow: 0 0 0 4px rgba(124,247,198,.12);
+      animation: pulse 1.8s infinite ease-in-out;
     }
-    .link:hover{border-color:#2f2f4a}
+    @keyframes pulse{
+      0%,100%{ transform:scale(1); opacity:1;}
+      50%{ transform:scale(.82); opacity:.7;}
+    }
 
-    /* Main */
-    .wrap{
-      width:min(920px, 96vw);
-      margin:0 auto;
-      flex:1;
-      min-height:0;
-      display:flex;
-      flex-direction:column;
-    }
     .chat{
       flex:1;
+      padding:16px;
       overflow:auto;
-      padding:14px 14px 10px;
       display:flex;
       flex-direction:column;
-      gap:12px;
+      gap:10px;
       scroll-behavior:smooth;
     }
 
-    /* Messages */
-    .row{display:flex; gap:10px}
-    .row.user{justify-content:flex-end}
-    .bubble{
-      max-width:min(760px, 94%);
-      border:1px solid var(--line);
-      border-radius:18px;
-      padding:12px 14px;
-      line-height:1.45;
-      white-space:pre-wrap;
-      background:rgba(0,0,0,.12);
-      animation: popIn .18s ease-out;
+    .msgRow{
+      display:flex;
+      gap:10px;
+      align-items:flex-end;
+      animation: pop .22s ease-out;
     }
-    .bubble.assistant{background:rgba(20,20,38,.88)}
-    .bubble.user{background:rgba(26,26,42,.88)}
-    @keyframes popIn{
-      from{opacity:0; transform:translateY(6px) scale(.98)}
-      to{opacity:1; transform:translateY(0) scale(1)}
+    @keyframes pop{
+      from{ transform: translateY(6px); opacity:0;}
+      to{ transform: translateY(0); opacity:1;}
     }
 
-    /* Typing dots */
+    .avatar{
+      width:30px;height:30px;border-radius:12px;
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.10);
+      display:flex;align-items:center;justify-content:center;
+      color: rgba(255,255,255,.75);
+      font-weight:700;
+      flex:0 0 auto;
+    }
+    .avatar.bot{
+      background: rgba(110,168,255,.12);
+      border-color: rgba(110,168,255,.20);
+      color: rgba(110,168,255,.95);
+    }
+
+    .bubble{
+      max-width: 78%;
+      padding:12px 13px;
+      border-radius: 16px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.22);
+      line-height:1.35;
+      font-size:13px;
+      color: rgba(255,255,255,.92);
+      white-space:pre-wrap;
+    }
+
     .typing{
       display:inline-flex;
       gap:6px;
       align-items:center;
-      padding:2px 0;
     }
-    .typing span{
-      width:7px;height:7px;border-radius:999px;
-      background:var(--muted);
-      opacity:.45;
-      animation:bounce 1s infinite;
+    .typing i{
+      width:7px;height:7px;border-radius:50%;
+      background: rgba(255,255,255,.75);
+      display:inline-block;
+      animation: bounce 1s infinite ease-in-out;
     }
-    .typing span:nth-child(2){animation-delay:.15s}
-    .typing span:nth-child(3){animation-delay:.3s}
+    .typing i:nth-child(2){animation-delay:.12s}
+    .typing i:nth-child(3){animation-delay:.24s}
     @keyframes bounce{
-      0%,100%{transform:translateY(0); opacity:.35}
-      50%{transform:translateY(-4px); opacity:.9}
+      0%,100%{ transform: translateY(0); opacity:.55;}
+      50%{ transform: translateY(-4px); opacity:1;}
     }
 
-    /* Chips */
-    .chips{display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;}
-    .chip{
-      border:1px solid var(--line);
-      background:rgba(0,0,0,.18);
-      color:var(--text);
-      padding:9px 11px;
-      border-radius:999px;
-      cursor:pointer;
-      font-weight:900;
-      font-size:13px;
-      transition:.15s transform, .15s border, .15s background;
-      user-select:none;
+    /* Form card inside chat */
+    .formWrap{
+      width:100%;
+      max-width: 78%;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.22);
+      padding: 14px;
+      line-height:1.35;
     }
-    .chip:hover{
-      transform: translateY(-1px);
-      border-color:#2f2f4a;
-      background:rgba(110,168,255,.08);
-    }
-    .chip.primary{
-      border-color: rgba(110,168,255,.35);
-      background: linear-gradient(180deg, rgba(110,168,255,.18), rgba(110,168,255,.06));
-    }
+    .formWrap h3{ margin:0 0 8px; font-size:14px; letter-spacing:.2px; }
+    .formWrap p{ margin:0 0 12px; color: var(--muted); font-size:12px; }
 
-    /* Matching card */
-    .card{
-      margin-top:10px;
-      border:1px solid var(--line);
-      border-radius:16px;
-      padding:14px;
-      background:rgba(0,0,0,.16);
-      overflow:hidden;
-      position:relative;
-    }
-    .shimmer::before{
-      content:"";
-      position:absolute;
-      top:-30%;
-      left:-40%;
-      width:60%;
-      height:160%;
-      background: linear-gradient(90deg, transparent, rgba(110,168,255,.18), transparent);
-      transform: rotate(20deg);
-      animation: shimmer 1.4s ease-in-out infinite;
-    }
-    @keyframes shimmer{
-      from{transform: translateX(-30%) rotate(20deg)}
-      to{transform: translateX(260%) rotate(20deg)}
-    }
-    .card strong{display:block; font-size:16px; margin-bottom:4px}
-    .card small{color:var(--muted)}
-    .meta{margin-top:10px; color:var(--muted); font-size:13px; line-height:1.55}
-
-    /* Results list */
-    .result{
-      border:1px solid var(--line);
-      border-radius:14px;
-      padding:12px;
-      margin-top:10px;
-      background:rgba(0,0,0,.14);
-    }
-    .resultTop{display:flex; justify-content:space-between; gap:10px; align-items:flex-start;}
-    .resultName{font-weight:1000; color:var(--text)}
-    .resultBadge{
-      font-size:12px;
-      font-weight:1000;
-      padding:6px 10px;
-      border-radius:999px;
-      border:1px solid rgba(110,168,255,.35);
-      background:linear-gradient(180deg, rgba(110,168,255,.16), rgba(110,168,255,.06));
-      white-space:nowrap;
-    }
-
-    /* Composer */
-    .composer{
-      border-top:1px solid var(--line);
-      background:rgba(18,18,26,.82);
-      backdrop-filter: blur(12px);
-      padding:12px 14px;
-    }
-    .composerInner{
+    form .field{
       display:flex;
-      gap:10px;
-      align-items:center;
-      width:min(920px, 96vw);
-      margin:0 auto;
+      flex-direction:column;
+      gap:6px;
+      margin-bottom:10px;
     }
-    input{
-      flex:1;
-      padding:12px 14px;
-      border-radius:14px;
-      border:1px solid var(--line);
-      background:rgba(0,0,0,.22);
-      color:var(--text);
-      font-size:16px;
+    form label{ font-size:12px; color: rgba(255,255,255,.82); }
+    form input, form textarea{
+      width:100%;
+      background: rgba(0,0,0,.25);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius: 12px;
+      padding: 10px 10px;
+      color: var(--text);
       outline:none;
-      transition: border .15s;
+      font-size:13px;
     }
-    input:focus{border-color: rgba(110,168,255,.35)}
-    button{
-      padding:12px 14px;
-      border-radius:14px;
-      border:1px solid rgba(110,168,255,.35);
-      background:linear-gradient(180deg, rgba(110,168,255,.22), rgba(110,168,255,.08));
-      color:var(--text);
-      font-weight:1000;
+    form textarea{ min-height: 110px; resize: vertical; }
+
+    .smallRow{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+    }
+    @media (max-width: 520px){
+      .bubble, .formWrap{ max-width: 100%; }
+      .smallRow{ grid-template-columns: 1fr; }
+    }
+
+    .btn{
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color:rgba(255,255,255,.92);
+      padding:11px 14px;
+      border-radius: 14px;
       cursor:pointer;
+      font-weight:650;
+      font-size:13px;
+      transition: transform .12s ease, background .12s ease;
+      user-select:none;
       white-space:nowrap;
     }
-    button:hover{filter:brightness(1.05)}
-    .hint{
-      color:var(--muted);
+    .btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.09);}
+    .btn.primary{
+      background: linear-gradient(135deg, rgba(110,168,255,.85), rgba(124,247,198,.72));
+      border: none;
+      color:#0b0d10;
+      font-weight:800;
+      width:100%;
+    }
+
+    .note{
+      font-size:11px;
+      color: rgba(167,176,189,.9);
+      margin-top:10px;
+    }
+
+    .status{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      margin-top:10px;
       font-size:12px;
-      margin-top:8px;
-      text-align:center;
+      color: rgba(167,176,189,.95);
     }
-
-    /* disabled state */
-    .disabled{opacity:.55; pointer-events:none}
-
-    /* invalid shake */
-    .shake{animation: shake .25s ease-in-out}
-    @keyframes shake{
-      0%{transform:translateX(0)}
-      25%{transform:translateX(-6px)}
-      50%{transform:translateX(6px)}
-      75%{transform:translateX(-4px)}
-      100%{transform:translateX(0)}
+    .spinner{
+      width:16px;height:16px;border-radius:50%;
+      border:2px solid rgba(255,255,255,.18);
+      border-top-color: rgba(124,247,198,.85);
+      animation: spin .8s linear infinite;
     }
-    .warn{color: var(--warn)}
-    .bad{color: var(--bad)}
+    @keyframes spin{ to{ transform: rotate(360deg); } }
+
+    .ok{
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      font-size:12px;
+      color: rgba(124,247,198,.9);
+      margin-top:10px;
+    }
+    .ok::before{
+      content:"✓";
+      width:18px;height:18px;border-radius:6px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      background: rgba(124,247,198,.12);
+      border: 1px solid rgba(124,247,198,.30);
+      color: rgba(124,247,198,.95);
+      font-weight:900;
+      font-size:12px;
+    }
   </style>
 </head>
 
 <body>
-  <div class="topbar">
-    <div class="left">
-      <div class="brand"><span class="dot"></span> MatchFlow Chat</div>
-      <div class="sub">Answer a few questions — we’ll match 3 options.</div>
-    </div>
-    <div class="right">
-      <span class="pill" id="progressPill">Question 1 of 8</span>
-      <a class="link" href="index.html">Back</a>
-    </div>
-  </div>
+  <div class="shell">
+    <!-- LEFT -->
+    <section class="panel left">
+      <div class="brand">
+        <div class="logo"></div>
+        <div>
+          <h1>MatchFlow</h1>
+          <p>Neighborhood help, without the hassle.</p>
+        </div>
+      </div>
 
-  <div class="wrap">
-    <div id="chat" class="chat"></div>
-  </div>
+      <div class="trust">
+        <div class="trustItem">
+          <div class="check"></div>
+          <div>
+            <b>Fast matching</b>
+            <span>We route your request to the right local pros.</span>
+          </div>
+        </div>
+        <div class="trustItem">
+          <div class="check"></div>
+          <div>
+            <b>Quality-first</b>
+            <span>We prioritize higher-rated providers and good availability.</span>
+          </div>
+        </div>
+        <div class="trustItem">
+          <div class="check"></div>
+          <div>
+            <b>Clear expectations</b>
+            <span>Pros reply with quote ranges after reviewing your details.</span>
+          </div>
+        </div>
+      </div>
 
-  <div class="composer">
-    <div class="composerInner">
-      <input id="input" placeholder="Type your answer…" autocomplete="off" />
-      <button id="send">Send</button>
-    </div>
-    <div class="hint" id="hint">Tip: use the chips for fast answers.</div>
+      <div class="micro">
+        <b style="color:rgba(255,255,255,.9)">Tip:</b> A short description is perfect — “leaky sink” or “need deep clean”.
+      </div>
+    </section>
+
+    <!-- RIGHT -->
+    <section class="panel right">
+      <header class="topbar">
+        <div class="titleWrap">
+          <p class="title" id="chatTitle">Request Help</p>
+          <p class="subtitle" id="chatSub">Submit your request — we’ll take it from there.</p>
+        </div>
+        <div class="pill"><span class="dotLive"></span> Online</div>
+      </header>
+
+      <main class="chat" id="chat"></main>
+    </section>
   </div>
 
   <script>
-    // =========================
-    // CONFIG (SET THIS)
-    // =========================
-    const MATCH_API = "https://YOUR-VERCEL-PROJECT.vercel.app/api/match"; // <- change later
+    const chat = document.getElementById("chat");
 
-    // =========================
-    // QUESTION FLOW
-    // =========================
-    const questions = [
-      {
-        key: "service",
-        type: "select",
-        text: "What service do you need?",
-        options: [
-          "Plumbing","Electrical","HVAC","House Cleaning","Handyman",
-          "Lawn Care","Landscaping","Pest Control","Junk Removal","Moving",
-          "Painting","Garage Door","Roofing","Appliance Repair","Pressure Washing",
-          "Gutter Cleaning","Flooring","Tile","Drywall","Fence",
-          "Windows","Doors","Pool Service","Irrigation","Locksmith"
-        ]
-      },
-      { key: "zip", type: "zip", text: "What ZIP code is the service needed in? (5 digits)" },
-      {
-        key: "urgency",
-        type: "select",
-        text: "How urgent is this?",
-        options: ["Emergency (today)","Urgent (1–2 days)","Soon (this week)","Flexible"]
-      },
-      {
-        key: "budget",
-        type: "select",
-        text: "What budget range are you comfortable with?",
-        options: [
-          "$0–$50", "$50–$100", "$100–$150", "$150–$200",
-          "$200–$300", "$300–$400", "$400–$500",
-          "$500–$750", "$750–$1000", "$1000–$1500",
-          "$1500–$2000", "$2000–$3000", "$3000–$5000", "$5000+"
-        ]
-      },
-      { key: "details", type: "text", text: "Briefly describe what needs to be done (1 sentence)." },
-      { key: "name", type: "name", text: "What’s your full name?" },
-      { key: "email", type: "email", text: "What’s the best email to contact you?" },
-      { key: "phone", type: "phone", text: "What’s the best phone number?" }
-    ];
+    function scrollToBottom(){ chat.scrollTop = chat.scrollHeight; }
 
-    // =========================
-    // UI HELPERS
-    // =========================
-    const chatEl = document.getElementById("chat");
-    const inputEl = document.getElementById("input");
-    const sendBtn = document.getElementById("send");
-    const progressPill = document.getElementById("progressPill");
-    const hintEl = document.getElementById("hint");
-
-    const state = { step: 0, answers: {} };
-
-    function scrollToBottom(){ chatEl.scrollTop = chatEl.scrollHeight; }
-    function typingDots(){ return `<span class="typing"><span></span><span></span><span></span></span>`; }
-
-    function setProgress(){
-      const n = Math.min(state.step + 1, questions.length);
-      progressPill.textContent = `Question ${n} of ${questions.length}`;
-    }
-
-    function addBubble(role, html){
+    function addBubble(text, who="bot"){
       const row = document.createElement("div");
-      row.className = "row " + role;
+      row.className = "msgRow";
+
+      const avatar = document.createElement("div");
+      avatar.className = "avatar " + (who === "bot" ? "bot" : "");
+      avatar.textContent = who === "bot" ? "M" : "U";
+
       const bubble = document.createElement("div");
-      bubble.className = "bubble " + role;
-      bubble.innerHTML = html;
+      bubble.className = "bubble";
+      bubble.textContent = text;
+
+      row.appendChild(avatar);
       row.appendChild(bubble);
-      chatEl.appendChild(row);
+      chat.appendChild(row);
       scrollToBottom();
-      return bubble;
     }
 
-    function renderChips(options){
-      const chips = options.map((opt, idx) => {
-        const cls = (idx < 4) ? "chip primary" : "chip";
-        return `<button class="${cls}" data-chip="${opt}">${opt}</button>`;
-      }).join("");
-      return `<div class="chips">${chips}</div>`;
-    }
+    function addTyping(){
+      const row = document.createElement("div");
+      row.className = "msgRow";
 
-    async function askAssistant(text, options=null){
-      const bubble = addBubble("assistant", typingDots());
-      await new Promise(r => setTimeout(r, 520));
-      bubble.innerHTML = `<div>${text}</div>` + (options ? renderChips(options) : "");
+      const avatar = document.createElement("div");
+      avatar.className = "avatar bot";
+      avatar.textContent = "M";
+
+      const bubble = document.createElement("div");
+      bubble.className = "bubble";
+      bubble.innerHTML = `<span class="typing"><i></i><i></i><i></i></span>`;
+
+      row.appendChild(avatar);
+      row.appendChild(bubble);
+      chat.appendChild(row);
       scrollToBottom();
-
-      bubble.querySelectorAll("[data-chip]").forEach(btn => {
-        btn.addEventListener("click", () => {
-          inputEl.value = btn.getAttribute("data-chip");
-          handleSend();
-        });
-      });
-    }
-
-    function lockComposer(locked){
-      if (locked){
-        inputEl.classList.add("disabled");
-        sendBtn.classList.add("disabled");
-        inputEl.disabled = true;
-        sendBtn.disabled = true;
-      } else {
-        inputEl.classList.remove("disabled");
-        sendBtn.classList.remove("disabled");
-        inputEl.disabled = false;
-        sendBtn.disabled = false;
-      }
-    }
-
-    function showInvalid(msg){
-      inputEl.classList.remove("shake");
-      void inputEl.offsetWidth;
-      inputEl.classList.add("shake");
-      addBubble("assistant", `<span class="warn">⚠️ ${msg}</span>`);
-    }
-
-    // =========================
-    // VALIDATION
-    // =========================
-    function validateEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()); }
-    function validatePhone(v){
-      const digits = v.replace(/\D/g,"");
-      return digits.length >= 10 && digits.length <= 15;
-    }
-    function validateName(v){
-      const s = v.trim();
-      if (s.length < 2) return false;
-      return /^[a-zA-Z][a-zA-Z\s\-']+$/.test(s);
-    }
-
-    function validateAnswer(q, raw){
-      const value = (raw || "").trim();
-      if (!value) return { ok:false, msg:"Please enter an answer." };
-
-      if (q.type === "zip"){
-        const z = value.replace(/\s+/g,"");
-        if (!/^\d{5}$/.test(z)) return { ok:false, msg:"Enter a valid 5-digit ZIP (example: 30024)." };
-        return { ok:true, value: z };
-      }
-      if (q.type === "email"){
-        if (!validateEmail(value)) return { ok:false, msg:"Enter a valid email (example: name@gmail.com)." };
-        return { ok:true, value: value.toLowerCase() };
-      }
-      if (q.type === "phone"){
-        if (!validatePhone(value)) return { ok:false, msg:"Enter a valid phone number (10–15 digits)." };
-        return { ok:true, value: value.replace(/\D/g,"") };
-      }
-      if (q.type === "name"){
-        if (!validateName(value)) return { ok:false, msg:"Enter your full name (letters/spaces only)." };
-        return { ok:true, value };
-      }
-      if (q.type === "text"){
-        if (value.length < 10) return { ok:false, msg:"Add a bit more detail (at least ~10 characters)." };
-        return { ok:true, value };
-      }
-
-      // select type: must be one of the options
-      if (q.type === "select"){
-        const ok = q.options.includes(value);
-        if (!ok) return { ok:false, msg:"Please choose one of the provided options (tap a chip)." };
-        return { ok:true, value };
-      }
-
-      return { ok:true, value };
-    }
-
-    function currentQuestion(){ return questions[state.step]; }
-
-    // =========================
-    // MATCHING ANIMATION + BACKEND CALL
-    // =========================
-    async function runMatching(){
-      lockComposer(true);
-
-      await askAssistant("Thanks — matching 3 best options for you now…");
-
-      const anim = addBubble("assistant", `
-        <div class="card shimmer">
-          <strong>Matching…</strong>
-          <small>Comparing service fit, price fit, and availability.</small>
-          <div class="meta" style="margin-top:10px">
-            • Checking service area<br>
-            • Filtering by urgency<br>
-            • Scoring providers by fit
-          </div>
-        </div>
-      `);
-
-      await new Promise(r => setTimeout(r, 1200));
-
-      // Call backend for top 3 matches
-      let matches = [];
-      try {
-        const res = await fetch(MATCH_API, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(state.answers)
-        });
-
-        if (!res.ok) throw new Error("Backend returned an error");
-        const data = await res.json();
-        matches = (data && data.matches) ? data.matches : [];
-      } catch (e) {
-        // Show graceful error if backend not ready yet
-        anim.innerHTML = `
-          <div class="card">
-            <strong class="bad">Backend not connected yet</strong>
-            <small>Once /api/match is deployed, your 3 provider matches will show here.</small>
-            <div class="meta">
-              Fix: update MATCH_API at top of this file to your Vercel URL and deploy backend.
-            </div>
-          </div>
-        `;
-        scrollToBottom();
-        lockComposer(false);
-        return;
-      }
-
-      // Ensure 3
-      matches = matches.slice(0, 3);
-
-      // Render results
-      anim.innerHTML = `
-        <div class="card">
-          <strong>Top 3 matches</strong>
-          <small>Based on your service, urgency, location, and budget</small>
-
-          ${matches.map((m, idx) => `
-            <div class="result">
-              <div class="resultTop">
-                <div class="resultName">${idx + 1}. ${escapeHtml(m.name || "Provider")}</div>
-                <div class="resultBadge">⭐ ${escapeHtml(String(m.rating ?? "—"))}</div>
-              </div>
-              <div class="meta">
-                <b>Price:</b> ${escapeHtml(m.price_range || "—")} ·
-                <b>ETA:</b> ${escapeHtml(m.eta || "—")}
-                <br>
-                <b>Why:</b> ${escapeHtml(m.why || "Good fit for your request")}
-              </div>
-            </div>
-          `).join("")}
-
-          <div class="meta">
-            <b>Summary:</b> ${escapeHtml(state.answers.service)} in ${escapeHtml(state.answers.zip)} ·
-            ${escapeHtml(state.answers.urgency)} · ${escapeHtml(state.answers.budget)}
-          </div>
-
-          <a class="resultBadge" style="display:inline-block;margin-top:12px;text-decoration:none;color:var(--text)"
-             href="processing.html">Continue →</a>
-        </div>
-      `;
-
-      scrollToBottom();
-      lockComposer(false);
+      return row;
     }
 
     function escapeHtml(str){
-      return String(str)
+      return String(str || "")
         .replaceAll("&","&amp;")
         .replaceAll("<","&lt;")
         .replaceAll(">","&gt;")
@@ -560,54 +431,143 @@
         .replaceAll("'","&#039;");
     }
 
-    // =========================
-    // FLOW
-    // =========================
-    async function start(){
-      setProgress();
-      await askAssistant("Hi — I’m MatchFlow. Answer a few quick questions and I’ll return 3 best options.");
-      const q = currentQuestion();
-      await askAssistant(q.text, q.type === "select" ? q.options : null);
-      inputEl.focus();
+    async function botSay(text){
+      const typingRow = addTyping();
+      await new Promise(r => setTimeout(r, 650));
+      typingRow.remove();
+      addBubble(text, "bot");
     }
 
-    async function handleSend(){
-      const q = currentQuestion();
-      const raw = inputEl.value;
+    function addFormCard(){
+      const row = document.createElement("div");
+      row.className = "msgRow";
 
-      const result = validateAnswer(q, raw);
-      if (!result.ok){
-        if (raw.trim()) addBubble("user", raw.trim());
-        inputEl.value = "";
-        showInvalid(result.msg);
-        return;
-      }
+      const avatar = document.createElement("div");
+      avatar.className = "avatar bot";
+      avatar.textContent = "M";
 
-      addBubble("user", result.value);
-      inputEl.value = "";
+      const wrap = document.createElement("div");
+      wrap.className = "formWrap";
 
-      state.answers[q.key] = result.value;
-      state.step++;
+      wrap.innerHTML = `
+        <h3>Request form</h3>
+        <p>Fill this out and hit submit. We’ll review it and follow up with the closest quote ranges we can get.</p>
 
-      if (state.step >= questions.length){
-        setProgress();
-        hintEl.textContent = "Matching…";
-        await runMatching();
-        return;
-      }
+        <form id="leadForm">
+          <div class="smallRow">
+            <div class="field">
+              <label>Your name</label>
+              <input name="name" type="text" required placeholder="First name" />
+            </div>
+            <div class="field">
+              <label>Your email</label>
+              <input name="email" type="email" required placeholder="you@email.com" />
+            </div>
+          </div>
 
-      setProgress();
-      const nq = currentQuestion();
-      await askAssistant(nq.text, nq.type === "select" ? nq.options : null);
-      hintEl.textContent = "Tip: tap chips for faster answers.";
+          <div class="smallRow">
+            <div class="field">
+              <label>Phone number</label>
+              <input name="phone" type="tel" required placeholder="(###) ###-####" />
+            </div>
+            <div class="field">
+              <label>ZIP code</label>
+              <input name="zip" type="text" required placeholder="30024" />
+            </div>
+          </div>
+
+          <div class="smallRow">
+            <div class="field">
+              <label>Service needed</label>
+              <input name="service" type="text" required placeholder="Plumbing / Cleaning / Electrical…" />
+            </div>
+            <div class="field">
+              <label>Urgency</label>
+              <input name="urgency" type="text" required placeholder="Emergency / Soon / Flexible" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label>What’s the situation?</label>
+            <textarea name="message" required placeholder="Tell us what you need done…"></textarea>
+          </div>
+
+          <button class="btn primary" id="submitBtn" type="submit">Submit request</button>
+
+          <div class="note">
+            Pricing is quote-based. We’ll work to find options closest to your goal after businesses review the details.
+          </div>
+
+          <div class="status" id="status" style="display:none;">
+            <span class="spinner"></span>
+            <span id="statusText">Sending your request…</span>
+          </div>
+        </form>
+      `;
+
+      row.appendChild(avatar);
+      row.appendChild(wrap);
+      chat.appendChild(row);
+      scrollToBottom();
+
+      wireForm();
     }
 
-    document.getElementById("send").addEventListener("click", handleSend);
-    document.getElementById("input").addEventListener("keydown", (e) => {
-      if (e.key === "Enter") handleSend();
-    });
+    function wireForm(){
+      const form = document.getElementById("leadForm");
+      const status = document.getElementById("status");
+      const statusText = document.getElementById("statusText");
+      const submitBtn = document.getElementById("submitBtn");
 
-    start();
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        // Show sending animation in the form card
+        status.style.display = "flex";
+        statusText.textContent = "Sending your request…";
+        submitBtn.disabled = true;
+        submitBtn.style.opacity = .75;
+
+        const formData = new FormData(form);
+
+        // helpful hidden fields
+        formData.append("source", "MatchFlow Chat Form");
+        formData.append("timestamp", new Date().toISOString());
+
+        try {
+          const resp = await fetch("https://formspree.io/f/mbdogolb", {
+            method: "POST",
+            body: formData,
+            headers: { "Accept": "application/json" }
+          });
+
+          if (!resp.ok) throw new Error("Submit failed");
+
+          // Keep the chat feel: add a confirmation bubble + tiny pause
+          await botSay("Got it ✅ Submitting and opening your request…");
+          await botSay("Hang tight — we’re setting everything up now.");
+
+          // Small delay so it feels intentional
+          await new Promise(r => setTimeout(r, 500));
+
+          // Go to your processing page
+          window.location.href = "processing.html";
+
+        } catch (err) {
+          statusText.textContent = "Something went wrong. Please try again.";
+          submitBtn.disabled = false;
+          submitBtn.style.opacity = 1;
+        }
+      });
+    }
+
+    // Init flow (chat-like intro, then form)
+    (async function(){
+      await botSay("Welcome to MatchFlow 👋");
+      await botSay("This is a quick request form — once you submit, we’ll contact local providers for quote ranges.");
+      await botSay("You’ll go to a short processing screen after submit.");
+      addFormCard();
+    })();
   </script>
 </body>
 </html>
