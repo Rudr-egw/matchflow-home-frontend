@@ -1,83 +1,127 @@
-<!doctype html>
+ <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>MatchFlow — Request Help</title>
 
   <style>
     :root{
-      --bg:#0b0d10;
-      --card: rgba(18,22,30,.86);
-      --line:#232a34;
-      --text:#eef2f7;
-      --muted:#a7b0bd;
+      --bg:#0b0f14;
+      --panel: rgba(18,22,30,.78);
+      --panel2: rgba(18,22,30,.60);
+      --line: rgba(255,255,255,.10);
+      --text:#eaf1ff;
+      --muted:#a9b4c7;
       --accent:#6ea8ff;
       --accent2:#7cf7c6;
-      --shadow: 0 20px 70px rgba(0,0,0,.5);
-      --radius:18px;
+      --warn:#ffcc66;
+      --shadow: 0 26px 80px rgba(0,0,0,.45);
+      --r:18px;
     }
-
     *{box-sizing:border-box}
     body{
       margin:0;
       min-height:100vh;
+      display:grid;
+      place-items:center;
       background:
-        radial-gradient(900px 500px at 50% 15%, rgba(110,168,255,.22), transparent 55%),
-        radial-gradient(700px 420px at 25% 90%, rgba(124,247,198,.14), transparent 60%),
+        radial-gradient(1200px 700px at 50% 12%, rgba(110,168,255,.20), transparent 60%),
+        radial-gradient(900px 520px at 15% 92%, rgba(124,247,198,.14), transparent 62%),
+        radial-gradient(900px 520px at 85% 90%, rgba(255,204,102,.10), transparent 62%),
         var(--bg);
       color:var(--text);
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:22px;
     }
 
+    .wrap{width:min(1020px, 94vw); padding:22px;}
     .shell{
-      width:min(980px, 100%);
+      border:1px solid var(--line);
+      background: var(--panel);
+      border-radius: var(--r);
+      overflow:hidden;
+      box-shadow: var(--shadow);
+    }
+
+    /* Top bar */
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:14px 16px;
+      border-bottom:1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,.02), transparent);
+    }
+    .brand{display:flex; align-items:center; gap:10px; min-width:0;}
+    .logo{
+      width:36px;height:36px;border-radius:12px;
+      background: linear-gradient(135deg, rgba(110,168,255,.92), rgba(124,247,198,.82));
+      box-shadow: 0 14px 36px rgba(110,168,255,.22);
+      flex:0 0 auto;
+    }
+    .brandTxt{min-width:0;}
+    .brandTxt b{display:block; font-size:14px; letter-spacing:.2px}
+    .brandTxt span{
+      display:block;
+      font-size:12px;
+      color:var(--muted);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      max-width: 52ch;
+    }
+
+    .statusPill{
+      display:flex; align-items:center; gap:10px;
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.20);
+      font-size:12px;
+      color: rgba(255,255,255,.86);
+      white-space:nowrap;
+    }
+    .liveDot{
+      width:9px;height:9px;border-radius:50%;
+      background: var(--accent2);
+      box-shadow: 0 0 0 4px rgba(124,247,198,.14);
+      animation: pulse 1.8s infinite ease-in-out;
+    }
+    @keyframes pulse{
+      0%,100%{transform:scale(1); opacity:1}
+      50%{transform:scale(.82); opacity:.7}
+    }
+
+    /* Layout */
+    .content{
       display:grid;
       grid-template-columns: 360px 1fr;
       gap:14px;
+      padding:14px;
+      background: rgba(0,0,0,.08);
+    }
+    @media (max-width: 920px){
+      .content{grid-template-columns:1fr}
     }
 
-    @media (max-width: 900px){
-      .shell{ grid-template-columns: 1fr; }
-    }
-
-    .panel{
-      background: var(--card);
+    /* Left info */
+    .left{
       border:1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      overflow:hidden;
+      background: var(--panel2);
+      border-radius: 16px;
+      padding:14px;
     }
-
-    /* LEFT */
-    .left{ padding:18px; }
-    .brand{ display:flex; align-items:center; gap:10px; margin-bottom:12px; }
-    .logo{
-      width:36px;height:36px;border-radius:12px;
-      background: linear-gradient(135deg, rgba(110,168,255,.9), rgba(124,247,198,.85));
-      box-shadow: 0 12px 30px rgba(110,168,255,.22);
-    }
-    .brand h1{ margin:0; font-size:16px; letter-spacing:.2px; }
-    .brand p{ margin:2px 0 0; font-size:12px; color:var(--muted); }
-
+    .cardTitle{font-size:13px; font-weight:800; letter-spacing:.2px; margin:0 0 10px}
     .trust{
-      margin-top:14px;
-      border-top:1px solid var(--line);
-      padding-top:14px;
       display:grid;
       gap:10px;
     }
     .trustItem{
-      display:flex;
-      gap:10px;
-      align-items:flex-start;
+      display:flex; gap:10px; align-items:flex-start;
       padding:10px 12px;
-      border:1px solid rgba(255,255,255,.06);
       border-radius:14px;
+      border:1px solid rgba(255,255,255,.08);
       background: rgba(0,0,0,.18);
     }
     .check{
@@ -85,70 +129,61 @@
       background: rgba(124,247,198,.14);
       border:1px solid rgba(124,247,198,.35);
       display:flex;align-items:center;justify-content:center;
-      flex: 0 0 auto;
+      flex:0 0 auto;
       margin-top:1px;
     }
-    .check::before{
-      content:"✓";
-      color: var(--accent2);
-      font-weight:700;
-      font-size:12px;
-      line-height:1;
-    }
-    .trustItem b{ display:block; font-size:13px; margin-bottom:2px; }
-    .trustItem span{ display:block; font-size:12px; color:var(--muted); line-height:1.3; }
+    .check::before{content:"✓"; color: var(--accent2); font-weight:900; font-size:12px;}
+    .trustItem b{display:block; font-size:13px; margin-bottom:2px}
+    .trustItem span{display:block; font-size:12px; color:var(--muted); line-height:1.35}
 
-    .micro{
-      margin-top:14px;
+    .noteBox{
+      margin-top:12px;
+      padding:10px 12px;
+      border-radius:14px;
+      border:1px dashed rgba(255,255,255,.18);
+      color: rgba(255,255,255,.86);
       font-size:12px;
-      color:var(--muted);
       line-height:1.35;
+      background: rgba(0,0,0,.14);
     }
+    .noteBox b{color: rgba(255,255,255,.92)}
+    .small{color: var(--muted); font-size:12px; margin-top:8px; line-height:1.35}
 
-    /* RIGHT */
+    /* Chat panel */
     .right{
+      border:1px solid var(--line);
+      background: var(--panel2);
+      border-radius:16px;
+      overflow:hidden;
       display:flex;
       flex-direction:column;
-      height: min(78vh, 720px);
       min-height: 560px;
+      height: min(74vh, 720px);
     }
-
-    .topbar{
-      padding:14px 16px;
+    .chatTop{
+      padding:12px 14px;
       border-bottom:1px solid var(--line);
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
     }
-
-    .titleWrap{ display:flex; flex-direction:column; gap:2px; min-width:0; }
-    .title{ font-size:14px; margin:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-    .subtitle{ font-size:12px; color:var(--muted); margin:0; }
-
-    .pill{
-      font-size:12px;
-      color:rgba(255,255,255,.86);
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.22);
-      padding:7px 10px;
+    .stepTitle{margin:0; font-size:13px; font-weight:850; letter-spacing:.2px}
+    .stepSub{margin:2px 0 0; font-size:12px; color:var(--muted)}
+    .progressWrap{display:flex; align-items:center; gap:10px;}
+    .progressBar{
+      width:160px;
+      height:10px;
       border-radius:999px;
-      display:flex;
-      align-items:center;
-      gap:8px;
-      user-select:none;
-      white-space:nowrap;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.18);
+      overflow:hidden;
     }
-    .dotLive{
-      width:8px;height:8px;border-radius:50%;
-      background: var(--accent2);
-      box-shadow: 0 0 0 4px rgba(124,247,198,.12);
-      animation: pulse 1.8s infinite ease-in-out;
+    .progressFill{
+      height:100%;
+      width:0%;
+      background: linear-gradient(90deg, rgba(110,168,255,.9), rgba(124,247,198,.75));
+      border-radius:999px;
+      transition: width .6s ease;
     }
-    @keyframes pulse{
-      0%,100%{ transform:scale(1); opacity:1;}
-      50%{ transform:scale(.82); opacity:.7;}
-    }
+    .progressText{font-size:12px; color:rgba(255,255,255,.80); white-space:nowrap}
 
     .chat{
       flex:1;
@@ -160,256 +195,268 @@
       scroll-behavior:smooth;
     }
 
-    .msgRow{
-      display:flex;
-      gap:10px;
-      align-items:flex-end;
-      animation: pop .22s ease-out;
-    }
-    @keyframes pop{
-      from{ transform: translateY(6px); opacity:0;}
-      to{ transform: translateY(0); opacity:1;}
-    }
-
+    .row{display:flex; gap:10px; align-items:flex-end; animation: pop .22s ease both;}
+    @keyframes pop{from{transform:translateY(6px); opacity:0}to{transform:translateY(0); opacity:1}}
+    .row.user{justify-content:flex-end}
     .avatar{
       width:30px;height:30px;border-radius:12px;
-      background: rgba(255,255,255,.06);
-      border:1px solid rgba(255,255,255,.10);
-      display:flex;align-items:center;justify-content:center;
-      color: rgba(255,255,255,.75);
-      font-weight:700;
+      display:flex; align-items:center; justify-content:center;
+      font-weight:900; font-size:12px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.22);
+      color: rgba(255,255,255,.78);
       flex:0 0 auto;
     }
     .avatar.bot{
+      border-color: rgba(110,168,255,.22);
       background: rgba(110,168,255,.12);
-      border-color: rgba(110,168,255,.20);
       color: rgba(110,168,255,.95);
     }
-
     .bubble{
       max-width: 78%;
-      padding:12px 13px;
+      padding:12px 14px;
       border-radius: 16px;
       border:1px solid rgba(255,255,255,.10);
       background: rgba(0,0,0,.22);
       line-height:1.35;
       font-size:13px;
-      color: rgba(255,255,255,.92);
       white-space:pre-wrap;
+    }
+    .row.user .bubble{
+      background: rgba(110,168,255,.16);
+      border-color: rgba(110,168,255,.25);
     }
 
     .typing{
-      display:inline-flex;
-      gap:6px;
-      align-items:center;
+      display:inline-flex; gap:6px; align-items:center;
     }
     .typing i{
       width:7px;height:7px;border-radius:50%;
-      background: rgba(255,255,255,.75);
+      background: rgba(255,255,255,.62);
       display:inline-block;
       animation: bounce 1s infinite ease-in-out;
     }
     .typing i:nth-child(2){animation-delay:.12s}
     .typing i:nth-child(3){animation-delay:.24s}
     @keyframes bounce{
-      0%,100%{ transform: translateY(0); opacity:.55;}
-      50%{ transform: translateY(-4px); opacity:1;}
+      0%,100%{transform:translateY(0); opacity:.55}
+      50%{transform:translateY(-4px); opacity:1}
     }
 
-    /* Form card inside chat */
-    .formWrap{
+    /* Action blocks */
+    .actionBox{
       width:100%;
-      max-width: 78%;
-      border-radius: 16px;
-      border: 1px solid rgba(255,255,255,.10);
+      max-width:78%;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.10);
       background: rgba(0,0,0,.22);
-      padding: 14px;
-      line-height:1.35;
+      padding:14px;
     }
-    .formWrap h3{ margin:0 0 8px; font-size:14px; letter-spacing:.2px; }
-    .formWrap p{ margin:0 0 12px; color: var(--muted); font-size:12px; }
-
-    form .field{
+    .actionBox h3{
+      margin:0 0 6px;
+      font-size:14px;
+      letter-spacing:.2px;
+    }
+    .actionBox p{
+      margin:0 0 12px;
+      font-size:12px;
+      color: var(--muted);
+      line-height:1.45;
+    }
+    .btnRow{
       display:flex;
-      flex-direction:column;
-      gap:6px;
-      margin-bottom:10px;
-    }
-    form label{ font-size:12px; color: rgba(255,255,255,.82); }
-    form input, form textarea{
-      width:100%;
-      background: rgba(0,0,0,.25);
-      border:1px solid rgba(255,255,255,.12);
-      border-radius: 12px;
-      padding: 10px 10px;
-      color: var(--text);
-      outline:none;
-      font-size:13px;
-    }
-    form textarea{ min-height: 110px; resize: vertical; }
-
-    .smallRow{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
       gap:10px;
+      flex-wrap:wrap;
     }
-    @media (max-width: 520px){
-      .bubble, .formWrap{ max-width: 100%; }
-      .smallRow{ grid-template-columns: 1fr; }
-    }
-
     .btn{
+      cursor:pointer;
       border:1px solid rgba(255,255,255,.14);
       background: rgba(255,255,255,.06);
-      color:rgba(255,255,255,.92);
+      color: rgba(255,255,255,.92);
       padding:11px 14px;
-      border-radius: 14px;
-      cursor:pointer;
-      font-weight:650;
+      border-radius:14px;
+      font-weight:800;
       font-size:13px;
       transition: transform .12s ease, background .12s ease;
       user-select:none;
-      white-space:nowrap;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
     }
-    .btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.09);}
+    .btn:hover{transform: translateY(-1px); background: rgba(255,255,255,.09)}
     .btn.primary{
-      background: linear-gradient(135deg, rgba(110,168,255,.85), rgba(124,247,198,.72));
-      border: none;
-      color:#0b0d10;
-      font-weight:800;
+      border:none;
+      color:#0b0f14;
+      background: linear-gradient(135deg, rgba(110,168,255,.9), rgba(124,247,198,.78));
+    }
+    .btn.warn{
+      border-color: rgba(255,204,102,.30);
+      background: rgba(255,204,102,.12);
+    }
+    .btn[disabled]{
+      opacity:.55;
+      cursor:not-allowed;
+      transform:none;
+    }
+
+    /* Form */
+    form{width:100%}
+    label{display:block; font-size:12px; color:rgba(255,255,255,.86); margin:10px 0 6px}
+    input, textarea, select{
       width:100%;
+      background: rgba(0,0,0,.22);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:12px;
+      padding:10px 10px;
+      color:var(--text);
+      outline:none;
+      font-size:13px;
     }
-
-    .note{
-      font-size:11px;
-      color: rgba(167,176,189,.9);
+    textarea{min-height:110px; resize:vertical}
+    .grid{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+    @media (max-width:560px){.grid{grid-template-columns:1fr}}
+    .fine{
       margin-top:10px;
+      font-size:12px;
+      color: var(--muted);
+      line-height:1.45;
     }
 
-    .status{
+    .sendStatus{
       display:flex;
       align-items:center;
       gap:10px;
       margin-top:10px;
       font-size:12px;
       color: rgba(167,176,189,.95);
+      display:none;
     }
-    .spinner{
+    .spin{
       width:16px;height:16px;border-radius:50%;
       border:2px solid rgba(255,255,255,.18);
       border-top-color: rgba(124,247,198,.85);
-      animation: spin .8s linear infinite;
+      animation: spin .85s linear infinite;
     }
-    @keyframes spin{ to{ transform: rotate(360deg); } }
-
-    .ok{
-      display:inline-flex;
-      gap:8px;
-      align-items:center;
-      font-size:12px;
-      color: rgba(124,247,198,.9);
-      margin-top:10px;
-    }
-    .ok::before{
-      content:"✓";
-      width:18px;height:18px;border-radius:6px;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      background: rgba(124,247,198,.12);
-      border: 1px solid rgba(124,247,198,.30);
-      color: rgba(124,247,198,.95);
-      font-weight:900;
-      font-size:12px;
-    }
+    @keyframes spin{to{transform:rotate(360deg)}}
   </style>
 </head>
 
 <body>
-  <div class="shell">
-    <!-- LEFT -->
-    <section class="panel left">
-      <div class="brand">
-        <div class="logo"></div>
-        <div>
-          <h1>MatchFlow</h1>
-          <p>Neighborhood help, without the hassle.</p>
-        </div>
-      </div>
-
-      <div class="trust">
-        <div class="trustItem">
-          <div class="check"></div>
-          <div>
-            <b>Fast matching</b>
-            <span>We route your request to the right local pros.</span>
+  <div class="wrap">
+    <div class="shell">
+      <div class="topbar">
+        <div class="brand">
+          <div class="logo"></div>
+          <div class="brandTxt">
+            <b>MatchFlow</b>
+            <span>Upload photos → submit request → we follow up with quote ranges</span>
           </div>
         </div>
-        <div class="trustItem">
-          <div class="check"></div>
-          <div>
-            <b>Quality-first</b>
-            <span>We prioritize higher-rated providers and good availability.</span>
-          </div>
-        </div>
-        <div class="trustItem">
-          <div class="check"></div>
-          <div>
-            <b>Clear expectations</b>
-            <span>Pros reply with quote ranges after reviewing your details.</span>
-          </div>
-        </div>
+        <div class="statusPill"><span class="liveDot"></span> Online</div>
       </div>
 
-      <div class="micro">
-        <b style="color:rgba(255,255,255,.9)">Tip:</b> A short description is perfect — “leaky sink” or “need deep clean”.
+      <div class="content">
+        <!-- LEFT -->
+        <aside class="left">
+          <p class="cardTitle">How this works</p>
+          <div class="trust">
+            <div class="trustItem">
+              <div class="check"></div>
+              <div>
+                <b>Step 1: Upload photos</b>
+                <span>Photos help providers quote more accurately.</span>
+              </div>
+            </div>
+            <div class="trustItem">
+              <div class="check"></div>
+              <div>
+                <b>Step 2: Submit your request</b>
+                <span>We use your details to reach out and find the closest quote ranges.</span>
+              </div>
+            </div>
+            <div class="trustItem">
+              <div class="check"></div>
+              <div>
+                <b>Quote-based pricing</b>
+                <span>Final price depends on the provider’s quote. We’ll work to stay near your goal.</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="noteBox">
+            <b>Pro tip:</b> When Dropbox asks for a name, use the same name you’ll enter on the request form — it helps us match your photos fast.
+          </div>
+
+          <div class="small">
+            Your photos and info are only used to contact providers about your request.
+          </div>
+        </aside>
+
+        <!-- RIGHT -->
+        <section class="right">
+          <div class="chatTop">
+            <div>
+              <p class="stepTitle" id="stepTitle">Step 1 of 2 — Upload photos</p>
+              <p class="stepSub" id="stepSub">Takes about 30–60 seconds.</p>
+            </div>
+            <div class="progressWrap">
+              <div class="progressBar"><div class="progressFill" id="progressFill"></div></div>
+              <div class="progressText" id="progressText">0%</div>
+            </div>
+          </div>
+
+          <div class="chat" id="chat"></div>
+        </section>
       </div>
-    </section>
-
-    <!-- RIGHT -->
-    <section class="panel right">
-      <header class="topbar">
-        <div class="titleWrap">
-          <p class="title" id="chatTitle">Request Help</p>
-          <p class="subtitle" id="chatSub">Submit your request — we’ll take it from there.</p>
-        </div>
-        <div class="pill"><span class="dotLive"></span> Online</div>
-      </header>
-
-      <main class="chat" id="chat"></main>
-    </section>
+    </div>
   </div>
 
   <script>
+    const DROPBOX_LINK = "https://www.dropbox.com/request/x3H95v2Lx3fOEIEGFdQk";
+    const FORMSPREE_ACTION = "https://formspree.io/f/mbdogolb";
+
     const chat = document.getElementById("chat");
+    const stepTitle = document.getElementById("stepTitle");
+    const stepSub = document.getElementById("stepSub");
+    const progressFill = document.getElementById("progressFill");
+    const progressText = document.getElementById("progressText");
 
-    function scrollToBottom(){ chat.scrollTop = chat.scrollHeight; }
+    function scrollDown(){ chat.scrollTop = chat.scrollHeight; }
 
-    function addBubble(text, who="bot"){
+    function addMsg(text, who="bot", html=false){
       const row = document.createElement("div");
-      row.className = "msgRow";
+      row.className = "row " + (who === "user" ? "user" : "bot");
 
       const avatar = document.createElement("div");
       avatar.className = "avatar " + (who === "bot" ? "bot" : "");
-      avatar.textContent = who === "bot" ? "M" : "U";
+      avatar.textContent = who === "bot" ? "MF" : "YOU";
 
       const bubble = document.createElement("div");
       bubble.className = "bubble";
-      bubble.textContent = text;
+      if (html) bubble.innerHTML = text;
+      else bubble.textContent = text;
 
-      row.appendChild(avatar);
-      row.appendChild(bubble);
+      if (who === "user") {
+        row.appendChild(bubble);
+        row.appendChild(avatar);
+      } else {
+        row.appendChild(avatar);
+        row.appendChild(bubble);
+      }
+
       chat.appendChild(row);
-      scrollToBottom();
+      scrollDown();
+      return bubble;
     }
 
     function addTyping(){
       const row = document.createElement("div");
-      row.className = "msgRow";
+      row.className = "row bot";
 
       const avatar = document.createElement("div");
       avatar.className = "avatar bot";
-      avatar.textContent = "M";
+      avatar.textContent = "MF";
 
       const bubble = document.createElement("div");
       bubble.className = "bubble";
@@ -418,8 +465,23 @@
       row.appendChild(avatar);
       row.appendChild(bubble);
       chat.appendChild(row);
-      scrollToBottom();
+      scrollDown();
       return row;
+    }
+
+    function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
+
+    async function botSay(text){
+      const t = addTyping();
+      await sleep(650);
+      t.remove();
+      addMsg(text, "bot");
+    }
+
+    function setProgress(p){
+      const clamped = Math.max(0, Math.min(100, p));
+      progressFill.style.width = clamped + "%";
+      progressText.textContent = clamped + "%";
     }
 
     function escapeHtml(str){
@@ -431,142 +493,253 @@
         .replaceAll("'","&#039;");
     }
 
-    async function botSay(text){
-      const typingRow = addTyping();
-      await new Promise(r => setTimeout(r, 650));
-      typingRow.remove();
-      addBubble(text, "bot");
+    // Simulated upload progress (since Dropbox happens in another tab)
+    let progressTimer = null;
+    function startSimulatedProgress(){
+      clearInterval(progressTimer);
+      let p = 8;
+      setProgress(p);
+
+      progressTimer = setInterval(() => {
+        // ease toward ~85% while they upload
+        if (p < 85) p += Math.round((85 - p) * 0.12) + 1;
+        setProgress(p);
+      }, 700);
+    }
+    function finishProgress(){
+      clearInterval(progressTimer);
+      setProgress(100);
     }
 
-    function addFormCard(){
-      const row = document.createElement("div");
-      row.className = "msgRow";
+    function showPhotoStep(){
+      stepTitle.textContent = "Step 1 of 2 — Upload photos";
+      stepSub.textContent = "Takes about 30–60 seconds.";
+      setProgress(0);
 
-      const avatar = document.createElement("div");
-      avatar.className = "avatar bot";
-      avatar.textContent = "M";
+      addMsg(`
+        <div class="actionBox">
+          <h3>Upload photos first</h3>
+          <p>
+            Please upload a few photos of the issue (wide shot + close-up).
+            This helps providers give the closest quote range.
+          </p>
+          <div class="btnRow">
+            <a class="btn primary" id="uploadBtn" href="${DROPBOX_LINK}" target="_blank" rel="noreferrer">
+              Upload photos ↗
+            </a>
+            <button class="btn warn" id="skipPhotosBtn" type="button">Skip photos</button>
+          </div>
+          <div class="fine">
+            When Dropbox asks for your name, use the same name you’ll type on the form.
+          </div>
+        </div>
+      `, "bot", true);
 
-      const wrap = document.createElement("div");
-      wrap.className = "formWrap";
+      addMsg(`
+        <div class="actionBox">
+          <h3>Done uploading?</h3>
+          <p>Come back here, check the box, and continue.</p>
 
-      wrap.innerHTML = `
-        <h3>Request form</h3>
-        <p>Fill this out and hit submit. We’ll review it and follow up with the closest quote ranges we can get.</p>
-
-        <form id="leadForm">
-          <div class="smallRow">
-            <div class="field">
-              <label>Your name</label>
-              <input name="name" type="text" required placeholder="First name" />
-            </div>
-            <div class="field">
-              <label>Your email</label>
-              <input name="email" type="email" required placeholder="you@email.com" />
-            </div>
+          <div style="display:flex; gap:10px; align-items:center; margin-top:8px;">
+            <input id="photosDone" type="checkbox" style="width:18px;height:18px; accent-color: var(--accent2);" />
+            <label for="photosDone" style="margin:0; font-size:13px; color:rgba(255,255,255,.88);">
+              I uploaded my photos (or I’m skipping)
+            </label>
           </div>
 
-          <div class="smallRow">
-            <div class="field">
-              <label>Phone number</label>
-              <input name="phone" type="tel" required placeholder="(###) ###-####" />
-            </div>
-            <div class="field">
-              <label>ZIP code</label>
-              <input name="zip" type="text" required placeholder="30024" />
-            </div>
+          <div class="btnRow" style="margin-top:12px;">
+            <button class="btn primary" id="continueBtn" type="button" disabled>Continue →</button>
           </div>
 
-          <div class="smallRow">
-            <div class="field">
-              <label>Service needed</label>
-              <input name="service" type="text" required placeholder="Plumbing / Cleaning / Electrical…" />
-            </div>
-            <div class="field">
-              <label>Urgency</label>
-              <input name="urgency" type="text" required placeholder="Emergency / Soon / Flexible" />
-            </div>
+          <div class="fine">
+            Don’t worry — pricing is quote-based. We’ll aim for the closest quote ranges we can get.
           </div>
+        </div>
+      `, "bot", true);
 
-          <div class="field">
+      // Wire buttons
+      const uploadBtn = document.getElementById("uploadBtn");
+      const skipPhotosBtn = document.getElementById("skipPhotosBtn");
+      const photosDone = document.getElementById("photosDone");
+      const continueBtn = document.getElementById("continueBtn");
+
+      uploadBtn.addEventListener("click", () => {
+        addMsg("Opening upload page…", "user");
+        startSimulatedProgress();
+      });
+
+      skipPhotosBtn.addEventListener("click", () => {
+        addMsg("I’m skipping photos.", "user");
+        startSimulatedProgress();
+        photosDone.checked = true;
+        continueBtn.disabled = false;
+      });
+
+      photosDone.addEventListener("change", () => {
+        continueBtn.disabled = !photosDone.checked;
+      });
+
+      continueBtn.addEventListener("click", async () => {
+        finishProgress();
+        addMsg("Continuing…", "user");
+        await sleep(250);
+        showFormStep();
+      });
+    }
+
+    function showFormStep(){
+      stepTitle.textContent = "Step 2 of 2 — Request details";
+      stepSub.textContent = "Quick form, then we’ll start outreach.";
+      setProgress(100);
+
+      addMsg(`
+        <div class="actionBox">
+          <h3>Request form</h3>
+          <p>
+            Fill this out and hit submit.
+            We’ll contact providers and work to get quote ranges close to your goal.
+          </p>
+
+          <form id="requestForm" action="${FORMSPREE_ACTION}" method="POST">
+            <div class="grid">
+              <div>
+                <label>Your name</label>
+                <input name="name" required placeholder="Full name" />
+              </div>
+              <div>
+                <label>Email</label>
+                <input type="email" name="email" required placeholder="you@email.com" />
+              </div>
+            </div>
+
+            <div class="grid">
+              <div>
+                <label>Phone</label>
+                <input name="phone" required placeholder="(###) ###-####" />
+              </div>
+              <div>
+                <label>ZIP</label>
+                <input name="zip" required placeholder="30024" />
+              </div>
+            </div>
+
+            <div class="grid">
+              <div>
+                <label>Service</label>
+                <select name="service" required>
+                  <option value="" selected disabled>Select one</option>
+                  <option>Plumbing</option>
+                  <option>Electrical</option>
+                  <option>HVAC</option>
+                  <option>Handyman</option>
+                  <option>Cleaning</option>
+                  <option>Roofing</option>
+                  <option>Landscaping</option>
+                  <option>Pest Control</option>
+                  <option>Painting</option>
+                  <option>Moving</option>
+                </select>
+              </div>
+              <div>
+                <label>Urgency</label>
+                <select name="urgency" required>
+                  <option value="" selected disabled>Select one</option>
+                  <option>Emergency</option>
+                  <option>Soon</option>
+                  <option>Flexible</option>
+                </select>
+              </div>
+            </div>
+
+            <label>Your budget goal (approx.)</label>
+            <select name="budget_goal" required>
+              <option value="" selected disabled>Select one</option>
+              <option>Under $250</option>
+              <option>$250–$750</option>
+              <option>$750–$1,500</option>
+              <option>$1,500–$3,000</option>
+              <option>$3,000–$7,500</option>
+              <option>$7,500+</option>
+              <option>Not sure</option>
+            </select>
+
             <label>What’s the situation?</label>
-            <textarea name="message" required placeholder="Tell us what you need done…"></textarea>
-          </div>
+            <textarea name="message" required placeholder="Describe the issue, location, and anything important…"></textarea>
 
-          <button class="btn primary" id="submitBtn" type="submit">Submit request</button>
+            <div class="fine">
+              <b>Heads up:</b> Prices are quote-based. We’ll contact providers and try to get the closest quote ranges to your budget goal.
+            </div>
 
-          <div class="note">
-            Pricing is quote-based. We’ll work to find options closest to your goal after businesses review the details.
-          </div>
+            <div class="btnRow" style="justify-content:flex-end; margin-top:12px;">
+              <button class="btn primary" id="submitBtn" type="submit">Submit →</button>
+            </div>
 
-          <div class="status" id="status" style="display:none;">
-            <span class="spinner"></span>
-            <span id="statusText">Sending your request…</span>
-          </div>
-        </form>
-      `;
+            <div class="sendStatus" id="sendStatus">
+              <span class="spin"></span>
+              <span id="sendText">Sending your request…</span>
+            </div>
+          </form>
+        </div>
+      `, "bot", true);
 
-      row.appendChild(avatar);
-      row.appendChild(wrap);
-      chat.appendChild(row);
-      scrollToBottom();
-
-      wireForm();
+      wireFormSubmit();
     }
 
-    function wireForm(){
-      const form = document.getElementById("leadForm");
-      const status = document.getElementById("status");
-      const statusText = document.getElementById("statusText");
+    function wireFormSubmit(){
+      const form = document.getElementById("requestForm");
       const submitBtn = document.getElementById("submitBtn");
+      const sendStatus = document.getElementById("sendStatus");
+      const sendText = document.getElementById("sendText");
 
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
-        // Show sending animation in the form card
-        status.style.display = "flex";
-        statusText.textContent = "Sending your request…";
         submitBtn.disabled = true;
-        submitBtn.style.opacity = .75;
+        submitBtn.textContent = "Sending…";
+        sendStatus.style.display = "flex";
+        sendText.textContent = "Sending your request…";
 
-        const formData = new FormData(form);
+        const t = addTyping();
 
-        // helpful hidden fields
-        formData.append("source", "MatchFlow Chat Form");
-        formData.append("timestamp", new Date().toISOString());
+        try{
+          const formData = new FormData(form);
+          formData.append("source", "MatchFlow Chat");
+          formData.append("timestamp", new Date().toISOString());
+          formData.append("dropbox_upload_link", DROPBOX_LINK);
 
-        try {
-          const resp = await fetch("https://formspree.io/f/mbdogolb", {
+          const res = await fetch(form.action, {
             method: "POST",
             body: formData,
             headers: { "Accept": "application/json" }
           });
 
-          if (!resp.ok) throw new Error("Submit failed");
+          t.remove();
 
-          // Keep the chat feel: add a confirmation bubble + tiny pause
-          await botSay("Got it ✅ Submitting and opening your request…");
-          await botSay("Hang tight — we’re setting everything up now.");
-
-          // Small delay so it feels intentional
-          await new Promise(r => setTimeout(r, 500));
-
-          // Go to your processing page
-          window.location.href = "processing.html";
-
-        } catch (err) {
-          statusText.textContent = "Something went wrong. Please try again.";
+          if(res.ok){
+            await botSay("All set ✅ We got your request.");
+            await botSay("Redirecting to a quick processing screen…");
+            await sleep(650);
+            window.location.href = "processing.html";
+          } else {
+            submitBtn.disabled = false;
+            submitBtn.textContent = "Submit →";
+            sendText.textContent = "Something went wrong. Please try again.";
+          }
+        } catch(err){
+          t.remove();
           submitBtn.disabled = false;
-          submitBtn.style.opacity = 1;
+          submitBtn.textContent = "Submit →";
+          sendText.textContent = "Network error. Please try again.";
         }
       });
     }
 
-    // Init flow (chat-like intro, then form)
-    (async function(){
-      await botSay("Welcome to MatchFlow 👋");
-      await botSay("This is a quick request form — once you submit, we’ll contact local providers for quote ranges.");
-      await botSay("You’ll go to a short processing screen after submit.");
-      addFormCard();
+    // Start
+    (async function init(){
+      await botSay("Hey there 👋 I’m MatchFlow. I’ll help you request service without the hassle.");
+      await botSay("First we’ll upload a few photos (optional but helpful), then you’ll submit a quick request form.");
+      await botSay("Ready when you are!");
+      showPhotoStep();
     })();
   </script>
 </body>
