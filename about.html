@@ -9,15 +9,17 @@
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     :root{
-      --navy:#0b1b3b;
+      --navy:#e8eef9;
       --teal:#1aa6a0;
       --orange:#f26c24;
-      --cream:#f8f6f2;
-      --paper:#f3f6f5;
-      --text:#121827;
-      --muted:#546079;
-      --line: rgba(11,27,59,.12);
-      --shadow: 0 26px 60px rgba(11,27,59,.14);
+      --cream:#0b1220;
+      --paper:#0b1220;
+      --text:#e6edf7;
+      --muted:#a5b1c7;
+      --line: rgba(255,255,255,.12);
+      --shadow: 0 30px 80px rgba(0,0,0,.55);
+      --panel: rgba(12,18,30,.92);
+      --panelSoft: rgba(12,18,30,.78);
       --r: 20px;
     }
     *{box-sizing:border-box}
@@ -25,9 +27,9 @@
     body{
       margin:0;
       background:
-        radial-gradient(1200px 700px at 5% 0%, rgba(26,166,160,.12), transparent 60%),
-        radial-gradient(900px 600px at 95% 12%, rgba(242,108,36,.12), transparent 62%),
-        linear-gradient(180deg, #fbfaf8 0%, #eef4f3 100%);
+        radial-gradient(1200px 700px at 5% 0%, rgba(26,166,160,.20), transparent 60%),
+        radial-gradient(900px 600px at 95% 12%, rgba(242,108,36,.16), transparent 62%),
+        linear-gradient(180deg, #05070d 0%, #0b1220 100%);
       color:var(--text);
       font-family: "Manrope", "Segoe UI", Arial, sans-serif;
     }
@@ -38,7 +40,7 @@
       padding:0 18px;
       display:flex; align-items:center; justify-content:space-between;
       border-bottom:1px solid var(--line);
-      background: rgba(248,246,242,.85);
+      background: rgba(8,12,20,.85);
       backdrop-filter: blur(10px);
     }
     .brand{display:flex; align-items:center; gap:12px; min-width:0}
@@ -47,17 +49,17 @@
     .brandTxt span{display:block; font-size:12px; color:var(--muted); margin-top:2px}
 
     .link{
-      color: var(--navy);
+      color: var(--text);
       text-decoration:none;
       font-size:13px;
       padding:10px 12px;
       border-radius:14px;
       border:1px solid var(--line);
-      background: rgba(255,255,255,.7);
+      background: rgba(255,255,255,.06);
       transition: transform .12s ease, background .12s ease;
       white-space:nowrap;
     }
-    .link:hover{transform: translateY(-1px); background: #ffffff}
+    .link:hover{transform: translateY(-1px); background: rgba(255,255,255,.10)}
 
     .wrap{width:min(1080px, 94vw); margin:0 auto; padding:20px 0 46px;}
 
@@ -72,7 +74,7 @@
     .panel{
       border-radius: var(--r);
       border:1px solid var(--line);
-      background: rgba(255,255,255,.88);
+      background: var(--panel);
       box-shadow: var(--shadow);
       overflow:hidden;
     }
@@ -82,15 +84,15 @@
       font-size:30px;
       letter-spacing:-.3px;
       font-family: "Fraunces", "Georgia", serif;
-      color: var(--navy);
+      color: var(--text);
     }
     .sub{margin:0; color:var(--muted); font-size:14px; line-height:1.6}
 
     .heroArt{
       background:
-        radial-gradient(400px 240px at 20% 0%, rgba(26,166,160,.18), transparent 60%),
-        radial-gradient(300px 200px at 90% 10%, rgba(242,108,36,.18), transparent 60%),
-        #ffffff;
+        radial-gradient(400px 240px at 20% 0%, rgba(26,166,160,.22), transparent 60%),
+        radial-gradient(300px 200px at 90% 10%, rgba(242,108,36,.22), transparent 60%),
+        #0b1220;
       display:grid;
       place-items:center;
       padding:22px;
@@ -104,7 +106,7 @@
       width:56px; height:56px;
       border-radius:16px;
       border:1px solid var(--line);
-      background:#fff;
+      background: rgba(12,18,30,.85);
       display:grid; place-items:center;
     }
     .stamp img{width:40px; height:40px;}
@@ -116,8 +118,8 @@
       padding:6px 10px;
       border-radius:999px;
       border:1px solid var(--line);
-      background: rgba(255,255,255,.9);
-      color: var(--navy);
+      background: rgba(255,255,255,.08);
+      color: var(--text);
       font-size:12px;
       font-weight:600;
     }
@@ -147,7 +149,7 @@
       font-weight:800; font-size:12px;
       flex:0 0 auto;
     }
-    .listItem b{display:block; font-size:13px; color:var(--navy); margin-bottom:2px;}
+    .listItem b{display:block; font-size:13px; color:var(--text); margin-bottom:2px;}
     .listItem span{display:block; font-size:12px; color:var(--muted); line-height:1.45;}
 
     .statGrid{
@@ -160,10 +162,10 @@
     .stat{
       border-radius:16px;
       border:1px solid var(--line);
-      background: rgba(255,255,255,.9);
+      background: var(--panelSoft);
       padding:12px;
     }
-    .stat b{display:block; font-size:14px; color:var(--navy); margin-bottom:4px;}
+    .stat b{display:block; font-size:14px; color:var(--text); margin-bottom:4px;}
     .stat span{display:block; font-size:12px; color:var(--muted);}
 
     .grid{
@@ -177,13 +179,13 @@
     .card{
       border-radius: var(--r);
       border:1px solid var(--line);
-      background: rgba(255,255,255,.88);
+      background: var(--panel);
       box-shadow: var(--shadow);
       overflow:hidden;
     }
-    .card img{width:100%; height:200px; object-fit:cover; display:block; background:#fff;}
+    .card img{width:100%; height:200px; object-fit:cover; display:block; background:#0b1220;}
     .card .body{padding:16px}
-    .card h2{margin:0 0 8px; font-size:16px; color:var(--navy)}
+    .card h2{margin:0 0 8px; font-size:16px; color:var(--text)}
     .card p{margin:0; color:var(--muted); font-size:13px; line-height:1.55}
 
     .how{
@@ -196,7 +198,7 @@
     .step{
       border-radius:18px;
       border:1px solid var(--line);
-      background: rgba(11,27,59,.04);
+      background: rgba(255,255,255,.04);
       padding:14px;
       display:flex; gap:10px; align-items:flex-start;
     }
@@ -219,8 +221,8 @@
     .btn{
       cursor:pointer;
       border:1px solid var(--line);
-      background: rgba(255,255,255,.9);
-      color: var(--navy);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
       padding:12px 14px;
       border-radius:16px;
       font-weight:700;
@@ -233,7 +235,7 @@
       gap:9px;
       white-space:nowrap;
     }
-    .btn:hover{transform: translateY(-1px); background: #ffffff}
+    .btn:hover{transform: translateY(-1px); background: rgba(255,255,255,.10)}
     .btn.primary{
       border:none;
       color:#fff;
@@ -271,13 +273,14 @@
         <span class="pill">Founder story</span>
         <h1>Hi, my name is Rudra.</h1>
         <p class="sub">
-          I built MatchFlow Home after seeing the same problem on platforms like Facebook and Nextdoor.
-          When a homeowner asks for help, dozens of replies turn into ads, and people have to scroll for hours
-          to find the right business. I wanted a calmer, clearer way to match homeowners with the right pros.
+          I built MatchFlow Home after I needed HVAC repair. I posted on Facebook and Nextdoor and got bombarded
+          with dozens of ads and people asking to do the job. That experience pushed me to find a better way,
+          so I built this website to make the process calm, clear, and fast for homeowners.
         </p>
         <p class="sub" style="margin-top:10px;">
-          MatchFlow Home lets you submit one request with photos and details. We share only what providers need
-          to quote the job. We do not sell your information.
+          MatchFlow uses AI plus manual review by our 7 person team to find the best fit. We look at reviews
+          from hundreds of people and match you with businesses that fit your needs and budget. We share only
+          what providers need to quote the job, and we do not sell your information.
         </p>
         <ul class="list">
           <li class="listItem">
@@ -405,7 +408,7 @@
       </article>
     </section>
 
-    <div class="footer">(c) <span id="yr"></span> MatchFlow Home - <a href="privacy.html" style="color:var(--navy); text-decoration:none;">Privacy policy</a></div>
+    <div class="footer">(c) <span id="yr"></span> MatchFlow Home - <a href="privacy.html" style="color:var(--text); text-decoration:none;">Privacy policy</a></div>
   </main>
 
   <script>

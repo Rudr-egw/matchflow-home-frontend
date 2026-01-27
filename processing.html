@@ -9,15 +9,17 @@
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     :root{
-      --navy:#0b1b3b;
+      --navy:#e8eef9;
       --teal:#1aa6a0;
       --orange:#f26c24;
-      --cream:#f8f6f2;
-      --paper:#f3f6f5;
-      --text:#121827;
-      --muted:#546079;
-      --line: rgba(11,27,59,.12);
-      --shadow: 0 26px 60px rgba(11,27,59,.14);
+      --cream:#0b1220;
+      --paper:#0b1220;
+      --text:#e6edf7;
+      --muted:#a5b1c7;
+      --line: rgba(255,255,255,.12);
+      --shadow: 0 30px 80px rgba(0,0,0,.55);
+      --panel: rgba(12,18,30,.92);
+      --panelSoft: rgba(12,18,30,.78);
       --r: 20px;
     }
     *{box-sizing:border-box}
@@ -25,9 +27,9 @@
     body{
       margin:0;
       background:
-        radial-gradient(1200px 700px at 5% 0%, rgba(26,166,160,.12), transparent 60%),
-        radial-gradient(900px 600px at 95% 12%, rgba(242,108,36,.12), transparent 62%),
-        linear-gradient(180deg, #fbfaf8 0%, #eef4f3 100%);
+        radial-gradient(1200px 700px at 5% 0%, rgba(26,166,160,.20), transparent 60%),
+        radial-gradient(900px 600px at 95% 12%, rgba(242,108,36,.16), transparent 62%),
+        linear-gradient(180deg, #05070d 0%, #0b1220 100%);
       color:var(--text);
       font-family: "Manrope", "Segoe UI", Arial, sans-serif;
       overflow:hidden;
@@ -39,7 +41,7 @@
       width:min(900px, 100%);
       border-radius: var(--r);
       border:1px solid var(--line);
-      background: rgba(255,255,255,.88);
+      background: var(--panel);
       box-shadow: var(--shadow);
       overflow:hidden;
       position:relative;
@@ -48,12 +50,12 @@
       padding:18px 18px 12px;
       display:flex; align-items:center; justify-content:space-between;
       border-bottom:1px solid var(--line);
-      background: rgba(248,246,242,.85);
+      background: rgba(8,12,20,.85);
       backdrop-filter: blur(10px);
     }
     .brand{display:flex; align-items:center; gap:12px}
     .logoImg{width:34px;height:34px;}
-    .brand b{display:block; font-size:14px; color:var(--navy)}
+    .brand b{display:block; font-size:14px; color:var(--text)}
     .brand span{display:block; font-size:12px; color:var(--muted); margin-top:2px}
 
     .body{
@@ -68,7 +70,7 @@
     .pane{
       border-radius: 18px;
       border:1px solid var(--line);
-      background: rgba(11,27,59,.04);
+      background: rgba(255,255,255,.04);
       padding:16px;
     }
     h1{
@@ -76,7 +78,7 @@
       font-size:20px;
       letter-spacing:-.2px;
       font-family: "Fraunces", "Georgia", serif;
-      color: var(--navy);
+      color: var(--text);
     }
     .sub{margin:0; color:var(--muted); font-size:13px; line-height:1.45}
 
@@ -105,7 +107,7 @@
     }
     .step{
       border:1px solid var(--line);
-      background: rgba(255,255,255,.8);
+      background: rgba(12,18,30,.85);
       border-radius: 16px;
       padding:12px 12px;
       display:flex; gap:10px; align-items:flex-start;
@@ -127,7 +129,7 @@
       animation: pulse 1.6s infinite ease-in-out;
     }
     @keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(.86);opacity:.7}}
-    .step b{display:block; font-size:13px; margin-bottom:2px; color:var(--navy)}
+    .step b{display:block; font-size:13px; margin-bottom:2px; color:var(--text)}
     .step span{display:block; font-size:12px; color:var(--muted); line-height:1.35}
 
     .actions{
@@ -139,8 +141,8 @@
     .btn{
       cursor:pointer;
       border:1px solid var(--line);
-      background: rgba(255,255,255,.9);
-      color: var(--navy);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
       padding:11px 14px;
       border-radius:16px;
       font-weight:700;
@@ -153,7 +155,7 @@
       gap:9px;
       white-space:nowrap;
     }
-    .btn:hover{transform: translateY(-1px); background: #ffffff}
+    .btn:hover{transform: translateY(-1px); background: rgba(255,255,255,.10)}
     .btn.primary{
       border:none;
       color:#fff;
@@ -164,12 +166,12 @@
     .receipt{
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
       font-size:12px;
-      color: var(--navy);
+      color: var(--text);
       line-height:1.5;
       padding:12px;
       border-radius:16px;
       border:1px solid var(--line);
-      background: rgba(255,255,255,.9);
+      background: rgba(12,18,30,.92);
       margin-top:10px;
       white-space:pre-wrap;
       word-break:break-word;
@@ -186,7 +188,7 @@
       padding:10px;
       border-radius:16px;
       border:1px solid var(--line);
-      background: rgba(255,255,255,.9);
+      background: rgba(12,18,30,.92);
       max-height:320px;
       overflow:auto;
       display:flex;
@@ -200,9 +202,9 @@
       padding:10px 12px;
       border-radius:14px;
       border:1px solid var(--line);
-      background: rgba(11,27,59,.04);
+      background: rgba(12,18,30,.92);
       font-size:12px;
-      color: var(--navy);
+      color: var(--text);
       line-height:1.4;
     }
     .fbRow.user .fbBubble{
@@ -218,6 +220,8 @@
       flex:1;
       border-radius:12px;
       border:1px solid var(--line);
+      background: rgba(12,18,30,.92);
+      color: var(--text);
       padding:10px;
       font-size:13px;
     }
@@ -245,7 +249,7 @@
         <div class="spinnerRow">
           <div class="spin" aria-hidden="true"></div>
           <div>
-            <div style="font-weight:800; font-size:13px; color:var(--navy);">Working...</div>
+            <div style="font-weight:800; font-size:13px; color:var(--text);">Working...</div>
             <div class="eta" id="eta">Estimated time left: ~45 seconds</div>
           </div>
         </div>
@@ -286,7 +290,7 @@
   </div>
 
   <div style="margin-top:12px; font-size:12px; color:var(--muted);">
-    (c) <span id="yr"></span> MatchFlow Home - <a href="privacy.html" style="color:var(--navy); text-decoration:none;">Privacy policy</a>
+    (c) <span id="yr"></span> MatchFlow Home - <a href="privacy.html" style="color:var(--text); text-decoration:none;">Privacy policy</a>
   </div>
 
   <script>
@@ -308,7 +312,9 @@
       if (seconds <= 8) {
         // finish state
         s3.classList.remove("active"); s3.classList.add("done");
-        etaEl.textContent = "All set - you can close this page.";
+        etaEl.textContent = "All set - thank you. You can close this page.";
+        const label = document.querySelector(".spinnerRow div div");
+        if (label) label.textContent = "Complete";
         clearInterval(t);
       }
     }, 1000);
