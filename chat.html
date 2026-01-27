@@ -424,7 +424,7 @@
     const sleep = (ms) => new Promise(r => setTimeout(r, ms));
     async function botSay(t){
       const k = addTyping();
-      await sleep(650);
+      await sleep(1100);
       k.remove();
       addMsg(t, "bot");
     }
@@ -715,6 +715,8 @@
     }
 
     (async function init(){
+      if (sessionStorage.getItem("matchflow_chat_started")) return;
+      sessionStorage.setItem("matchflow_chat_started", "1");
       await botSay("Hi, I am MatchFlow. I will guide you through this in under a minute.");
       await botSay("You will see two steps: a photo upload and a short request form.");
       await botSay("Photos are optional, but they help providers estimate faster.");
