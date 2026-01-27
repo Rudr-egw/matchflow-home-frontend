@@ -67,13 +67,19 @@
     .layout{
       height: calc(100% - 70px);
       display:grid;
-      grid-template-columns: 1fr;
+      grid-template-columns: 1fr 360px;
+      grid-template-areas: "right left";
       gap:14px;
       padding:14px;
     }
     @media (max-width: 980px){
       body{overflow:auto}
-      .layout{grid-template-columns:1fr; height:auto; padding-bottom:24px;}
+      .layout{
+        grid-template-columns:1fr;
+        grid-template-areas: "right" "left";
+        height:auto;
+        padding-bottom:24px;
+      }
     }
 
     .panel{
@@ -86,7 +92,7 @@
     }
 
     /* Left */
-    .left{padding:16px; display:none;}
+    .left{padding:16px; grid-area:left;}
     .left h3{margin:0 0 10px; font-size:13px; letter-spacing:.2px; color:var(--navy)}
     .how{display:grid; gap:10px;}
     .item{
@@ -124,7 +130,7 @@
     }
 
     /* Right chat */
-    .right{display:flex; flex-direction:column; min-height: 560px; height:100%;}
+    .right{display:flex; flex-direction:column; min-height: 560px; height:100%; grid-area:right;}
 
     .chatTop{
       padding:14px 14px;
