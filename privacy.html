@@ -107,13 +107,14 @@
       <img class="logoImg" src="assets/logo.svg" alt="MatchFlow Home logo" />
       <div class="brandTxt">
         <b>MatchFlow Home</b>
-        <span>Privacy Policy</span>
+        <span id="greeting">Privacy Policy</span>
       </div>
     </div>
     <div style="display:flex; gap:10px;">
       <a class="link" href="index.html">Home</a>
       <a class="link" href="about.html">About</a>
       <a class="link" href="chat.html">Get Matched</a>
+      <a class="link" href="signin.html">Sign in</a>
     </div>
   </header>
 
@@ -212,6 +213,9 @@
 
   <script>
     document.getElementById("yr").textContent = new Date().getFullYear();
+    const name = localStorage.getItem("mf_user_name");
+    const greeting = document.getElementById("greeting");
+    if (name && greeting) greeting.textContent = "Hi, " + name;
   </script>
 </body>
 </html>

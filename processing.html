@@ -235,7 +235,7 @@
         <img class="logoImg" src="assets/logo.svg" alt="MatchFlow Home logo" />
         <div>
           <b>MatchFlow Home</b>
-          <span>Processing your request</span>
+          <span id="greeting">Processing your request</span>
         </div>
       </div>
       <div style="color:var(--muted); font-size:12px;">You can close this after it finishes</div>
@@ -295,6 +295,9 @@
 
   <script>
     document.getElementById("yr").textContent = new Date().getFullYear();
+    const name = localStorage.getItem("mf_user_name");
+    const greeting = document.getElementById("greeting");
+    if (name && greeting) greeting.textContent = "Hi, " + name;
 
     // Step animation + ETA countdown
     const etaEl = document.getElementById("eta");
