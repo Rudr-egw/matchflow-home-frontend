@@ -329,13 +329,12 @@
       <img class="logoImg" src="assets/logo.svg" alt="MatchFlow Home logo" />
       <div class="brandTxt">
         <b>MatchFlow Home</b>
-        <span id="greeting">Upload photos, submit your request, and we handle the matching</span>
+        <span>Upload photos, submit your request, and we handle the matching</span>
       </div>
     </div>
     <nav class="nav">
       <a class="link" href="index.html">Home</a>
       <a class="link" href="about.html">About</a>
-      <a class="link" href="signin.html">Sign in</a>
     </nav>
   </header>
 
@@ -382,9 +381,6 @@
     const FORMSPREE_ACTION = "https://formspree.io/f/mbdogolb";
 
     const chat = document.getElementById("chat");
-    const name = localStorage.getItem("mf_user_name");
-    const greeting = document.getElementById("greeting");
-    if (name && greeting) greeting.textContent = "Hi, " + name;
     const stepTitle = document.getElementById("stepTitle");
     const stepSub = document.getElementById("stepSub");
     const fill = document.getElementById("fill");
