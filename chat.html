@@ -544,6 +544,7 @@
                   <option>Painting</option>
                   <option>Moving</option>
                   <option>Car electronics (dashcam, backup camera, ambient lighting)</option>
+                  <option>Caregiver Fast</option>
                 </select>
               </div>
               <div>
@@ -577,6 +578,77 @@
 
             <label>Describe what you need</label>
             <textarea name="message" required placeholder="Describe the issue, where it is, and anything important..."></textarea>
+
+            <div id="carSection" style="display:none;">
+              <label>Vehicle details</label>
+              <div class="grid">
+                <div>
+                  <label>Make</label>
+                  <input name="car_make" placeholder="Toyota" data-required="car" />
+                </div>
+                <div>
+                  <label>Model & year</label>
+                  <input name="car_model_year" placeholder="Camry 2020" data-required="car" />
+                </div>
+              </div>
+
+              <label>Install type</label>
+              <select name="car_install_type" data-required="car">
+                <option value="" selected disabled>Select one</option>
+                <option>Dashcam</option>
+                <option>Backup camera</option>
+                <option>Ambient lighting</option>
+                <option>Multiple items</option>
+              </select>
+
+              <label>Preferred install timeframe</label>
+              <select name="car_timeframe" data-required="car">
+                <option value="" selected disabled>Select one</option>
+                <option>As soon as possible</option>
+                <option>This week</option>
+                <option>Next 2-3 weeks</option>
+                <option>Flexible</option>
+              </select>
+            </div>
+
+            <div id="careSection" style="display:none;">
+              <label>Care details</label>
+              <div class="grid">
+                <div>
+                  <label>Care recipient age</label>
+                  <input name="care_age" placeholder="Age" data-required="care" />
+                </div>
+                <div>
+                  <label>Type of care</label>
+                  <select name="care_type" data-required="care">
+                    <option value="" selected disabled>Select one</option>
+                    <option>Companionship</option>
+                    <option>Mobility assistance</option>
+                    <option>Personal care</option>
+                    <option>Medication reminders</option>
+                    <option>Multiple needs</option>
+                  </select>
+                </div>
+              </div>
+
+              <label>Schedule needed</label>
+              <select name="care_schedule" data-required="care">
+                <option value="" selected disabled>Select one</option>
+                <option>Full time</option>
+                <option>Part time</option>
+                <option>Overnight</option>
+                <option>Weekends</option>
+                <option>Flexible</option>
+              </select>
+
+              <label>Where will care be provided?</label>
+              <select name="care_location" data-required="care">
+                <option value="" selected disabled>Select one</option>
+                <option>In home</option>
+                <option>Assisted living</option>
+                <option>Other</option>
+              </select>
+            </div>
 
             <label>Privacy and consent</label>
             <div style="border:1px solid var(--line); background: rgba(11,27,59,.04); border-radius:14px; padding:12px; font-size:12px; color:var(--muted); line-height:1.45;">
@@ -617,6 +689,7 @@
       wireSubmit();
       wireDraftStorage();
       wireBudgetUnknown();
+      wireServiceQuestions();
     }
 
     const DRAFT_KEY = "matchflow_form_draft_v2";
@@ -649,7 +722,10 @@
       try{ data = JSON.parse(raw) || {}; } catch(e){ return; }
 
       const serviceSelect = document.getElementById("serviceSelect");
-      if (data.service && serviceSelect) serviceSelect.value = data.service;
+      if (data.service && serviceSelect) {
+        serviceSelect.value = data.service;
+        serviceSelect.dispatchEvent(new Event("change"));
+      }
 
       const fields = form.querySelectorAll("input, textarea, select");
       fields.forEach((el) => {
@@ -739,6 +815,35 @@
 
       unknownEl.addEventListener("change", sync);
       sync();
+    }
+
+    function wireServiceQuestions(){
+      const serviceSelect = document.getElementById("serviceSelect");
+      const carSection = document.getElementById("carSection");
+      const careSection = document.getElementById("careSection");
+      if (!serviceSelect || !carSection || !careSection) return;
+
+      function setRequired(section, on){
+        const fields = section.querySelectorAll("[data-required]");
+        fields.forEach((el) => {
+          if (on) el.setAttribute("required", "required");
+          else el.removeAttribute("required");
+        });
+      }
+
+      function update(){
+        const value = serviceSelect.value || "";
+        const isCar = value.startsWith("Car electronics");
+        const isCare = value === "Caregiver Fast";
+
+        carSection.style.display = isCar ? "block" : "none";
+        careSection.style.display = isCare ? "block" : "none";
+        setRequired(carSection, isCar);
+        setRequired(careSection, isCare);
+      }
+
+      serviceSelect.addEventListener("change", update);
+      update();
     }
 
     (async function init(){
