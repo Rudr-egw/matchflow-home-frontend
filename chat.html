@@ -544,6 +544,7 @@
                   <option>Painting</option>
                   <option>Moving</option>
                   <option>Car electronics (dashcam, backup camera, ambient lighting)</option>
+                  <option>Car detailing (dents, scratches, paint, interior/exterior)</option>
                   <option>Caregiver Fast</option>
                 </select>
               </div>
@@ -603,6 +604,50 @@
 
               <label>Preferred install timeframe</label>
               <select name="car_timeframe" data-required="car">
+                <option value="" selected disabled>Select one</option>
+                <option>As soon as possible</option>
+                <option>This week</option>
+                <option>Next 2-3 weeks</option>
+                <option>Flexible</option>
+              </select>
+            </div>
+
+            <div id="detailSection" style="display:none;">
+              <label>Vehicle details</label>
+              <div class="grid">
+                <div>
+                  <label>Make</label>
+                  <input name="detail_make" placeholder="Toyota" data-required="detail" />
+                </div>
+                <div>
+                  <label>Model & year</label>
+                  <input name="detail_model_year" placeholder="Camry 2020" data-required="detail" />
+                </div>
+              </div>
+
+              <label>Detailing goal</label>
+              <select name="detail_goal" data-required="detail">
+                <option value="" selected disabled>Select one</option>
+                <option>Remove dents</option>
+                <option>Fix scratches / paint issues</option>
+                <option>Full exterior detail (restore shine)</option>
+                <option>Interior deep clean</option>
+                <option>Both interior and exterior</option>
+                <option>Not sure - need advice</option>
+              </select>
+
+              <label>Damage / issue area</label>
+              <select name="detail_area" data-required="detail">
+                <option value="" selected disabled>Select one</option>
+                <option>Front bumper / hood</option>
+                <option>Side panels / doors</option>
+                <option>Rear bumper / trunk</option>
+                <option>Multiple areas</option>
+                <option>Entire vehicle</option>
+              </select>
+
+              <label>Preferred timeframe</label>
+              <select name="detail_timeframe" data-required="detail">
                 <option value="" selected disabled>Select one</option>
                 <option>As soon as possible</option>
                 <option>This week</option>
@@ -820,8 +865,9 @@
     function wireServiceQuestions(){
       const serviceSelect = document.getElementById("serviceSelect");
       const carSection = document.getElementById("carSection");
+      const detailSection = document.getElementById("detailSection");
       const careSection = document.getElementById("careSection");
-      if (!serviceSelect || !carSection || !careSection) return;
+      if (!serviceSelect || !carSection || !detailSection || !careSection) return;
 
       function setRequired(section, on){
         const fields = section.querySelectorAll("[data-required]");
@@ -834,11 +880,14 @@
       function update(){
         const value = serviceSelect.value || "";
         const isCar = value.startsWith("Car electronics");
+        const isDetail = value.startsWith("Car detailing");
         const isCare = value === "Caregiver Fast";
 
         carSection.style.display = isCar ? "block" : "none";
+        detailSection.style.display = isDetail ? "block" : "none";
         careSection.style.display = isCare ? "block" : "none";
         setRequired(carSection, isCar);
+        setRequired(detailSection, isDetail);
         setRequired(careSection, isCare);
       }
 
